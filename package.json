@@ -11,5 +11,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom"
+  },
+  "devDependencies": {
+    "enzyme": "^2.9.1",
+    "react-test-renderer": "^15.6.1"
   }
 }
