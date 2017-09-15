@@ -12,8 +12,8 @@ const middlewares = []
 middlewares.push(routerMiddleware(history))
 
 if (process.env.NODE_ENV === 'development') {
-	const logger = createLogger({collapsed: true})
-	middlewares.push(logger)
+  const logger = createLogger({collapsed: true})
+  middlewares.push(logger)
 }
 
 const store = createStore(
