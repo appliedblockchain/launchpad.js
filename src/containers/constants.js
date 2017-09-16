@@ -3,7 +3,8 @@ export const ROUTE_URL = {
   'profile': '/profile'
 }
 
-export const APP_PREFIX = '@appii'
+// TODO - Change APP_PREFIX to another string
+export const APP_PREFIX = '@applied'
 
 export default {
   ROUTE_URL,
