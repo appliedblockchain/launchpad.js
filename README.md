@@ -3,6 +3,13 @@ React app based on create-react-app but adding enzyme, redux, react-router
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app)
 
+## Getting started
+
+```
+npm i
+chmod 777 node_modules/pre-commit/hook
+```
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -15,10 +15,20 @@
   "scripts": {
     "start": "NODE_PATH=./src react-scripts start",
     "build": "NODE_PATH=./src react-scripts build",
-    "test": "NODE_PATH=./src react-scripts test --env=jsdom"
+    "test": "NODE_PATH=./src react-scripts test --env=jsdom",
+    "lint": "eslint ./src --cache --ignore-pattern .gitignore",
+    "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
+  "pre-commit": [
+    "precommit-msg",
+    "lint"
+  ],
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "enzyme": "^2.9.1",
+    "eslint": "^4.7.0",
+    "eslint-plugin-react": "^7.3.0",
+    "pre-commit": "^1.2.2",
     "react-test-renderer": "^15.6.1",
     "redux-logger": "^3.0.6"
   }
