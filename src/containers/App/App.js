@@ -13,7 +13,7 @@ const App = (props) => {
 }
 
 App.propTypes = {
-  children: PropTypes.element.isRequired
+  children: PropTypes.array.isRequired
 }
 
 export default App
