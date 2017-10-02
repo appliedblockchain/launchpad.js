@@ -6,8 +6,10 @@ import './style.css'
 const App = (props) => {
   return (
     <div className="App">
-      <Header />
-      {props.children}
+      <div>
+        <Header />
+        {props.children}
+      </div>
     </div>
   )
 }
