@@ -26,6 +26,18 @@
     "precommit-msg",
     "lint"
   ],
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/containers/**/index.js",
+      "!src/components/**/index.js",
+      "!src/store/index.js",
+      "!src/index.js",
+      "!src/registerServiceWorker.js",
+      "!src/setupTests.js",
+      "!src/**/*.spec.js.snap"
+    ]
+  },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "enzyme": "^2.9.1",
