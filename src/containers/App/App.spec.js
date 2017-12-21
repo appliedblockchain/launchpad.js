@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Header from 'components/Header'
-import App from './App'
+import App from './index'
 
 describe('<App />', () => {
   let wrapper
