@@ -10,12 +10,12 @@ import rootSaga from './sagas'
 const history = createHistory()
 const sagaMiddleware = createSagaMiddleware()
 let composeEnhancers = compose
-const middlewares = [sagaMiddleware]
+const middlewares = [ sagaMiddleware ]
 // Build the middleware for intercepting and dispatching navigation actions
 middlewares.push(routerMiddleware(history))
 
 if (process.env.NODE_ENV === 'development') {
-  const logger = createLogger({collapsed: true})
+  const logger = createLogger({ collapsed: true })
   middlewares.push(logger)
   composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 }
