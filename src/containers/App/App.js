@@ -1,18 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Header from 'components/Header'
-import './style.css'
+import styles from './style.module.css'
 
-const App = (props) => {
-  return (
-    <div className="App">
-      <div>
-        <Header />
-        {props.children}
-      </div>
+const App = ({ children }) => (
+  <div className={styles.container}>
+    <div>
+      <Header />
+      {children}
     </div>
-  )
-}
+  </div>
+)
+
 
 App.propTypes = {
   children: PropTypes.oneOfType([

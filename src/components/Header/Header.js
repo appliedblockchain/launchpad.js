@@ -1,14 +1,13 @@
 import React from 'react'
-import Assets from './assets'
-import './style.css'
+import assets from './assets'
+import styles from './style.module.css'
 
-const Header = () => {
-  return (
-    <div className="Header">
-      <img src={Assets.logo} className="Header-logo" alt="logo" />
-      <h2>Welcome to React</h2>
-    </div>
-  )
-}
+const Header = () => (
+  <div className={styles.container}>
+    <img src={assets.logo} className={styles.logo} alt="logo" />
+    <h2>Welcome to React</h2>
+  </div>
+)
+
 
 export default Header
