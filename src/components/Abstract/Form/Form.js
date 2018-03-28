@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 
 class Form extends Component {
-  constructor(props) {
-    super(props)
-    this.onChangeInput = this.onChangeInput.bind(this)
-  }
+  onChangeInput = (event) => {
+    const { target } = event
+    const { type, checked, value, name } = target
 
-  onChangeInput(event) {
-    const target = event.target
-    const value = target.type === 'checkbox' ? target.checked : target.value
-    const name = target.name
+    const currentValue = type === 'checkbox' ? checked : value
 
     this.setState({
-      [name]: value
+      [name]: currentValue
     })
   }
 
