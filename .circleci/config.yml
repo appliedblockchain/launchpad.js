@@ -1,0 +1,78 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/node:9-browsers
+
+    working_directory: ~/workspace
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Authorize NPM
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          environment:
+            - ESLINT_REPORTS_DIR: reports/junit
+          name: Lint
+          command: |
+            npm run lint:ci
+
+      - run:
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+          name: Jest test
+          command: |
+            npm run test:ci
+
+      - store_test_results:
+          path: reports/junit
+
+      - store_artifacts:
+          path: reports/junit
+
+  # deploy-master:
+  #   docker:
+  #     - image: circleci/node:9.5.0
+  #   steps:
+  #     - add_ssh_keys:
+  #         fingerprints:
+  #           - "todo" #Example "1f:aa:b9:90:ce:01:b5:b8:8f:bf:23:d1:ab:86:a3:6f"
+  #     - run:
+  #         name: Known Hosts
+  #         command: todo #Example ssh-keyscan 54.194.158.170 >> ~/.ssh/known_hosts
+  #     - run:
+  #         name: Deploy
+  #         command: todo # Example ssh www@54.194.158.170 "./deploy.sh develop"
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - test:
+          filters:
+            tags:
+              ignore: /.*/
+
+      # - deploy-master:
+      #     requires:
+      #       - test
+      #     filters:
+      #       tags:
+      #         ignore: /.*/
+      #       branches:
+      #         only: master

@@ -19,7 +19,9 @@
     "start": "NODE_PATH=./src react-scripts start",
     "build": "NODE_PATH=./src react-scripts build",
     "test": "NODE_PATH=./src react-scripts test --env=jsdom",
+    "test:ci": "NODE_PATH=./src react-scripts test --env=jsdom --ci --testResultsProcessor='jest-multi-test-result-processor'",
     "lint": "eslint ./src --cache --ignore-pattern .gitignore",
+    "lint:ci": "npm run lint -- --format junit --output-file reports/junit/eslint-results.xml",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
   "pre-commit": [
@@ -36,6 +38,15 @@
       "!src/**/*.spec.js.snap"
     ]
   },
+  "jest-multi-test-result-processor": {
+    "processors": [
+      "jest-junit",
+      "html-jest-reporter"
+    ]
+  },
+  "html-jest-reporter": {
+    "outputPath": "reports/junit/index.html"
+  },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config/react"
   },
@@ -46,6 +57,9 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.7.0",
     "eslint-plugin-react": "^7.6.1",
+    "html-jest-reporter": "^1.0.0",
+    "jest-junit": "^3.6.0",
+    "jest-multi-test-result-processor": "^1.0.0",
     "pre-commit": "^1.2.2",
     "react-test-renderer": "^16.2.0",
     "redux-logger": "^3.0.6"
