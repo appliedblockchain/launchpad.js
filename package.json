@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "lodash": "^4.17.4",
+    "nsp": "^3.2.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -18,7 +19,9 @@
   "scripts": {
     "start": "NODE_PATH=./src react-scripts start",
     "build": "NODE_PATH=./src react-scripts build",
+    "pretest": "nsp check",
     "test": "NODE_PATH=./src react-scripts test --env=jsdom",
+    "pretest:ci": "nsp check",
     "test:ci": "NODE_PATH=./src react-scripts test --env=jsdom --ci --testResultsProcessor='jest-multi-test-result-processor'",
     "lint": "eslint ./src --cache --ignore-pattern .gitignore",
     "lint:ci": "npm run lint -- --format junit --output-file reports/junit/eslint-results.xml",
