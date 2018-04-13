@@ -54,8 +54,8 @@
     "extends": "@appliedblockchain/eslint-config/react"
   },
   "devDependencies": {
-    "@appliedblockchain/eslint-config": "^1.10.0",
-    "babel-eslint": "^7.2.3",
+    "@appliedblockchain/eslint-config": "^1.11.0",
+    "babel-eslint": "^8.2.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.7.0",

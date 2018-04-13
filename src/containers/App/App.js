@@ -12,7 +12,6 @@ const App = ({ children }) => (
   </div>
 )
 
-
 App.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.array,
