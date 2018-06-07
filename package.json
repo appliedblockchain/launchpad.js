@@ -1,0 +1,41 @@
+{
+  "name": "base-node-app",
+  "private": true,
+  "version": "0.0.1",
+  "description": "A basic starter Node application",
+  "main": "index.js",
+  "engines": {
+    "node": ">=9.0.0"
+  },
+  "scripts": {
+    "test": "test",
+    "start": "node ./server",
+    "lint": "eslint ./test --ignore-pattern .gitignore"
+  },
+  "eslintConfig": {
+    "extends": "@appliedblockchain/eslint-config"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appliedblockchain/base-node-app.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Jamie Allen",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/appliedblockchain/base-node-app/issues"
+  },
+  "homepage": "https://github.com/appliedblockchain/base-node-app#readme",
+  "devDependencies": {
+    "@appliedblockchain/eslint-config": "^2.2.0",
+    "eslint": "^4.19.1"
+  },
+  "dependencies": {
+    "@koa/cors": "^2.2.1",
+    "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^3.0.0"
+  }
+}
