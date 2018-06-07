@@ -17,6 +17,7 @@ jobs:
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
 
       - run: npm install
 
@@ -27,8 +28,8 @@ jobs:
 
       - run:
           name: Eslint
-          command: npm run lint:ci
+          command: npm run lint
 
       - run:
-          name: Unit test
+          name: Unit tests
           command: npm run test:ci
