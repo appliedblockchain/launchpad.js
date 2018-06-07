@@ -33,3 +33,10 @@ jobs:
       - run:
           name: Unit tests
           command: npm run test:ci
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          context: org-global
