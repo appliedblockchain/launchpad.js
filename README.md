@@ -13,11 +13,11 @@ solc --version
 
 If not, download it:
 ```
-    brew update
-    brew upgrade
-    brew tap ethereum/ethereum
-    brew install solidity
-    brew linkapps solidity
+brew update
+brew upgrade
+brew tap ethereum/ethereum
+brew install solidity
+brew linkapps solidity
 ```
 #### Run tests
 ```
