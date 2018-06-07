@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  deploy-master:
+    docker:
+      - image: circleci/node:9
+
+    working_directory: ~/workspace
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Authorize NPM
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Eslint
+          command: npm run lint:ci
+
+      - run:
+          name: Unit test
+          command: npm run test:ci
