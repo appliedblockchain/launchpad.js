@@ -2,7 +2,6 @@ const init = require('./helpers/init')
 
 const { from, gas, web3 } = init()
 
-// Compile one or more sol files.
 web3.require('Store.sol')
 
 describe('Store', () => {
