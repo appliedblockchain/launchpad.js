@@ -1,0 +1,16 @@
+{
+  "name": "@appliedblockchain/base-contracts",
+  "version": "0.0.1",
+  "description": "Solidity contracts starter package",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ./src"
+  },
+  "author": "Jamie Allen",
+  "license": "ISC",
+  "devDependencies": {
+    "@appliedblockchain/eslint-config": "^2.2.0",
+    "jest": "^23.1.0"
+  }
+}
