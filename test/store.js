@@ -1,13 +1,16 @@
 const Store = artifacts.require('Store')
 
-describe('Store', async () => {
-  it("should set a value", async (accounts) => {
-    const value = { thing: 1 }
-    console.log('HIT', accounts)
-    const instance = await Store.deployed()
-    console.log('INSTANCE', instance)
-    const balance = await instance.set(value).call(accounts[0])
+describe('Store', () => {
+  it("should set a value", async () => {
+    const value = { data: 1 }
+    const stringValue = JSON.stringify(value)
 
-    assert.equal(balance.valueOf(), value)
+    const instance = await Store.deployed()
+
+    await instance.set(stringValue)
+    const result = await instance.get()
+    const parsedResult = JSON.parse(result)
+
+    expect(parsedResult).to.deep.equal(value)
   })
 })
