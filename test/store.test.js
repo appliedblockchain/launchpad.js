@@ -1,23 +1,15 @@
-const { join } = require('path')
-const { web3, accounts } = require('@appliedblockchain/cobalt/web3')({
-  root: join(__dirname, '..', 'contracts'),
-  accounts: 10,
-  logger: console
-})
+const init = require('./helpers/init')
 
-const addresses = accounts.map(account => account.address)
-const from = addresses[0]
-const gas = 50000000
+const { from, gas, web3 } = init()
 
-// Compile one or more sol files.
 web3.require('Store.sol')
-
-afterAll(async () => {
-  web3.close()
-})
 
 describe('Store', () => {
   let Store
+
+  afterAll(async () => {
+    web3.close()
+  })
 
   it('deploys', async () => {
     Store = await web3.deploy('Store', [], { from, gas })
