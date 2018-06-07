@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./src",
-    "test": "TRUFFLE_PORT=8545 truffle test",
-    "migrate": "TRUFFLE_PORT=8545 rm -rf ./build && truffle compile && truffle migrate",
-    "ganache": "ganache-cli --port 8545"
+    "test": "test"
   },
   "author": "Jamie Allen",
   "license": "ISC",
