@@ -4,14 +4,19 @@
   "description": "Solidity contracts starter package",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint ./src",
-    "test": "TRUFFLE_PORT=8545 truffle test",
-    "migrate": "TRUFFLE_PORT=8545 rm -rf ./build && truffle compile && truffle migrate",
-    "ganache": "ganache-cli --port 8545"
+    "lint": "eslint ./test --ignore-pattern .gitignore",
+    "test": "jest"
   },
   "author": "Jamie Allen",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "devDependencies": {
-    "@appliedblockchain/eslint-config": "^2.2.0"
+    "@appliedblockchain/cobalt": "^0.8.0",
+    "@appliedblockchain/eslint-config": "^2.2.0",
+    "eslint": "^4.19.1",
+    "jest": "^23.1.0",
+    "lodash": "^4.17.10"
+  },
+  "eslintConfig": {
+    "extends": "@appliedblockchain/eslint-config"
   }
 }
