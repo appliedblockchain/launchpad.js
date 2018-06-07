@@ -1,13 +1,12 @@
 const { join } = require('path')
-const { map, first } = require('lodash')
 const { web3, accounts } = require('@appliedblockchain/cobalt/web3')({
   root: join(__dirname, '..', 'contracts'),
   accounts: 10,
   logger: console
 })
 
-const addresses = map(accounts, 'address')
-const from = first(addresses)
+const addresses = accounts.map(account => account.address)
+const from = addresses[0]
 const gas = 50000000
 
 // Compile one or more sol files.

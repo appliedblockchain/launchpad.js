@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./test --ignore-pattern .gitignore",
-    "test": "jest"
+    "test": "jest",
+    "test:ci": "jest --ci"
   },
   "author": "Jamie Allen",
   "license": "UNLICENSED",
@@ -13,8 +14,7 @@
     "@appliedblockchain/cobalt": "^0.8.0",
     "@appliedblockchain/eslint-config": "^2.2.0",
     "eslint": "^4.19.1",
-    "jest": "^23.1.0",
-    "lodash": "^4.17.10"
+    "jest": "^23.1.0"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
