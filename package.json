@@ -11,6 +11,7 @@
     "test": "NODE_PATH=lib:test jest",
     "test:watch": "NODE_PATH=lib:test jest --watch",
     "start": "node ./app",
+    "start:dev": "nodemon ./app",
     "lint": "eslint ./test --ignore-pattern .gitignore"
   },
   "eslintConfig": {
@@ -29,9 +30,13 @@
     "url": "https://github.com/appliedblockchain/base-node-app/issues"
   },
   "homepage": "https://github.com/appliedblockchain/base-node-app#readme",
+  "jest": {
+    "setupTestFrameworkScriptFile": "./test/jest-config.js"
+  },
   "devDependencies": {
     "@appliedblockchain/eslint-config": "^2.2.0",
-    "eslint": "^4.19.1"
+    "eslint": "^4.19.1",
+    "nodemon": "^1.17.5"
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",

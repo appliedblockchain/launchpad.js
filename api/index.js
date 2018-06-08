@@ -6,10 +6,10 @@ const health = require('./health')
 const router = new Router()
 
 const routes = [
-  health
+  ...health
 ]
 
 router.route(routes)
 router.prefix('/api')
 
-module.exports = routes
+module.exports = { middleware: router.middleware(), routes }
