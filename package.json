@@ -8,8 +8,9 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "test": "test",
-    "start": "node ./server",
+    "test": "NODE_PATH=lib:test jest",
+    "test:watch": "NODE_PATH=lib:test jest --watch",
+    "start": "node ./app",
     "lint": "eslint ./test --ignore-pattern .gitignore"
   },
   "eslintConfig": {
@@ -34,8 +35,13 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",
+    "bunyan": "^1.8.12",
+    "keyblade": "^0.3.2",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
-    "koa-compress": "^3.0.0"
+    "koa-compress": "^3.0.0",
+    "koa-docs": "^2.1.0",
+    "koa-joi-router": "^5.1.0",
+    "yenv": "^2.1.0"
   }
 }
