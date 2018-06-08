@@ -47,6 +47,7 @@
     "koa-compress": "^3.0.0",
     "koa-docs": "^2.1.0",
     "koa-joi-router": "^5.1.0",
+    "koa-respond": "^1.0.1",
     "yenv": "^2.1.0"
   }
 }
