@@ -1,15 +1,18 @@
 'use strict'
 
-const Router = require('koa-joi-router')
+const router = require('koa-joi-router')
 const health = require('./health')
 
-const router = new Router()
+const rootRouter = router()
 
 const routes = [
   ...health
 ]
 
-router.route(routes)
-router.prefix('/api')
+rootRouter.route(routes)
+rootRouter.prefix('/api')
 
-module.exports = { middleware: router.middleware(), routes }
+module.exports = {
+  middleware: rootRouter.middleware(),
+  routes
+}
