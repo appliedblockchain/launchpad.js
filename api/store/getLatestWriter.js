@@ -1,14 +1,13 @@
 'use strict'
 
-// Should include latest build number and latest git commit hash
 const handler = async (ctx, next) => {
-  ctx.body = 'OK'
+  ctx.body = 'someId0x12345'
 
   await next()
 }
 
 module.exports = {
   method: 'get',
-  path: '/health',
+  path: '/value/latestWriter',
   handler
 }

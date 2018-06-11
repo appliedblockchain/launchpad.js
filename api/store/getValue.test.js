@@ -1,10 +1,10 @@
 'use strict'
 
-const route = require('./health')
+const route = require('./getValue')
 
-describe('routes/health', () => {
-  context('#get()', () => {
-    test('returns body', async () => {
+describe('routes/contracts', () => {
+  context('#getValue()', () => {
+    test('returns the value stored in the contract', async () => {
       const ctx = { body: {} }
       const next = () => new Promise(resolve => resolve())
 

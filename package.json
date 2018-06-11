@@ -12,7 +12,7 @@
     "test:watch": "NODE_PATH=lib:test jest --watch",
     "start": "node ./app",
     "start:dev": "nodemon ./app",
-    "lint": "eslint ./test --ignore-pattern .gitignore"
+    "lint": "eslint . --ignore-pattern .gitignore"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"

@@ -1,6 +1,5 @@
 'use strict'
 
-// Should include latest build number and latest git commit hash
 const handler = async (ctx, next) => {
   ctx.body = 'OK'
 
@@ -8,7 +7,7 @@ const handler = async (ctx, next) => {
 }
 
 module.exports = {
-  method: 'get',
-  path: '/health',
+  method: 'put',
+  path: '/value',
   handler
 }
