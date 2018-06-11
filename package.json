@@ -6,12 +6,14 @@
   "scripts": {
     "lint": "eslint ./test --ignore-pattern .gitignore",
     "test": "jest",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci",
+    "publish:artefacts": "contract-artefacts-publisher"
   },
   "author": "Jamie Allen",
   "license": "UNLICENSED",
   "devDependencies": {
     "@appliedblockchain/cobalt": "^0.8.0",
+    "@appliedblockchain/contract-artefacts-publisher": "0.0.2",
     "@appliedblockchain/eslint-config": "^2.2.0",
     "@appliedblockchain/not-a-logger": "^1.0.1",
     "eslint": "^4.19.1",
