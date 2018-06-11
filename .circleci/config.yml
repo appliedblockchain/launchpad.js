@@ -12,7 +12,7 @@ jobs:
 
       - run:
           name: Authorize NPM
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
 
       - restore_cache:
           keys:
@@ -38,6 +38,15 @@ jobs:
           name: Unit tests
           command: npm run test:ci
 
+      - run:
+          name: Compile
+          command: solc --combined-json abi,bin contracts/Store.sol > Store.json
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - Store.json
+
   publish_npm_on_tag:
     working_directory: ~/workspace
     docker:
@@ -47,7 +56,7 @@ jobs:
 
       - run:
           name: Authorize NPM
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
 
       - restore_cache:
           key: node_modules-{{ checksum "package.json" }}
@@ -61,7 +70,7 @@ jobs:
           name: Publish to NPM
           command: |
             npm publish
-            npm run publish:artefacts /tmp/artefacts/AccountKeyValueStore.json account-key-value-store-contract
+            npm run publish:artefacts /tmp/artefacts/Store.json store-contract
 
 workflows:
   version: 2
