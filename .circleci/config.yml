@@ -38,6 +38,28 @@ jobs:
           name: Unit tests
           command: npm run test:ci
 
+  publish_npm_on_tag:
+    working_directory: ~/workspace
+    docker:
+      - image: circleci/node:9
+    steps:
+      - checkout
+      # Auth token for npm.
+      - run: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
+      - restore_cache:
+          key: node_modules-{{ checksum "package.json" }}
+      - run: npm i
+      - run:
+          name: Authorize NPM
+          command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
+      - attach_workspace:
+          at: /tmp/artefacts
+      - run:
+          name: Publish to NPM
+          command: |
+            npm publish
+            npm run publish:artefacts /tmp/artefacts/AccountKeyValueStore.json account-key-value-store-contract
+
 workflows:
   version: 2
   main:
