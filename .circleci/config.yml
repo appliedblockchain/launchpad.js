@@ -44,16 +44,19 @@ jobs:
       - image: circleci/node:9
     steps:
       - checkout
-      # Auth token for npm.
-      - run: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
-      - restore_cache:
-          key: node_modules-{{ checksum "package.json" }}
-      - run: npm i
+
       - run:
           name: Authorize NPM
-          command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+      - restore_cache:
+          key: node_modules-{{ checksum "package.json" }}
+
+      - run: npm i
+
       - attach_workspace:
           at: /tmp/artefacts
+
       - run:
           name: Publish to NPM
           command: |
