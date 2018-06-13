@@ -1,6 +1,6 @@
 {
   "name": "@appliedblockchain/base-contracts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Solidity contracts starter package",
   "main": "index.js",
   "scripts": {
