@@ -19,17 +19,20 @@ brew tap ethereum/ethereum
 brew install solidity
 brew linkapps solidity
 ```
-#### Run tests
+### Run tests
 ```
 npm i
 npm run tests
 ```
 
-#### Brief explainer for the uninitiated
+----------------------------------
+
+### A brief explainer for the uninitiated
 This `base-contracts` repo is an example of the most basic form of smart contract
-to be run on an Ethereum client ((Parity)[https://wiki.parity.io/]/(Ganache)[http://truffleframework.com/ganache/]).
+to be run on an Ethereum client ([Parity](https://wiki.parity.io/]/)/[Ganache](http://truffleframework.com/ganache/)).
 
 1. Deploying your contract to an Ethereum client
+
 The circle ci config is setup so that whenever a new tag is published, the project is
 also published for use on npm (see 'workflows' section of `.circleci/config.yml`). Also
 note the name of the deployed contract `store-contract`, showing in the 'publish to NPM'
@@ -48,6 +51,7 @@ This will deploy you contract and provide you with a contract address. It will a
 an ABI for the contract. These will both be used within your application when instantiating `web3`.
 
 2. Using the smart contract
+
 From within your application, you need to instantiate web3, get the contract from the address
 you've published and then use the methods on that contract. In code this looks something like:
 
