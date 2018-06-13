@@ -80,6 +80,9 @@ workflows:
     jobs:
       - build:
           context: org-global
+          filters:
+            tags:
+              only: /v.*/
       - publish_npm_on_tag:
           context: org-global
           requires:
