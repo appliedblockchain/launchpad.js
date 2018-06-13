@@ -33,11 +33,12 @@ to be run on an Ethereum client ([Parity](https://wiki.parity.io/]/)/[Ganache](h
 
 1. Deploying your contract to an Ethereum client
 
-The circle ci config is setup so that whenever a new tag is published, the project is
-also published for use on npm (see 'workflows' section of `.circleci/config.yml`). Also
-note the name of the deployed contract `store-contract`, showing in the 'publish to NPM'
-section. This will get published using AB's @appliedblockchain/contract-artefacts-publisher,
-and will suffix the name with `-artefacts`.
+  - The circle ci config is setup so that whenever a new tag is published, the project is
+also published on npm (see 'workflows' section of [.circleci/config.yml](.circleci/config.yml).
+  - Note the name of the deployed contract `store-contract`, showing in the 'publish to NPM'
+section of the circle config.
+  - This will get published using our @appliedblockchain/contract-artefacts-publisher,
+_and will suffix the name with `-artefacts`_.
 
 Once the tag is created and the project is on npm, you can test it working by running
 parity locally e.g:
