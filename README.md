@@ -31,6 +31,9 @@ npm run tests
 This `base-contracts` repo is an example of the most basic form of smart contract
 to be run on an Ethereum client ([Parity](https://wiki.parity.io/)/[Ganache](http://truffleframework.com/ganache/)).
 
+While there are many ways to achieve the end goal of writing/reading data from the
+blockchain, this process is here to help replicate how we do this across projects.
+
 The process for getting a smart contract up and running and being used is as follows:
 
 - create smart contract in e.g. Solidity
@@ -39,9 +42,6 @@ The process for getting a smart contract up and running and being used is as fol
 - deploy your contract to that Ethereum client
 - instantiate web3 with your deployed contract address
 - use methods from your smart contract
-
-We have this process to have standardised ways of doing each part of these processes, and
-to allow this process to be most easily replicated across projects.
 
 1. **create smart contract in e.g. Solidity**
 
