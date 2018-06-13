@@ -80,7 +80,7 @@ workflows:
     jobs:
       - build:
           context: org-global
-     - publish_npm_on_tag:
+      - publish_npm_on_tag:
           context: org-global
           requires:
             - build
