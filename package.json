@@ -41,7 +41,7 @@
     "nodemon": "^1.17.5"
   },
   "dependencies": {
-    "@appliedblockchain/store-contract-artefacts": "^0.2.1",
+    "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
     "bunyan": "^1.8.12",
     "keyblade": "^0.3.2",
