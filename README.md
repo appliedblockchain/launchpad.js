@@ -102,6 +102,13 @@ const StoreContract = new web3.eth.Contract(
   'someRandomContractAddress0x12345'
 )
 
+const getFromAddress = async () => {
+  const accounts = await web3.eth.getAccounts()
+  const fromAddress = accounts[0]
+
+  return fromAddress
+}
+
 module.exports = {
   StoreContract: StoreContract,
   address: getFromAddress
@@ -116,9 +123,10 @@ const { StoreContract, address } = require('./exampleSetupWeb3')
 const tester = async (data) => {
   console.log('Set data.')
   const { methods } = StoreContract
+  const fromAddress = await address()
   // https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html#methods-mymethod-send
   await methods.set(data).send({
-    from: '0x1F2e5282481C07BC8B7b07E53Bc3EF6A8012D6b7',
+    from: fromAddress,
     gas: 50000000
   })
 
