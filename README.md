@@ -49,8 +49,8 @@ See [example smart contract](contracts/Store.sol).
 
 2. **publish smart contract to NPM using @appliedblockchain/contract-artefacts-publisher**
 
-This is done using circle ci to coincide with tagged releases. Setup for this can be found
-[here](.circleci/config.yml).
+Publishing the smart contract to NPM is done using circle ci, to coincide with tagged releases.
+Setup for this can be found [here](.circleci/config.yml).
 
 Note the name of the deployed contract `store-contract`, showing in the 'publish to NPM'
 section of the circle config.
@@ -65,19 +65,20 @@ const abi = require('@appliedblockchain/store-contract-artefacts')
 ```
 3. **Run a local Ethereum client**
 
-Once the project is published to NPM, you can test it by running parity locally e.g:
+Once the project is published to NPM, run parity (or ganache) locally:
 ```
 docker run -p 8545:8545 appliedblockchain/parity-solo --reseal-max-period 1000 --tx-gas-limit 50000000
 ```
 
 4. **Deploy your contract to that Ethereum client**
 
-Use our @appliedblockchain/contract-artefacts-deployer to deploy the contract:
+Use @appliedblockchain/contract-artefacts-deployer to deploy the contract:
 ```
 npx @appliedblockchain/contract-artefacts-deployer store-contract
 ```
 
-This will deploy your contract and provide you with a contract address. These will both be used within your application when instantiating `web3.eth.Contract`.
+This will deploy your contract and provide you with a contract address. This address
+will be used alongside the ABI within your application when instantiating `web3.eth.Contract`.
 
 5. **instantiate web3 with your deployed contract address**
 
