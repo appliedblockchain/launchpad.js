@@ -10,6 +10,7 @@
   "scripts": {
     "test": "NODE_PATH=lib:test jest",
     "test:watch": "NODE_PATH=lib:test jest --watch",
+    "test:ci": "NODE_PATH=lib:test jest --ci",
     "start": "node ./app",
     "start:dev": "nodemon ./app",
     "lint": "eslint . --ignore-pattern .gitignore"
