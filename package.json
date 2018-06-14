@@ -8,11 +8,11 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "test": "NODE_PATH=lib:test CONTRACT_ADDRESS=0x9139211574011393291A9EfBC69Bff2D1fBa25CA jest",
-    "test:watch": "NODE_PATH=lib:test CONTRACT_ADDRESS=0x9139211574011393291A9EfBC69Bff2D1fBa25CA jest --watch",
-    "test:ci": "NODE_PATH=lib:test CONTRACT_ADDRESS=0x9139211574011393291A9EfBC69Bff2D1fBa25CA jest --ci",
-    "start": "CONTRACT_ADDRESS=0x9139211574011393291A9EfBC69Bff2D1fBa25CA node ./app",
-    "start:dev": "CONTRACT_ADDRESS=0x9139211574011393291A9EfBC69Bff2D1fBa25CA nodemon ./app",
+    "test": "NODE_PATH=lib:test jest",
+    "test:watch": "NODE_PATH=lib:test jest --watch",
+    "test:ci": "NODE_PATH=lib:test jest --ci",
+    "start": "node ./app",
+    "start:dev": "nodemon ./app",
     "lint": "eslint . --ignore-pattern .gitignore"
   },
   "eslintConfig": {
