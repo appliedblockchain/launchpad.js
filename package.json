@@ -8,7 +8,7 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "test": "NODE_PATH=lib:test jest",
+    "test": "NODE_PATH=lib:test CONTRACT_ADDRESS=0x12345 jest",
     "test:watch": "NODE_PATH=lib:test jest --watch",
     "test:ci": "NODE_PATH=lib:test jest --ci",
     "start": "node ./app",
