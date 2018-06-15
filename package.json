@@ -13,7 +13,9 @@
     "test:ci": "NODE_PATH=lib:test jest --ci",
     "start": "node ./app",
     "start:dev": "nodemon ./app",
-    "lint": "eslint . --ignore-pattern .gitignore"
+    "lint": "eslint . --ignore-pattern .gitignore",
+    "tester": "node ./scripts/write-contract.js",
+    "deploy-store-contract": "echo $(npx @appliedblockchain/contract-artefacts-deployer store-contract) > ./contract-address.txt"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
@@ -41,7 +43,7 @@
     "nodemon": "^1.17.5"
   },
   "dependencies": {
-    "@appliedblockchain/store-contract-artefacts": "^0.2.1",
+    "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
     "bunyan": "^1.8.12",
     "keyblade": "^0.3.2",

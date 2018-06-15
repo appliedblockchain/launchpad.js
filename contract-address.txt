@@ -1,0 +1,1 @@
+Contract store-contract@0.3.0 successfully deployed. 0xe3CD7E8bf081c2839B856be723b36F7C809468bA
