@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@appliedblockchain/store-contract-artefacts": "^0.3.0",
+    "@appliedblockchain/koa-healthcheck": "^1.1.0",
     "@koa/cors": "^2.2.1",
     "bunyan": "^1.8.12",
     "keyblade": "^0.3.2",
