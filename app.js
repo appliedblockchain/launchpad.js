@@ -4,17 +4,7 @@ const assert = require('assert')
 const createServer = require('./lib/server')
 const env = require('./lib/env')
 const logger = require('./lib/logger')
-
-const fs = require('fs')
-
-const readFile = (path, callback) => {
-  try {
-    const filename = require.resolve(path)
-    fs.readFile(filename, 'utf8', callback)
-  } catch (e) {
-    callback(e)
-  }
-}
+const readFileContents = require('./readFileContents')
 
 const getContractAddress = (text) => {
   const results = text.match(/0x\S+/)
@@ -38,7 +28,7 @@ const runApp = (contractAdddress) => {
   )
 }
 
-readFile('./contract-address.txt', (err, contractAdddressFile) => {
+readFileContents('./contract-address.txt', (err, contractAdddressFile) => {
   if (err) {
     logger.error('Could not retrieve ./contract-address.txt file', err)
   }
@@ -46,7 +36,6 @@ readFile('./contract-address.txt', (err, contractAdddressFile) => {
   const contractAddress = getContractAddress(contractAdddressFile)
 
   if (contractAddress.length) {
-    console.log('contractAddress', contractAddress)
     runApp(contractAddress)
   } else {
     logger.error('There was no contract address present in ./contract-address.txt', err)
