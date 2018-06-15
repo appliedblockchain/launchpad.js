@@ -16,6 +16,12 @@ const readFile = (path, callback) => {
   }
 }
 
+const getContractAddress = (text) => {
+  const results = text.match(/0x\S+/)
+
+  return !results ? '' : results[0]
+}
+
 const runApp = (contractAdddress) => {
   createServer(contractAdddress).then(
     app => (
@@ -32,12 +38,17 @@ const runApp = (contractAdddress) => {
   )
 }
 
-readFile('./contract-address.txt', (err, contractAdddress) => {
+readFile('./contract-address.txt', (err, contractAdddressFile) => {
   if (err) {
-    logger.error('Could not retrieve contract address from ./contract-address.txt', err)
+    logger.error('Could not retrieve ./contract-address.txt file', err)
   }
 
-  const contractAddressTrimmed = contractAdddress.trim()
+  const contractAddress = getContractAddress(contractAdddressFile)
 
-  runApp(contractAddressTrimmed)
+  if (contractAddress.length) {
+    console.log('contractAddress', contractAddress)
+    runApp(contractAddress)
+  } else {
+    logger.error('There was no contract address present in ./contract-address.txt', err)
+  }
 })

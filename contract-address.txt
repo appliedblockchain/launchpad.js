@@ -1,1 +1,1 @@
-0x15F7Ae9DF40Bddd13CbCB376f24f132D23DD488b
+Contract store-contract@0.3.0 successfully deployed. 0xc6DD7BC7728827491C9d7416ef6d65123b47FDA9
