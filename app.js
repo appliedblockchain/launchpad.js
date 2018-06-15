@@ -12,8 +12,8 @@ const getContractAddress = (text) => {
   return !results ? '' : results[0]
 }
 
-const runApp = (contractAdddress) => {
-  createServer(contractAdddress).then(
+const runApp = (contractAddress) => {
+  createServer(contractAddress).then(
     app => (
       app.listen(env.PORT, (err) => {
         assert(!err, err)
@@ -28,12 +28,12 @@ const runApp = (contractAdddress) => {
   )
 }
 
-readFileContents('./contract-address.txt', (err, contractAdddressFile) => {
+readFileContents('./contract-address.txt', (err, contractAddressFile) => {
   if (err) {
     logger.error('Could not retrieve ./contract-address.txt file', err)
   }
 
-  const contractAddress = getContractAddress(contractAdddressFile)
+  const contractAddress = getContractAddress(contractAddressFile)
 
   if (contractAddress.length) {
     runApp(contractAddress)
