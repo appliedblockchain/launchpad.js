@@ -13,7 +13,8 @@
     "test:ci": "NODE_PATH=lib:test jest --ci",
     "start": "node ./app",
     "start:dev": "nodemon ./app",
-    "lint": "eslint . --ignore-pattern .gitignore"
+    "lint": "eslint . --ignore-pattern .gitignore",
+    "deploy-contract": "echo npx @appliedblockchain/contract-artefacts-deployer store-contract >> ./contract-address.txt"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
