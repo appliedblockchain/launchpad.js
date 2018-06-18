@@ -23,8 +23,8 @@ npm i
 npm run start:dev
 ```
 
-### Running tests
+### Linting and running tests
 ```
 npm run lint
-CONTRACT_ADDRESS=${YOUR_CONTRACT_NAME} npm test:watch
+npm test:watch
 ```
