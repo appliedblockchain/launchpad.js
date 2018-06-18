@@ -8,9 +8,9 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "test": "NODE_PATH=lib:test jest",
-    "test:watch": "NODE_PATH=lib:test jest --watch",
-    "test:ci": "NODE_PATH=lib:test jest --ci",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --ci",
     "start": "node ./app",
     "start:dev": "nodemon ./app",
     "lint": "eslint . --ignore-pattern .gitignore",
