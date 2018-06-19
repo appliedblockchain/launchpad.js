@@ -2,15 +2,9 @@
 
 const runApp = require('./src/app')
 const logger = require('./src/logger')
-const readFileContents = require('./readFileContents')
+const { readFileContents, getContractAddress } = require('./src/helpers')
 
-const getContractAddress = (text) => {
-  const results = text.match(/0x\S+/)
-
-  return !results ? '' : results[0]
-}
-
-readFileContents('./contract-address.txt', async (err, contractAddressFile) => {
+readFileContents('/contract-address.txt', async (err, contractAddressFile) => {
   if (err) {
     logger.error('Could not retrieve ./contract-address.txt file', err)
   }
