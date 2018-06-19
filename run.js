@@ -1,7 +1,7 @@
 'use strict'
 
-const runApp = require('./lib/app')
-const logger = require('./lib/logger')
+const runApp = require('./src/app')
+const logger = require('./src/logger')
 const readFileContents = require('./readFileContents')
 
 const getContractAddress = (text) => {
