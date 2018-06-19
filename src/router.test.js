@@ -10,10 +10,14 @@ describe('GET /health', () => {
     app = await runApp(testContractAddress)
   })
 
-  it('respond with the current contract address', (done) => {
+  it('responds with the current contract address', (done) => {
     request(app)
       .get('/health')
       .expect('Content-Type', /json/)
       .expect(200, done)
+  })
+
+  afterAll(() => {
+    app.close()
   })
 })
