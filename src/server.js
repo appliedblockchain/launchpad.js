@@ -43,8 +43,8 @@ const createServer = async (contractAddress) => {
 
   const server = http.createServer(app.callback())
 
-  server.on('close', () => {
-    console.log('Server closing')
+  server.on('close', async () => {
+    logger.debug('Server closing')
   })
 
   logger.debug('Server created.')
