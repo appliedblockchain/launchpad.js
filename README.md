@@ -22,7 +22,7 @@ brew linkapps solidity
 ### Run tests
 ```
 npm i
-npm run tests
+npm run test
 ```
 
 ----------------------------------
