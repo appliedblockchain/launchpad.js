@@ -8,15 +8,14 @@
     "node": ">=9.0.0"
   },
   "scripts": {
+    "start": "CONTRACT_ADDRESS=$(cat contractAddress.txt) node ./run",
+    "start:dev": "CONTRACT_ADDRESS=$(cat contractAddress.txt) nodemon ./run",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci --forceExit",
-    "start": "node ./run",
-    "start:dev": "nodemon ./run",
     "lint": "eslint . --ignore-pattern .gitignore",
-    "tester": "node ./scripts/write-contract.js",
-    "deploy-contract": "npx @appliedblockchain/contract-artefacts-deployer store-contract",
-    "deploy-contract-and-run": "CONTRACT_ADDRESS=$(npx @appliedblockchain/contract-artefacts-deployer store-contract) npm run start:dev"
+    "deploy-contract": "npx @appliedblockchain/contract-artefacts-deployer store-contract > contractAddress.txt",
+    "deploy-contract-and-run": "npm run deploy-contract && npm run start"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"

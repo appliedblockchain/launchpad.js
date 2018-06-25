@@ -4,4 +4,5 @@ const getContractAddress = (text) => {
   return !results ? '' : results[0]
 }
 
+
 module.exports = getContractAddress
