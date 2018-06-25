@@ -5,7 +5,7 @@ let app
 
 describe('GET /health', () => {
   beforeAll(async () => {
-    const testContractAddress = '0x7cB6577EcDc3C0FF9d45ca44D6Db6e8EB3dAFD95'
+    const testContractAddress = '0x7cB6577EcDc3C0Fsad9d45ca44D6Db6e8EB3dAFD95'
 
     app = await createServer(testContractAddress)
   })
