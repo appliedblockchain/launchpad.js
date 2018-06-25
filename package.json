@@ -15,7 +15,8 @@
     "start:dev": "nodemon ./app",
     "lint": "eslint . --ignore-pattern .gitignore",
     "tester": "node ./scripts/write-contract.js",
-    "deploy-store-contract": "echo $(npx @appliedblockchain/contract-artefacts-deployer store-contract) > ./contract-address.txt"
+    "deploy-store-contract": "npx @appliedblockchain/contract-artefacts-deployer store-contract)",
+    "deploy-contract-and-run": "CONTRACT_ADDRESS=$(npx @appliedblockchain/contract-artefacts-deployer store-contract) npm run start:dev"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"

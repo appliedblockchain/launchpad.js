@@ -4,7 +4,6 @@ const assert = require('assert')
 const createServer = require('./lib/server')
 const env = require('./lib/env')
 const logger = require('./lib/logger')
-const readFileContents = require('./readFileContents')
 
 const getContractAddress = (text) => {
   const results = text.match(/0x\S+/)
@@ -28,16 +27,6 @@ const runApp = (contractAddress) => {
   )
 }
 
-readFileContents('./contract-address.txt', (err, contractAddressFile) => {
-  if (err) {
-    logger.error('Could not retrieve ./contract-address.txt file', err)
-  }
+const contractAddress = getContractAddress(env.CONTRACT_ADDRESS)
 
-  const contractAddress = getContractAddress(contractAddressFile)
-
-  if (contractAddress.length) {
-    runApp(contractAddress)
-  } else {
-    logger.error('There was no contract address present in ./contract-address.txt', err)
-  }
-})
+runApp(contractAddress)
