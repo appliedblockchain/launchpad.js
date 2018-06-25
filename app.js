@@ -1,15 +1,10 @@
 'use strict'
 
 const assert = require('assert')
-const createServer = require('./lib/server')
-const env = require('./lib/env')
-const logger = require('./lib/logger')
-
-const getContractAddress = (text) => {
-  const results = text.match(/0x\S+/)
-
-  return !results ? '' : results[0]
-}
+const createServer = require('./src/server')
+const env = require('./src/env')
+const logger = require('./src/logger')
+const { getContractAddress } = require('./src/helpers')
 
 const runApp = (contractAddress) => {
   createServer(contractAddress).then(

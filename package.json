@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "A basic starter Node application",
-  "main": "index.js",
+  "main": "app.js",
   "engines": {
     "node": ">=9.0.0"
   },
@@ -15,7 +15,7 @@
     "start:dev": "nodemon ./run",
     "lint": "eslint . --ignore-pattern .gitignore",
     "tester": "node ./scripts/write-contract.js",
-    "deploy-store-contract": "npx @appliedblockchain/contract-artefacts-deployer store-contract)",
+    "deploy-contract": "npx @appliedblockchain/contract-artefacts-deployer store-contract)",
     "deploy-contract-and-run": "CONTRACT_ADDRESS=$(npx @appliedblockchain/contract-artefacts-deployer store-contract) npm run start:dev"
   },
   "eslintConfig": {
