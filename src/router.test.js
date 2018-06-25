@@ -1,13 +1,15 @@
 const request = require('supertest')
 const createServer = require('./server')
+const env = require('./env')
+const { getContractAddress } = require('./helpers')
 
 let app
 
 describe('GET /health', () => {
   beforeAll(async () => {
-    const testContractAddress = '0x7cB6577EcDc3C0Fsad9d45ca44D6Db6e8EB3dAFD95'
+    const contractAddress = getContractAddress(env.CONTRACT_ADDRESS)
 
-    app = await createServer(testContractAddress)
+    app = await createServer(contractAddress)
   })
 
   afterAll(async () => {
