@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "A basic starter Node application",
-  "main": "app.js",
+  "main": "run.js",
   "engines": {
     "node": ">=9.0.0"
   },
