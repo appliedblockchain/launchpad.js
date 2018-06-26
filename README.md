@@ -9,15 +9,15 @@ For a detailed overview of setting up your smart contracts, [see here.](https://
 
 You will need to run an instance of parity:
 ```
-docker run -p 8545:8545 appliedblockchain/parity-solo --reseal-max-period 1000 --tx-gas-limit 50000000
+npm run parity
 ```
 
 Then deploy the contract:
 ```
-npm run deploy-store-contract
+npm run deploy-contract
 ```
 
-Copy that address, then run:
+This will copy the contract address to a contractAddress.txt. Once finished, then run:
 ```
 npm i
 npm run start:dev

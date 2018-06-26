@@ -9,6 +9,8 @@ jobs:
           password: $DOCKER_PASSWORD
         entrypoint:
           - "/parity/parity"
+          - "--config"
+          - "/solo/node.toml"
 
     working_directory: ~/workspace
 
