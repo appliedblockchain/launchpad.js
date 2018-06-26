@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Build docker image
           command: |
-            docker build -t appliedblockchain/base-node-app --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN"
+            docker build -t appliedblockchain/base-node-app --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN" .
             mkdir ./cached-docker-images
             docker save -o ./cached-docker-images/base-node-app.tar appliedblockchain/base-node-app
 
