@@ -4,10 +4,11 @@ const env = require('./env')
 const { getContractAddress } = require('./helpers')
 
 let app
+let contractAddress
 
 describe('router', () => {
   beforeAll(async () => {
-    const contractAddress = getContractAddress(env.CONTRACT_ADDRESS)
+    contractAddress = getContractAddress(env.CONTRACT_ADDRESS)
 
     app = await createServer(contractAddress)
   })
@@ -16,23 +17,26 @@ describe('router', () => {
     await app.close()
   })
 
-  describe('GET /health', () => {
-    it('responds with the current contract address', async () => {
-      await request(app).get('/health')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then(response => {
-          expect(response.status).toEqual(200)
-        })
+  describe('/health', () => {
+    describe('GET', () => {
+      it('responds with the current contract address', async () => {
+        const { status, body } = await request(app).get('/health')
+          .expect('Content-Type', /json/)
+
+        expect(status).toEqual(200)
+        expect(body).toEqual({ storeContractAddress: contractAddress })
+      })
     })
   })
 
-  describe('GET /api (root)', () => {
-    it('returns 200', async () => {
-      const { status, body } = await request(app).get('/api')
+  describe('/api (root)', () => {
+    describe('GET', () => {
+      it('returns 200', async () => {
+        const { status, body } = await request(app).get('/api')
 
-      expect(status).toEqual(200)
-      expect(body).toEqual({ message: 'hello world' })
+        expect(status).toEqual(200)
+        expect(body).toEqual({ message: 'hello world' })
+      })
     })
 
     describe('/store', () => {
@@ -41,7 +45,7 @@ describe('router', () => {
       }
 
       describe('POST', () => {
-        it('posts some data to the smart contract', async () => {
+        it('posts data to the smart contract', async () => {
           const { status, body } = await request(app)
             .post('/api/store')
             .send(requestData)
