@@ -11,12 +11,6 @@ jobs:
           - "/parity/parity"
           - "--config"
           - "/solo/node.toml"
-          - "--gasprice"
-          - "0"
-          - "--reseal-max-period"
-          - "1000"
-          - "--tx-gas-limit"
-          - "50000000"
 
     working_directory: ~/workspace
 
