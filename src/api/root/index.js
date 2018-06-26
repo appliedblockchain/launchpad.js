@@ -1,7 +1,7 @@
 'use strict'
 
 const handler = async (ctx) => {
-  ctx.body = 'hello world'
+  ctx.ok({ message: 'hello world' })
 }
 
 module.exports = [

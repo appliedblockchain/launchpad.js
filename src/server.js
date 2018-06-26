@@ -45,7 +45,6 @@ const createServer = async (contractAddress) => {
 
   server.on('close', async () => {
     logger.debug('Server closing')
-    console.log('Server closing')
   })
 
   server.on('error', async (error) => {

@@ -9,6 +9,7 @@ const routes = [
   ...rootRoute,
   ...store
 ]
+
 const router = koaRouter()
 
 router.route(routes)
