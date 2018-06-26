@@ -25,33 +25,23 @@ jobs:
             mkdir ./cached-docker-images
             docker save -o ./cached-docker-images/base-node-app.tar appliedblockchain/base-node-app
 
-      - run:
-          name: Authorize NPM
-          command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-
-      - run: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
+      - run: docker run appliedblockchain/base-node-app npm install
       - run:
           name: Deploy smart contract
-          command: npm run deploy-contract
+          command: docker run appliedblockchain/base-node-app npm run deploy-contract
 
       - run:
-          name: Eslint
-          command: npm run lint
+          name: Lint
+          command: docker run appliedblockchain/base-node-app npm run lint
 
       - run:
           name: Unit tests
-          command: npm run test:ci
+          command: docker run appliedblockchain/base-node-app npm run test
+
+      - persist_to_workspace:
+          root: cached-docker-images
+          paths:
+            - base-node-app.tar
 
 workflows:
   version: 2
