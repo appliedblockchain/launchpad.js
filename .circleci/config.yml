@@ -19,6 +19,13 @@ jobs:
       - setup_remote_docker
 
       - run:
+          name: Build docker image
+          command: |
+            docker build -t appliedblockchain/base-node-app --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN"" .
+            mkdir ./cached-docker-images
+            docker save -o ./cached-docker-images/base-node-app.tar appliedblockchain/base-node-app
+
+      - run:
           name: Authorize NPM
           command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
 
