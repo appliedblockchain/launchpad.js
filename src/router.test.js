@@ -20,7 +20,8 @@ describe('router', () => {
   describe('/health', () => {
     describe('GET', () => {
       it('responds with the current contract address', async () => {
-        const { status, body } = await request(app).get('/health')
+        const { status, body } = await request(app)
+          .get('/health')
           .expect('Content-Type', /json/)
 
         expect(status).toEqual(200)
@@ -32,7 +33,8 @@ describe('router', () => {
   describe('/api (root)', () => {
     describe('GET', () => {
       it('returns 200', async () => {
-        const { status, body } = await request(app).get('/api')
+        const { status, body } = await request(app)
+          .get('/api')
 
         expect(status).toEqual(200)
         expect(body).toEqual({ message: 'hello world' })
