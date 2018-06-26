@@ -19,7 +19,7 @@
     "start": "NODE_PATH=./src react-scripts start",
     "build": "NODE_PATH=./src react-scripts build",
     "test": "NODE_PATH=./src react-scripts test --env=jsdom",
-    "test:ci": "NODE_PATH=./src react-scripts test --env=jsdom --ci --testResultsProcessor='jest-multi-test-result-processor'",
+    "test:ci": "CI=true NODE_PATH=./src react-scripts test --env=jsdom --testResultsProcessor='jest-multi-test-result-processor' --coverage",
     "lint": "eslint ./src --cache --ignore-pattern .gitignore",
     "lint:ci": "npm run lint -- --format junit --output-file reports/junit/eslint-results.xml",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
@@ -36,6 +36,12 @@
       "!src/registerServiceWorker.js",
       "!src/setupTests.js",
       "!src/**/*.spec.js.snap"
+    ],
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text-summary",
+      "html"
     ]
   },
   "jest-multi-test-result-processor": {
@@ -51,7 +57,7 @@
     "extends": "@appliedblockchain/eslint-config/react"
   },
   "devDependencies": {
-    "@appliedblockchain/eslint-config": "^1.11.0",
+    "@appliedblockchain/eslint-config": "^2.2.0",
     "babel-eslint": "^8.2.3",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",

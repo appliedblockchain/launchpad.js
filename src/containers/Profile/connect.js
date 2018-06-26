@@ -7,6 +7,6 @@ export const mapState = ({
   pathname: (router) ? router.location.pathname : ''
 })
 
-export const mapDispatch = (/*dispatch*/) => ({})
+export const mapDispatch = (/* dispatch*/) => ({})
 
 export default connect(mapState, mapDispatch)(Component)
