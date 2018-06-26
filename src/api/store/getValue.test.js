@@ -9,6 +9,7 @@ describe('routes/getValue', () => {
   const getMock = jest.fn(() => ({
     call: callMock
   }))
+  const okMock = jest.fn()
 
   let ctx
 
@@ -20,7 +21,7 @@ describe('routes/getValue', () => {
     }
     const contracts = { StoreContract }
 
-    ctx = { contracts }
+    ctx = { contracts, ok: okMock }
   })
 
   afterEach(() => {
@@ -33,7 +34,7 @@ describe('routes/getValue', () => {
 
       expect(getMock).toHaveBeenCalled()
       expect(callMock).toHaveBeenCalled()
-      expect(ctx.body).toEqual(RESPONSE_DATA)
+      expect(okMock).toHaveBeenCalledWith({ result: RESPONSE_DATA })
     })
   })
 })
