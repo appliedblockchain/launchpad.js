@@ -3,20 +3,19 @@
   "private": true,
   "version": "0.0.1",
   "description": "A basic starter Node application",
-  "main": "index.js",
+  "main": "run.js",
   "engines": {
     "node": ">=9.0.0"
   },
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:ci": "jest --ci",
-    "start": "node ./app",
-    "start:dev": "nodemon ./app",
+    "start": "CONTRACT_ADDRESS=$(cat contractAddress.txt) node ./run",
+    "start:dev": "CONTRACT_ADDRESS=$(cat contractAddress.txt) nodemon ./run",
+    "test": "CONTRACT_ADDRESS=$(cat contractAddress.txt) jest",
+    "test:watch": "CONTRACT_ADDRESS=$(cat contractAddress.txt) jest --watch",
+    "test:ci": "CONTRACT_ADDRESS=$(cat contractAddress.txt) jest --ci --forceExit",
     "lint": "eslint . --ignore-pattern .gitignore",
-    "tester": "node ./scripts/write-contract.js",
-    "deploy-store-contract": "npx @appliedblockchain/contract-artefacts-deployer store-contract)",
-    "deploy-contract-and-run": "CONTRACT_ADDRESS=$(npx @appliedblockchain/contract-artefacts-deployer store-contract) npm run start:dev"
+    "deploy-contract": "npx @appliedblockchain/contract-artefacts-deployer store-contract > contractAddress.txt",
+    "deploy-contract-and-run": "npm run deploy-contract && npm run start"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
@@ -41,7 +40,8 @@
     "@appliedblockchain/eslint-config": "^2.2.0",
     "eslint": "^4.19.1",
     "jest": "^23.1.0",
-    "nodemon": "^1.17.5"
+    "nodemon": "^1.17.5",
+    "supertest": "^3.1.0"
   },
   "dependencies": {
     "@appliedblockchain/store-contract-artefacts": "^0.3.0",

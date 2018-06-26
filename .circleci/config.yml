@@ -3,6 +3,20 @@ jobs:
   build:
     docker:
       - image: circleci/node:9
+      - image: appliedblockchain/parity-solo
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
+        entrypoint:
+          - "/parity/parity"
+          - "--config"
+          - "/solo/node.toml"
+          - "--gasprice"
+          - "0"
+          - "--reseal-max-period"
+          - "1000"
+          - "--tx-gas-limit"
+          - "50000000"
 
     working_directory: ~/workspace
 
@@ -25,6 +39,10 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Deploy smart contract
+          command: npm run deploy-contract
 
       - run:
           name: Eslint

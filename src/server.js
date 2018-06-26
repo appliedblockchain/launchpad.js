@@ -8,13 +8,12 @@ const bodyParser = require('koa-bodyparser')
 const compress = require('koa-compress')
 const respond = require('koa-respond')
 const abi = require('@appliedblockchain/store-contract-artefacts')
-const { middleware, routes, configureDocs } = require('./api')
+const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
 const { notFoundHandler, errorHandler } = require('./middleware')
 const setupWeb3 = require('./setupWeb3')
-const checkContractDeployment = require('./checkContractDeployment')
+const { checkContractDeployment, assignToContext } = require('./helpers')
 const healthcheck = require('./healthcheck')
-const assignToContext = require('./assignToContext')
 
 const createServer = async (contractAddress) => {
   if (!contractAddress) {
@@ -44,11 +43,16 @@ const createServer = async (contractAddress) => {
 
   const server = http.createServer(app.callback())
 
-  server.on('close', () => {
-    console.log('Server closing')
+  server.on('close', async () => {
+    logger.debug('Server closing')
+  })
+
+  server.on('error', async (error) => {
+    console.log('Error', error)
   })
 
   logger.debug('Server created.')
+
   return server
 }
 
