@@ -8,4 +8,6 @@ const runApp = require('./src/app')
 console.log('env.CONTRACT_ADDRESS', env.CONTRACT_ADDRESS)
 console.log('typeof env.CONTRACT_ADDRESS', typeof env.CONTRACT_ADDRESS)
 
+// returns e.g. 30 (type number)
+
 runApp(env.CONTRACT_ADDRESS)
