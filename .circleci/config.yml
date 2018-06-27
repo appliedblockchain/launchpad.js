@@ -57,15 +57,15 @@ jobs:
 
       - run:
           name: Build docker image
-          command: |
-            docker build -t appliedblockchain/base-node-app --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN" .
-            mkdir ./cached-docker-images
-            docker save -o ./cached-docker-images/base-node-app.tar appliedblockchain/base-node-app
+          command: docker build -t appliedblockchain/base-node-app . --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN"
 
-      - persist_to_workspace:
-          root: cached-docker-images
-          paths:
-            - base-node-app.tar
+      - run:
+          name: Test docker
+          command: |
+            docker run --name base-node-app -d appliedblockchain/parity-solo-instant
+            docker run \
+              --network container:parity appliedblockchain/base-node-app
+
 workflows:
   version: 2
   main:
