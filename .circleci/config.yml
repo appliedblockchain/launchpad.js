@@ -47,6 +47,8 @@ jobs:
           command: npm run test:ci
 
   build_docker:
+    docker:
+      - image: circleci/node:9
     working_directory: ~/workspace
 
     steps:
