@@ -64,7 +64,7 @@ jobs:
           command: |
             docker run --name base-node-app -d appliedblockchain/parity-solo-instant
             docker run \
-              --network container:parity appliedblockchain/base-node-app
+              --network container:base-node-app appliedblockchain/base-node-app
 
 workflows:
   version: 2
