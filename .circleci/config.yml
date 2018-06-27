@@ -46,9 +46,38 @@ jobs:
           name: Unit tests
           command: npm run test:ci
 
+  build_docker:
+    docker:
+      - image: circleci/node:9
+    working_directory: ~/workspace
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Build docker image
+          command: docker build -t appliedblockchain/base-node-app . --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN"
+
+      - run:
+          name: Test docker
+          command: |
+            docker run --name base-node-app -d appliedblockchain/parity-solo
+            docker run \
+              --network container:base-node-app appliedblockchain/base-node-app
+
 workflows:
   version: 2
   main:
     jobs:
       - build:
           context: org-global
+      - build_docker:
+          requires:
+            - build
+          context: org-global
+          filters:
+            branches:
+              only: master
+            tags:
+              ignore: /.*/
