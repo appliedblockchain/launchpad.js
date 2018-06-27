@@ -1,7 +1,16 @@
 const deploy = require('@appliedblockchain/contract-artefacts-deployer')
 
-deploy('store-contract')
-  .then(({ contractAddress, version }) => {
-    console.log('contractAddress', contractAddress)
-    console.log('version', version)
-  })
+const name = process.argv[2]
+
+if (!name) {
+  throw new Error('You must provide a contract name to deploy as an argument to deployContract.js')
+} else {
+  deploy(name)
+    .then(({ contractAddress }) => {
+      process.stdout.write(contractAddress)
+      process.exit(0)
+    }).catch((err) => {
+      console.error(err)
+      process.exit(1)
+    })
+}

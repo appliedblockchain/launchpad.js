@@ -15,7 +15,7 @@
     "test:ci": "CONTRACT_ADDRESS=$(cat contractAddress.txt) jest --ci --forceExit",
     "lint": "eslint . --ignore-pattern .gitignore",
     "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo",
-    "deploy-contract": "npx @appliedblockchain/contract-artefacts-deployer store-contract > contractAddress.txt",
+    "deploy-contract": "node ./bin/deployContract.js store-contract > contractAddress.txt",
     "deploy-contract-and-run": "npm run deploy-contract && npm run start"
   },
   "eslintConfig": {
@@ -45,8 +45,9 @@
     "supertest": "^3.1.0"
   },
   "dependencies": {
-    "@appliedblockchain/store-contract-artefacts": "^0.3.0",
+    "@appliedblockchain/contract-artefacts-deployer": "0.0.4",
     "@appliedblockchain/koa-healthcheck": "^1.1.0",
+    "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
     "bunyan": "^1.8.12",
     "keyblade": "^0.3.2",
