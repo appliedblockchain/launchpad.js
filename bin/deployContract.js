@@ -3,7 +3,10 @@ const deploy = require('@appliedblockchain/contract-artefacts-deployer')
 const name = process.argv[2]
 
 if (!name) {
-  throw new Error('You must provide a contract name to deploy as an argument to deployContract.js')
+  throw new Error(
+    'You must provide a contract name to deploy as an ' +
+    'argument to the deployContract.js script'
+  )
 } else {
   deploy(name)
     .then(({ contractAddress }) => {
