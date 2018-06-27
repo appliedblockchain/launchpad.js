@@ -62,7 +62,7 @@ jobs:
       - run:
           name: Test docker
           command: |
-            docker run --name base-node-app -d appliedblockchain/parity-solo-instant
+            docker run --name base-node-app -d appliedblockchain/parity-solo
             docker run \
               --network container:base-node-app appliedblockchain/base-node-app
 
