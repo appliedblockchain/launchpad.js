@@ -1,3 +1,6 @@
+#! /usr/bin/env node
+'use strict'
+
 const deploy = require('@appliedblockchain/contract-artefacts-deployer')
 
 const name = process.argv[2]

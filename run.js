@@ -3,14 +3,9 @@
 const env = require('./src/env')
 const runApp = require('./src/app')
 
-// var fs = require('fs')
-// fs.readFile('contractAddress.txt', 'utf8', (err, contractAddress) => {
-//   if (err) {
-//     throw err
-//   }
-//   console.log('DATA', contractAddress)
-//   runApp(contractAddress)
-// })
+// TODO: why is this a number!?
+// deploy script in /bin/deployContracts
 console.log('env.CONTRACT_ADDRESS', env.CONTRACT_ADDRESS)
+console.log('typeof env.CONTRACT_ADDRESS', typeof env.CONTRACT_ADDRESS)
 
 runApp(env.CONTRACT_ADDRESS)
