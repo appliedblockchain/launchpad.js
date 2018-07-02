@@ -1,5 +1,8 @@
 'use strict'
 
+const { getContractAddress } = require('./src/helpers')
 const runApp = require('./src/app')
 
-runApp(process.env.CONTRACT_ADDRESS)
+const contractAddress = getContractAddress(process.env.CONTRACT_ADDRESS)
+
+runApp(contractAddress)

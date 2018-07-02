@@ -1,8 +1,9 @@
 const { APP_NAME } = require('./constants')
 const { createLogger, WARN } = require('bunyan')
-const env = require('./env')
+const config = require('config')
+const LOG_LEVEL = config.get('LOG_LEVEL')
 
 module.exports = createLogger({
   name: APP_NAME,
-  level: env.LOG_LEVEL || WARN
+  level: LOG_LEVEL || WARN
 })
