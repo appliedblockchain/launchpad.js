@@ -6,7 +6,9 @@ let contractAddress
 
 describe('router', () => {
   beforeAll(async () => {
-    app = await createServer(process.env.CONTRACT_ADDRESS)
+    contractAddress = process.env.CONTRACT_ADDRESS
+
+    app = await createServer(contractAddress)
   })
 
   afterAll(async () => {
