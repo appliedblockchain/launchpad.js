@@ -24,7 +24,11 @@ describe('router', () => {
           .expect('Content-Type', /json/)
 
         expect(status).toEqual(200)
-        expect(body).toEqual({ storeContractAddress: contractAddress })
+        expect(body).toEqual({
+          storeContractAddress: contractAddress,
+          commit: 'No commit was passed into this build',
+          tag: 'There was no tag associated with this build'
+        })
       })
     })
   })
