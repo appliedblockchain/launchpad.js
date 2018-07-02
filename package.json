@@ -48,6 +48,7 @@
     "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
     "bunyan": "^1.8.12",
+    "config": "^1.30.0",
     "keyblade": "^0.3.2",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
