@@ -12,4 +12,4 @@ COPY . /app
 
 EXPOSE 8080
 
-CMD [ "npm", "start" ]
+CMD [ "node", "./run" ]

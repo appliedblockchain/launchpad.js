@@ -8,7 +8,7 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "start": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) node ./run",
+    "start": "node ./run",
     "start:dev": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) nodemon ./run",
     "test": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest",
     "test:watch": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --watch",
@@ -26,7 +26,7 @@
   "keywords": [
     "node"
   ],
-  "author": "Jamie Allen",
+  "author": "Applied Blockchain",
   "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/appliedblockchain/base-node-app/issues"
