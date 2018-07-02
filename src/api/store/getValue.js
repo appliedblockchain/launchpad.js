@@ -33,4 +33,3 @@ module.exports = {
   },
   handler
 }
-module.exports.handler = handler

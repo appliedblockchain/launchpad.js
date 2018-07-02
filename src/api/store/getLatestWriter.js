@@ -4,9 +4,16 @@ const handler = async (ctx) => {
   const { StoreContract } = ctx.contracts
   const { methods } = StoreContract
 
-  const result = await methods.getLatestWriter().call()
+  try {
+    const result = await methods.getLatestWriter().call()
+    if (!result) {
+      throw new Error('Could not get the latest writer from this contract')
+    }
 
-  ctx.body = result
+    ctx.ok({ result: result })
+  } catch (error) {
+    ctx.badRequest({ error })
+  }
 }
 
 module.exports = {
@@ -14,4 +21,3 @@ module.exports = {
   path: '/store/latestWriter',
   handler
 }
-module.exports.handler = handler

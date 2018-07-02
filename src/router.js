@@ -4,6 +4,7 @@ const koaRouter = require('koa-joi-router')
 const configureDocs = require('./api/docs-config')
 const rootRoute = require('./api/root')
 const store = require('./api/store')
+const { API_PREFIX } = require('./constants')
 
 const routes = [
   ...rootRoute,
@@ -13,7 +14,7 @@ const routes = [
 const router = koaRouter()
 
 router.route(routes)
-router.prefix('/api')
+router.prefix(API_PREFIX)
 
 module.exports = {
   configureDocs,

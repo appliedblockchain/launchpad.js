@@ -36,4 +36,3 @@ module.exports = {
   path: '/store',
   handler
 }
-module.exports.handler = handler
