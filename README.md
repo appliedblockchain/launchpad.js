@@ -12,16 +12,12 @@ You will need to run an instance of parity:
 npm run parity
 ```
 
-Then deploy the contract:
-```
-npm run deploy-contract
-```
-
-This will copy the contract address to a contractAddress.txt. Once finished, then run:
+Then run:
 ```
 npm i
 npm run start:dev
 ```
+For details of how the contract is auto-deployed, please check the npm scripts in package.json.
 
 ### Linting and running tests
 ```

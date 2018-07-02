@@ -35,10 +35,6 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: Deploy smart contract
-          command: npm run deploy-contract
-
-      - run:
           name: Eslint
           command: npm run lint
 

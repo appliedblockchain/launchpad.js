@@ -1,14 +1,12 @@
 const request = require('supertest')
 const createServer = require('./server')
-const env = require('./env')
-const { getContractAddress } = require('./helpers')
 
 let app
 let contractAddress
 
 describe('router', () => {
   beforeAll(async () => {
-    contractAddress = getContractAddress(env.CONTRACT_ADDRESS)
+    contractAddress = process.env.CONTRACT_ADDRESS
 
     app = await createServer(contractAddress)
   })
