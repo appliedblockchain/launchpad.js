@@ -22,11 +22,11 @@ Or, to manually deploy the contracts and start in production mode:
 ```
 npm run deploy-contract
 ...
-0x50M3C0N7R4CT4DDR322
+0xCb037544400ABED965541bFF442A330F83982457
 ...
 copy your contract address and paste it into the env var when starting the server.
 ...
-CONTRACT_ADDRESS=0x50M3C0N7R4CT4DDR322 npm run start
+CONTRACT_ADDRESS=0xCb037544400ABED965541bFF442A330F83982457 npm run start
 ```
 
 ### Linting and running tests
