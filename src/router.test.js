@@ -1,6 +1,10 @@
 const request = require('supertest')
 const createServer = require('./server')
 const { API_PREFIX } = require('./constants')
+const {
+  GIT_COMMIT_SHA_DEFAULT,
+  GIT_TAG_DEFAULT
+} = require('./healthcheck')
 
 let app
 let contractAddress
@@ -26,8 +30,8 @@ describe('router', () => {
         expect(status).toEqual(200)
         expect(body).toEqual({
           storeContractAddress: contractAddress,
-          commit: 'No commit was passed into this build',
-          tag: 'There was no tag associated with this build'
+          commit: GIT_COMMIT_SHA_DEFAULT,
+          tag: GIT_TAG_DEFAULT
         })
       })
     })
