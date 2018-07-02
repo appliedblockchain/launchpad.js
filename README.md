@@ -18,15 +18,11 @@ npm i
 npm run start:dev
 ```
 For details of how the contract is auto-deployed, please check the npm scripts in package.json.
+
 Or, to manually deploy the contracts and start in production mode:
 ```
-npm run deploy-contract
-...
-0xCb037544400ABED965541bFF442A330F83982457
-...
-copy your contract address and paste it into the env var when starting the server.
-...
-CONTRACT_ADDRESS=0xCb037544400ABED965541bFF442A330F83982457 npm run start
+export CONTRACT_ADDRESS=$(npm run deploy-contract)
+npm run start
 ```
 
 ### Linting and running tests
