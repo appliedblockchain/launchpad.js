@@ -8,12 +8,13 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "start": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) node ./run",
+    "start": "node ./run",
     "start:dev": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) nodemon ./run",
     "test": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest",
     "test:watch": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --watch",
     "test:ci": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --ci --forceExit",
     "lint": "eslint . --ignore-pattern .gitignore",
+    "deploy-contract": "node ./bin/deployContract.js store-contract",
     "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo"
   },
   "eslintConfig": {
@@ -26,7 +27,7 @@
   "keywords": [
     "node"
   ],
-  "author": "Jamie Allen",
+  "author": "Applied Blockchain",
   "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/appliedblockchain/base-node-app/issues"
