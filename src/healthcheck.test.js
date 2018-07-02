@@ -1,6 +1,5 @@
 const request = require('supertest')
 const createServer = require('./server')
-const { API_PREFIX } = require('./constants')
 const {
   GIT_COMMIT_SHA_DEFAULT,
   GIT_TAG_DEFAULT
@@ -9,7 +8,7 @@ const {
 let app
 let contractAddress
 
-const URL = `${API_PREFIX}/health`
+const URL = '/health'
 
 describe(`GET ${URL}`, () => {
   beforeAll(async () => {
@@ -22,20 +21,16 @@ describe(`GET ${URL}`, () => {
     await app.close()
   })
 
-  describe('/health', () => {
-    describe('GET', () => {
-      it('responds with the current contract address', async () => {
-        const { status, body } = await request(app)
-          .get(URL)
-          .expect('Content-Type', /json/)
+  it('responds with the current contract address', async () => {
+    const { status, body } = await request(app)
+      .get(URL)
+      .expect('Content-Type', /json/)
 
-        expect(status).toEqual(200)
-        expect(body).toEqual({
-          storeContractAddress: contractAddress,
-          commit: GIT_COMMIT_SHA_DEFAULT,
-          tag: GIT_TAG_DEFAULT
-        })
-      })
+    expect(status).toEqual(200)
+    expect(body).toEqual({
+      storeContractAddress: contractAddress,
+      commit: GIT_COMMIT_SHA_DEFAULT,
+      tag: GIT_TAG_DEFAULT
     })
   })
 })
