@@ -1,3 +1,4 @@
 {
-  "LOG_LEVEL": "debug"
+  "LOG_LEVEL": "debug",
+  "NODE_ENV": "development"
 }
