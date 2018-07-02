@@ -18,7 +18,8 @@ const healthcheck = require('./healthcheck')
 const createServer = async (contractAddress) => {
   if (!contractAddress) {
     throw new Error(
-      'You must run \'npm run deploy-contract\' with a valid contract before starting the server'
+      'You must run start the server with a valid ' +
+      `contract. Address received: ${contractAddress}`
     )
   }
 
