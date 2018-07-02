@@ -21,4 +21,3 @@ module.exports = {
   path: '/store/latestWriter',
   handler
 }
-module.exports.handler = handler
