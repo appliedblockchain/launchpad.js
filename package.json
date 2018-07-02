@@ -56,7 +56,7 @@
     "koa-docs": "^2.1.0",
     "koa-joi-router": "^5.1.0",
     "koa-respond": "^1.0.1",
-    "web3": "^1.0.0-beta.33",
+    "web3": "1.0.0-beta.33",
     "yenv": "^2.1.0"
   }
 }
