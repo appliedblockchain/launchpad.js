@@ -53,7 +53,10 @@ jobs:
 
       - run:
           name: Build docker image
-          command: docker build -t appliedblockchain/base-node-app . --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN"
+          command: docker build -t appliedblockchain/base-node-app . \
+            --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN" \
+            --build-arg GIT_COMMIT_SHA="$CIRCLE_SHA1" \
+            --build-arg GIT_TAG="$CIRCLE_TAG"
 
       - run:
           name: Test docker

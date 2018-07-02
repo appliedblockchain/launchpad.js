@@ -13,7 +13,7 @@ const logger = require('./logger')
 const { notFoundHandler, errorHandler } = require('./middleware')
 const setupWeb3 = require('./setupWeb3')
 const { checkContractDeployment, assignToContext } = require('./helpers')
-const healthcheck = require('./healthcheck')
+const { healthcheck } = require('./healthcheck')
 
 const createServer = async (contractAddress) => {
   if (!contractAddress) {
