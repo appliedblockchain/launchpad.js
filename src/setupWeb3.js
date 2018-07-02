@@ -1,6 +1,6 @@
 const Web3 = require('web3')
 const config = require('config')
-const ETHEREUM_CLIENT_ADDRESS = config.get('ETHEREUM_CLIENT_ADDRESS')
+const ETHEREUM_JSONRPC_ENDPOINT = config.get('ETHEREUM_JSONRPC_ENDPOINT')
 
 const getFromAddress = async (web3) => {
   const accounts = await web3.eth.getAccounts()
@@ -12,7 +12,7 @@ const getFromAddress = async (web3) => {
 const setupWeb3 = async ({
   abi,
   contractAddress,
-  ethereumClientAddress = ETHEREUM_CLIENT_ADDRESS
+  ethereumClientAddress = ETHEREUM_JSONRPC_ENDPOINT
 }) => {
   const web3 = new Web3(ethereumClientAddress)
 
