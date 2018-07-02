@@ -12,12 +12,22 @@ You will need to run an instance of parity:
 npm run parity
 ```
 
-Then run:
+Then for development, run:
 ```
 npm i
 npm run start:dev
 ```
 For details of how the contract is auto-deployed, please check the npm scripts in package.json.
+Or, to manually deploy the contracts and start in production mode:
+```
+npm run deploy-contract
+...
+0x50M3C0N7R4CT4DDR322
+...
+copy your contract address and paste it into the env var when starting the server.
+...
+CONTRACT_ADDRESS=0x50M3C0N7R4CT4DDR322 npm run start
+```
 
 ### Linting and running tests
 ```
