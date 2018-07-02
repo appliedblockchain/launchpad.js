@@ -1,16 +1,19 @@
 const assert = require('assert')
 const createServer = require('./server')
 const logger = require('./logger')
-const env = require('./env')
+const config = require('config')
+
+const PORT = config.get('PORT')
+const NODE_ENV = config.get('NODE_ENV')
 
 const runApp = (contractAddress) => {
   createServer(contractAddress)
     .then((app) => (
-      app.listen(env.PORT, (err) => {
+      app.listen(PORT, (err) => {
         assert(!err, err)
-        console.log('Contract deployed at ', process.env.CONTRACT_ADDRESS)
-        console.log(`Docs available at http://localhost:${env.PORT}/docs`)
-        logger.debug(`Server listening on ${env.PORT} in ${env.NODE_ENV} mode`)
+        console.log('Contract deployed at ', contractAddress)
+        console.log(`Docs available at http://localhost:${PORT}/docs`)
+        logger.debug(`Server listening on ${PORT} in ${NODE_ENV} mode`)
       })
     ), (err) => {
       logger.error('Error while starting up server', err)

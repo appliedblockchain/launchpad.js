@@ -48,14 +48,13 @@
     "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
     "bunyan": "^1.8.12",
-    "keyblade": "^0.3.2",
+    "config": "^1.30.0",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-compress": "^3.0.0",
     "koa-docs": "^2.1.0",
     "koa-joi-router": "^5.1.0",
     "koa-respond": "^1.0.1",
-    "web3": "1.0.0-beta.33",
-    "yenv": "^2.1.0"
+    "web3": "1.0.0-beta.33"
   }
 }
