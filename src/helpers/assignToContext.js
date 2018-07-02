@@ -1,10 +1,5 @@
+module.exports = (properties) => async (ctx, next) => {
+  Object.assign(ctx, properties)
 
-const assignToContext = (properties) => {
-  return async (ctx, next) => {
-    Object.assign(ctx, properties)
-
-    await next()
-  }
+  await next()
 }
-
-module.exports = assignToContext
