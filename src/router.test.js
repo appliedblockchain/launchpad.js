@@ -43,16 +43,6 @@ describe('router', () => {
         })
       })
 
-      describe('GET', () => {
-        it('gets data from the smart contract', async () => {
-          const { status, body } = await request(app)
-            .get(`${API_PREFIX}/store`)
-
-          expect(status).toEqual(200)
-          expect(body).toEqual({ result: requestData })
-        })
-      })
-
       describe('/latestWriter', () => {
         describe('GET', () => {
           it('gets the latest writer of the contract', async () => {
