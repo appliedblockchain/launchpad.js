@@ -1,5 +1,5 @@
 const request = require('supertest')
-const createServer = require('./server')
+const setupAppForTest = require('../test/utils.js')
 const {
   GIT_COMMIT_SHA_DEFAULT,
   GIT_TAG_DEFAULT
@@ -12,9 +12,7 @@ const URL = '/health'
 
 describe(`GET ${URL}`, () => {
   beforeAll(async () => {
-    contractAddress = process.env.CONTRACT_ADDRESS
-
-    app = await createServer(contractAddress)
+    app = await setupAppForTest()
   })
 
   afterAll(async () => {
@@ -28,7 +26,7 @@ describe(`GET ${URL}`, () => {
 
     expect(status).toEqual(200)
     expect(body).toEqual({
-      storeContractAddress: contractAddress,
+      storeContractAddress: process.env.CONTRACT_ADDRESS,
       commit: GIT_COMMIT_SHA_DEFAULT,
       tag: GIT_TAG_DEFAULT
     })

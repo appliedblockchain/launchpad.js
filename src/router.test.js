@@ -1,15 +1,12 @@
 const request = require('supertest')
-const createServer = require('./server')
+const setupAppForTest = require('../test/utils.js')
 const { API_PREFIX } = require('./constants')
 
 let app
-let contractAddress
 
 describe('router', () => {
   beforeAll(async () => {
-    contractAddress = process.env.CONTRACT_ADDRESS
-
-    app = await createServer(contractAddress)
+    app = await setupAppForTest()
   })
 
   afterAll(async () => {
