@@ -6,7 +6,6 @@ const {
 } = require('./healthcheck')
 
 let app
-let contractAddress
 
 const URL = '/health'
 
