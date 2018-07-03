@@ -10,9 +10,9 @@ const docs = require('@appliedblockchain/koa-docs')
 const abi = require('@appliedblockchain/store-contract-artefacts')
 const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
-const { notFoundHandler, errorHandler } = require('./middleware')
+const { notFoundHandler, errorHandler, assignToContext } = require('./middleware')
 const setupWeb3 = require('./setupWeb3')
-const { checkContractDeployment, assignToContext } = require('./helpers')
+const { checkContractDeployment } = require('./helpers')
 const { healthcheck } = require('./healthcheck')
 
 const createServer = async (contractAddress) => {
