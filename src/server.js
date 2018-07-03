@@ -12,7 +12,7 @@ const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
 const { notFoundHandler, errorHandler, assignToContext } = require('./middleware')
 const setupWeb3 = require('./setupWeb3')
-const { checkContractDeployment } = require('./helpers')
+const checkContractDeployment = require('./checkContractDeployment')
 const { healthcheck } = require('./healthcheck')
 
 const createServer = async (contractAddress) => {
