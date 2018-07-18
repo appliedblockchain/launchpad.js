@@ -20,7 +20,7 @@
     "build": "NODE_PATH=./src react-scripts build",
     "test": "NODE_PATH=./src react-scripts test --env=jsdom",
     "test:ci": "CI=true NODE_PATH=./src react-scripts test --env=jsdom --testResultsProcessor='jest-multi-test-result-processor' --coverage",
-    "lint": "eslint ./src --cache --ignore-pattern .gitignore",
+    "lint": "eslint ./src --cache --ignore-path .gitignore",
     "lint:ci": "npm run lint -- --format junit --output-file reports/junit/eslint-results.xml",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
