@@ -13,7 +13,7 @@
     "test": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest",
     "test:watch": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --watch",
     "test:ci": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --ci --forceExit",
-    "lint": "eslint . --ignore-pattern .gitignore",
+    "lint": "eslint . --ignore-path .gitignore",
     "deploy-contract": "node ./bin/deployContract.js store-contract",
     "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo"
   },
