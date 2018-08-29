@@ -1,6 +1,6 @@
 export const ROUTE_URL = {
-  'home': '/',
-  'profile': '/profile'
+  startScreen: '/',
+  profile: '/profile'
 }
 
 // TODO - Change APP_PREFIX to another string

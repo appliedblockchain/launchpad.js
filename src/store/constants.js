@@ -1,0 +1,1 @@
+export const CREATE = 'CREATE_CRYPTOMATERIAL'

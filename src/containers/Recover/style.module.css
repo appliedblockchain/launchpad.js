@@ -1,0 +1,21 @@
+.container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 380px;
+  padding-top: 15%;
+}
+
+.field{
+  width: 100% !important;
+}
+
+
+.buttonSubmit{
+  margin-top: 40px !important;
+  width: 100%;
+}
+
+
