@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import Component from './Recover.js'
+import Component from './LoadMnemonic.js'
 
 export const mapState = ({ router }) => ({
   pathname: router ? router.location.pathname : ''

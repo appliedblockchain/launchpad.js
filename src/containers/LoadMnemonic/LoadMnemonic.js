@@ -49,7 +49,7 @@ CheckboxElement.propTypes = {
   })
 }
 
-class Create extends Component {
+class LoadMnemonic extends Component {
   componentDidMount() {}
   render() {
     const { onCreate, submitting } = this.props
@@ -84,7 +84,7 @@ class Create extends Component {
   }
 }
 
-Create.propTypes = {
+LoadMnemonic.propTypes = {
   onCreate: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired
 }
@@ -92,4 +92,4 @@ Create.propTypes = {
 export default reduxForm({
   form: 'create', // a unique identifier for this form
   validate
-})(Create)
+})(LoadMnemonic)

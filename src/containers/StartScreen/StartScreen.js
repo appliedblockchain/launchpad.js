@@ -7,11 +7,21 @@ import styles from './style.module.css'
 const StartScreen = () => (
   <div className={styles.container}>
     <div>
-      <Button component={Link} to="/create" variant="outlined" color="primary">
-        Create Account
+      <Button
+        component={Link}
+        to="/generate-mnemonic"
+        variant="outlined"
+        color="primary"
+      >
+        GENERATE MNEMONIC
       </Button>
-      <Button component={Link} to="/recover" variant="outlined" color="primary">
-        Recover Account
+      <Button
+        component={Link}
+        to="/load-mnemonmic"
+        variant="outlined"
+        color="primary"
+      >
+        LOAD MNEMONIC
       </Button>
     </div>
   </div>

@@ -7,8 +7,8 @@ import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
 import { Switch } from 'react-router-dom'
 import Profile from 'containers/Profile'
-import Recover from 'containers/Recover'
-import Create from 'containers/Create'
+import LoadMnemonic from 'containers/LoadMnemonic'
+import GenerateMnemonic from 'containers/GenerateMnemonic'
 import { ROUTE_URL } from 'containers/constants.js'
 import config from 'store'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
@@ -33,18 +33,18 @@ const App = () => (
             )}
           />
           <Route
-            path={'/create'}
+            path={'/generate-mnemonic'}
             render={props => (
               <Fragment>
-                <Create {...props} />
+                <GenerateMnemonic {...props} />
               </Fragment>
             )}
           />
           <Route
-            path={'/recover'}
+            path={'/load-mnemonic'}
             render={props => (
               <Fragment>
-                <Recover {...props} />
+                <LoadMnemonic {...props} />
               </Fragment>
             )}
           />
