@@ -1,0 +1,9 @@
+.container {
+
+}
+.container a {
+  display: inline-block;
+  padding: 0 10px;
+  text-align: center;
+}
+
