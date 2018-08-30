@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-// import asyncValidate from './asyncValidate'
+import { Button } from '@material-ui/core'
+
 import styles from './style.module.css'
 
 class GenerateMnemonic extends Component {
@@ -11,9 +12,16 @@ class GenerateMnemonic extends Component {
   render() {
     const { mnemonic } = this.props
     return (
-      <form onSubmit={this.onSubmit} className={styles.container}>
-        mnemonic is {mnemonic}
-      </form>
+      <div className={styles.container}>
+        <div>{mnemonic}</div>
+        <Button
+          onClick={this.props.generateMnemonic}
+          variant="outlined"
+          color="primary"
+        >
+          REGENERATE
+        </Button>
+      </div>
     )
   }
 }

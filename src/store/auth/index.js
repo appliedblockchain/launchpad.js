@@ -16,10 +16,12 @@ export const generateMnemonic = () => ({
   type: GENERATE_MNEMONIC
 })
 
-export const generateMnemonicSuccess = mnemonic => ({
-  type: GENERATE_MNEMONIC_SUCCESS,
-  payload: mnemonic
-})
+export const generateMnemonicSuccess = mnemonic => {
+  return {
+    type: GENERATE_MNEMONIC_SUCCESS,
+    payload: mnemonic
+  }
+}
 
 // Reducer
 const initialState = {

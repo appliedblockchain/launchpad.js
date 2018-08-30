@@ -5,7 +5,7 @@ import { ACTIONS, generateMnemonicSuccess } from '../index'
 
 export function* generateMnemonic() {
   const { GENERATE_MNEMONIC_FAIL } = ACTIONS
-
+  // console.log('here', 'here')
   yield put({
     type: SAGA_WRAPPER_ACTIONS.SAGA_WRAPPER,
     payload: {
@@ -24,7 +24,5 @@ function* watchGenerateMnemonic() {
 }
 
 export default function* rootSaga() {
-  yield all([
-    watchGenerateMnemonic()
-  ])
+  yield all([ watchGenerateMnemonic() ])
 }

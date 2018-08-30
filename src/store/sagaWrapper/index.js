@@ -3,8 +3,13 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects'
 import fullName from 'utils/fullName'
 
+// Action Names
+
 export const ACTIONS = {
-  SAGA_WRAPPER: fullName('sagaWrapper', 'SAGA_WRAPPER')
+  SAGA_WRAPPER: fullName('sagaWrapper', 'SAGA_WRAPPER'),
+  START_LOADING: fullName('app', 'START_LOADING'),
+  STOP_LOADING: fullName('app', 'STOP_LOADING'),
+  SET_ERROR: fullName('app', 'SET_ERROR')
 }
 
 export const defaultOptions = {
@@ -20,6 +25,8 @@ export const defaultOptions = {
   onError: () => {},
   // This function is called with the result if no error was caught and is executed at the very end
   onSuccess: () => {},
+  LOADING_ACTION_START: ACTIONS.START_LOADING,
+  LOADING_ACTION_STOP: ACTIONS.STOP_LOADING,
   ERROR_ACTION: fullName('app', 'SET_ERROR')
 }
 

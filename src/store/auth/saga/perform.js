@@ -6,7 +6,6 @@ export const performEncryptMnemonic = userData => {
 }
 
 export const performGenerateMnemonic = () => {
-  console.log('here', 'here')
   return BPrivacy.generateMnemonicPhrase()
 }
 
