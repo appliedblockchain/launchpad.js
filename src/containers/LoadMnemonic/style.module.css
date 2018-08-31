@@ -11,7 +11,11 @@
 .field{
   width: 100% !important;
 }
-
+.fieldErrors {
+  width: 100% !important;
+  text-align: left;
+  color: #f44336;
+}
 
 .buttonSubmit{
   margin-top: 40px !important;

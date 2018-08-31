@@ -8,14 +8,14 @@
   padding-top: 15%;
 }
 
-.field{
-  width: 100% !important;
+.mnemonic{
+  margin-bottom: 30px;
 }
 
-
-.buttonSubmit{
-  margin-top: 40px !important;
-  width: 100%;
+.regenerate{
+  position: fixed !important;
+  right: 0;
+  bottom: 0;
 }
 
 
