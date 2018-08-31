@@ -7,15 +7,11 @@ import { Route } from 'react-router'
 import { Switch, Redirect } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-
-import { ROUTE_URL } from 'containers/constants.js'
 import config from 'store'
-import GenerateLoadHeader from 'components/GenerateLoadHeader'
+import { ROUTE_URL } from 'containers/constants.js'
+import StartScreen from 'containers/StartScreen'
 import GenerateMnemonic from 'containers/GenerateMnemonic'
 import LoadMnemonic from 'containers/LoadMnemonic'
-
-/* import Header from 'components/Header'
-import styles from './style.module.css' */
 const { store, history } = config
 
 const App = () => (
@@ -23,16 +19,11 @@ const App = () => (
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <Switch>
-          <Route
-            exact
-            path={ROUTE_URL.startScreen}
-            component={GenerateLoadHeader}
-          />
+          <Route exact path={ROUTE_URL.startScreen} component={StartScreen} />
           <Route
             path={'/generate-mnemonic'}
             render={props => (
               <Fragment>
-                <GenerateLoadHeader />
                 <GenerateMnemonic {...props} />
               </Fragment>
             )}
@@ -41,7 +32,6 @@ const App = () => (
             path={'/load-mnemonic'}
             render={props => (
               <Fragment>
-                <GenerateLoadHeader />
                 <LoadMnemonic {...props} />
               </Fragment>
             )}
