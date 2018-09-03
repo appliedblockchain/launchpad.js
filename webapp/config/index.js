@@ -1,0 +1,1 @@
+export const REST_API_LOCATION = process.env.REACT_APP_REST_API_LOCATION
