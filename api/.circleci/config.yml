@@ -1,0 +1,82 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:9
+      - image: appliedblockchain/parity-solo
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
+        entrypoint:
+          - "/parity/parity"
+          - "--config"
+          - "/solo/node.toml"
+
+    working_directory: ~/workspace
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Authorize NPM
+          command: echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > ~/.npmrc
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run:
+          name: Eslint
+          command: npm run lint
+
+      - run:
+          name: Unit tests
+          command: npm run test:ci
+
+  build_docker:
+    docker:
+      - image: circleci/node:9
+    working_directory: ~/workspace
+
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Build docker image
+          command: docker build -t appliedblockchain/base-node-app . \
+            --build-arg NPM_TOKEN="$PRIVATE_NPM_TOKEN" \
+            --build-arg GIT_COMMIT_SHA="$CIRCLE_SHA1" \
+            --build-arg GIT_TAG="$CIRCLE_TAG"
+
+      - run:
+          name: Test docker
+          command: |
+            docker run --name base-node-app -d appliedblockchain/parity-solo
+            docker run \
+              --network container:base-node-app appliedblockchain/base-node-app
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          context: org-global
+      - build_docker:
+          requires:
+            - build
+          context: org-global
+          filters:
+            branches:
+              only: master
+            tags:
+              ignore: /.*/

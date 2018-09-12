@@ -1,0 +1,5 @@
+{
+  "LOG_LEVEL": "debug",
+  "NODE_ENV": "development",
+  "ETHEREUM_JSONRPC_ENDPOINT": "http://localhost:8545"
+}
