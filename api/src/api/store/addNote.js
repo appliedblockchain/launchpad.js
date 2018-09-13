@@ -3,20 +3,20 @@
 const router = require('koa-joi-router')
 const Joi = router.Joi
 
-const handler = async (ctx) => {
-  const { StoreContract } = ctx.contracts
-  const { methods } = StoreContract
+const handler = async ctx => {
+  const { NotesContract } = ctx.contracts
+  const { methods } = NotesContract
 
   const { body } = ctx.request
   const data = JSON.stringify(body)
 
-  const estimatedGasUsage = await methods.set(data).estimateGas()
+  const estimatedGasUsage = await methods.addNote(data).estimateGas()
   try {
-    await methods.set(data).send({
+    await methods.addNote(data).send({
       gas: estimatedGasUsage
     })
 
-    ctx.ok('Data set successfully')
+    ctx.ok('Note saved successfully')
   } catch (error) {
     ctx.badRequest({ error })
   }
@@ -33,6 +33,6 @@ module.exports = {
       }
     }
   },
-  path: '/store',
+  path: '/notes',
   handler
 }

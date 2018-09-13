@@ -1,12 +1,13 @@
 import { all, takeLatest, put, select, call } from 'redux-saga/effects'
 import { performDecryptNotes } from './perform'
+import { REST_API_LOCATION } from '../../../config'
 import { ACTIONS } from '..'
 const { FETCH_NOTES, FETCH_NOTES_SUCCESS, FETCH_NOTES_FAIL } = ACTIONS
 
 export function* fetchNotes(action) {
   try {
     const mnemonic = yield select(state => state.auth.mnemonic)
-    const res = yield call(fetch, 'http://localhost:3030/notes')
+    const res = yield call(fetch, `${REST_API_LOCATION}/notes`)
     const notes = yield call([ res, res.json ])
     const decryptedNotes = performDecryptNotes(mnemonic, notes)
     yield put({

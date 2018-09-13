@@ -1,11 +1,6 @@
 'use strict'
 
-const getValue = require('./getValue')
-const putValue = require('./putValue')
-const getLatestWriter = require('./getLatestWriter')
+const getNotes = require('./getNotes')
+const addNote = require('./addNote')
 
-module.exports = [
-  getValue,
-  putValue,
-  getLatestWriter
-]
+module.exports = [ addNote, getNotes ]

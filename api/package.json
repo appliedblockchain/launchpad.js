@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node ./run",
-    "start:dev": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) nodemon ./run",
+    "start:dev": "nodemon ./run",
     "test": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest",
     "test:watch": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --watch",
     "test:ci": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --ci --forceExit",
@@ -56,6 +56,6 @@
     "koa-compress": "^3.0.0",
     "koa-joi-router": "^5.1.0",
     "koa-respond": "^1.0.1",
-    "web3": "1.0.0-beta.33"
+    "web3": "^1.0.0-beta.33"
   }
 }

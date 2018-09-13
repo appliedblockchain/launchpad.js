@@ -6,9 +6,7 @@ let web3
 
 describe('assignToContext()', () => {
   beforeAll(() => {
-    contracts = [
-      'StoreContract', 'ExampleContract'
-    ]
+    contracts = [ 'NotesContract', 'ExampleContract' ]
     web3 = () => {}
     properties = {
       contracts,

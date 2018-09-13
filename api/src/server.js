@@ -5,21 +5,34 @@ const Koa = require('koa')
 const cors = require('@koa/cors')
 const bodyParser = require('koa-bodyparser')
 const compress = require('koa-compress')
+const fs = require('fs')
+const path = require('path')
 const respond = require('koa-respond')
 const docs = require('@appliedblockchain/koa-docs')
-const abi = require('@appliedblockchain/store-contract-artefacts')
 const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
-const { notFoundHandler, errorHandler, assignToContext } = require('./middleware')
+const {
+  notFoundHandler,
+  errorHandler,
+  assignToContext
+} = require('./middleware')
 const setupWeb3 = require('./setupWeb3')
 const checkContractDeployment = require('./checkContractDeployment')
 const { healthcheck } = require('./healthcheck')
 
-const createServer = async (contractAddress) => {
+const contract = JSON.parse(
+  fs.readFileSync(
+    path.join(__dirname, '../../contracts/build/contracts/Notes.json'),
+    'utf8'
+  )
+)
+const abi = contract.abi
+
+const createServer = async contractAddress => {
   if (!contractAddress) {
     throw new Error(
       'You must run start the server with a valid ' +
-      `contract. Address received: ${contractAddress}`
+        `contract. Address received: ${contractAddress}`
     )
   }
 
@@ -48,7 +61,7 @@ const createServer = async (contractAddress) => {
     logger.debug('Server closing')
   })
 
-  server.on('error', async (error) => {
+  server.on('error', async error => {
     console.log('Error', error)
   })
 
