@@ -8,14 +8,16 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "start": "node ./run",
-    "start:dev": "nodemon ./run",
-    "test": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest",
-    "test:watch": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --watch",
-    "test:ci": "CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract) jest --ci --forceExit",
+    "start": "source ../contracts/exportAddresses.sh && node ./run",
+    "start:dev": "source ../contracts/exportAddresses.sh && nodemon ./run",
+    "test": "source ../contracts/exportAddresses.sh && jest",
+    "test:watch": "source ../contracts/exportAddresses.sh && jest --watch",
+    "test:ci": "source ../contracts/exportAddresses.sh && jest --ci --forceExit",
     "lint": "eslint . --ignore-path .gitignore",
-    "deploy-contract": "node ./bin/deployContract.js store-contract",
-    "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo"
+    "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo",
+    "contract-deploy": "npm run --prefix ../contracts  deploy",
+    "contract-compile": "npm run --prefix ../contracts compile",
+    "contract-export-addresses": "source ../contracts/exportAddresses.sh"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"

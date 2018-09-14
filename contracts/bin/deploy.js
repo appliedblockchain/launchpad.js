@@ -41,9 +41,9 @@ const sendParams = {
     Notes = await Notes.deploy({ arguments: [] }).send(sendParams);
 
     const addresses = `
-export NOTES_ADDRESS="${Notes.options.address}"
+export CONTRACT_ADDRESS="${Notes.options.address}"
 `;
-    const path = join(__dirname, "../../api", "exportAddresses.sh");
+    const path = join(__dirname, "..", "exportAddresses.sh");
     fs.writeFileSync(path, addresses);
     console.log("done:\n", addresses);
     console.log(`addresses saved at ${path}`);
