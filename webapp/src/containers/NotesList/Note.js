@@ -34,7 +34,7 @@ export default class Note extends Component {
             paddingTop: '20px'
           }}
         >
-          <Avatar>{note.autor.slice(0, 2)}</Avatar>
+          <Avatar>{note.author.slice(0, 2)}</Avatar>
           <div
             style={{
               fontSize: '9px',
@@ -43,7 +43,7 @@ export default class Note extends Component {
               textOverflow: 'ellipsis'
             }}
           >
-            {note.autor}
+            {note.author}
           </div>
         </div>
         <Card style={{ width: '100%', margin: '10px 8px' }}>

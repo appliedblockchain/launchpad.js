@@ -2,14 +2,21 @@ pragma experimental ABIEncoderV2;
 pragma solidity ^0.4.18;
 
 contract Notes {
-  string note = '';
+  
+  mapping(uint => string) public notes;
 
-  function addNote(string newNote) public {
-    note = newNote;
+  function Notes (){
+    uint id = 0;
   }
 
-  function getNote() constant public returns (string) {
-    return note;
+  function addNote(string content) public {
+
+    notes[id] = content;
+    id++;
+  }
+
+  function getNote() constant public returns (mapping(uint => string) ) {
+    return notes;
   }
 
 }

@@ -5,8 +5,6 @@ const Koa = require('koa')
 const cors = require('@koa/cors')
 const bodyParser = require('koa-bodyparser')
 const compress = require('koa-compress')
-const fs = require('fs')
-const path = require('path')
 const respond = require('koa-respond')
 const docs = require('@appliedblockchain/koa-docs')
 const { middleware, routes, configureDocs } = require('./router')
@@ -20,12 +18,7 @@ const setupWeb3 = require('./setupWeb3')
 const checkContractDeployment = require('./checkContractDeployment')
 const { healthcheck } = require('./healthcheck')
 
-const contract = JSON.parse(
-  fs.readFileSync(
-    path.join(__dirname, '../../contracts/build/contracts/Notes.json'),
-    'utf8'
-  )
-)
+const contract = require('../contracts/Notes.json')
 const abi = contract.abi
 
 const createServer = async contractAddress => {
@@ -35,7 +28,6 @@ const createServer = async contractAddress => {
         `contract. Address received: ${contractAddress}`
     )
   }
-
   logger.debug('Creating server...')
 
   const { contracts, web3 } = await setupWeb3({ abi, contractAddress })

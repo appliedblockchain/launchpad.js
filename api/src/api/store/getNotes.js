@@ -12,7 +12,7 @@ const handler = async ctx => {
     if (!result) {
       return ctx.ok({ result: [] })
     } else {
-      ctx.ok([ JSON.parse(result) ])
+      ctx.ok(result)
     }
   } catch (error) {
     console.log(error)

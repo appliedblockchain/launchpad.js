@@ -23,7 +23,7 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
   }
   return {
     tag,
-    autor: thisUser.publicKey.toString('hex'),
+    author: thisUser.publicKey.toString('hex'),
     credentials,
     encryptedText: sharedBlob.toString('hex')
   }
