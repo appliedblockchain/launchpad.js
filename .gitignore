@@ -2,3 +2,5 @@
 
 # misc
 .DS_Store
+
+contracts/exportAddresses\.sh

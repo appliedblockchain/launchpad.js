@@ -8,7 +8,8 @@ export function* fetchNotes(action) {
   try {
     const mnemonic = yield select(state => state.auth.mnemonic)
     const res = yield call(fetch, `${REST_API_LOCATION}/notes`)
-    const notes = yield call([ res, res.json ])
+    const parsedResult = yield call([ res, res.json ])
+    const notes = parsedResult.result
     const decryptedNotes = performDecryptNotes(mnemonic, notes)
     yield put({
       type: FETCH_NOTES_SUCCESS,

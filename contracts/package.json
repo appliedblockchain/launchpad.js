@@ -2,7 +2,7 @@
     "name": "base-app-mantle-contracts",
     "scripts": {
         "compile": "truffle compile",
-        "deploy": "node ./bin/deploy && rm -r ../api/contracts/* && cp -f ./build/contracts/*.json ../api/contracts"
+        "deploy": "node ./bin/deploy && rm -fr ../api/contracts/* && cp -f ./build/contracts/*.json ../api/contracts"
     },
     "dependencies": {
         "dotenv": "^6.0.0",

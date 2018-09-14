@@ -1,26 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core'
-import { AccountCircle } from '@material-ui/icons'
+import { AppBar, Toolbar, Button, Typography } from '@material-ui/core'
 
-const UserInfo = ({ publicKey }) => (
+const UserInfo = ({ publicKey, logout }) => (
   <AppBar position="static">
     <Toolbar style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <Typography variant="body2" color="inherit" style={{ fontSize: '9px' }}>
         {publicKey}
       </Typography>
-      <IconButton
-        aria-haspopup="true"
-        onClick={this.handleMenu}
-        color="inherit"
-      >
-        <AccountCircle />
-      </IconButton>
+      <Button color="inherit" onClick={logout}>
+        Logout
+      </Button>
     </Toolbar>
   </AppBar>
 )
 UserInfo.propTypes = {
+  logout: PropTypes.func.isRequired,
   publicKey: PropTypes.string.isRequired
 }
 
