@@ -18,18 +18,7 @@ export const fetchUsers = () => ({
 
 // Reducer
 const initialState = {
-  users: [
-    {
-      name: 'Tiago Gomes',
-      publicKey:
-        '8a98e4a111c88e97109c5e3be6638ac9b11058def58a3d3b5e9503eee8542c34a55220aee97eaeb065d862576a9fcd9eaa1fd91582ed2380c91923bbdbf5412e'
-    },
-    {
-      name: 'Joao Batista',
-      publicKey:
-        '9a98e4a111c88e97109c5e3be6638ac9b11058def58a3d3b5e9503eee8542c34a55220aee97eaeb065d862576a9fcd9eaa1fd91582ed2380c91923bbdbf5412e'
-    }
-  ]
+  users: []
 }
 
 export default (state = initialState, action) => {
