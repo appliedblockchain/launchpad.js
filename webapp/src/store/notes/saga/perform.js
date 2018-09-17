@@ -7,8 +7,8 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
 
   const credentials = {
     [thisUser.publicKey.toString('hex')]: {
-      publicKey: thisUser.publicKey.toString('hex'),
-      sharedSyncKey: thisUserSymetricKey.toString('hex')
+      address: thisUser.address,
+      encSymKey: `0x${thisUserSymetricKey.toString('hex')}`
     }
   }
   for (const publicKey of publicKeys) {
@@ -16,14 +16,14 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
       thisUserSymetricKey,
       Buffer.from(publicKey, 'hex')
     )
-    credentials[publicKey] = {
-      publicKey,
-      sharedSyncKey: currentUserSymetricKey.toString('hex')
+    credentials[thisUser.address] = {
+      address: thisUser.address,
+      encSymKey: `0x${currentUserSymetricKey.toString('hex')}`
     }
   }
   return {
     tag,
-    author: thisUser.publicKey.toString('hex'),
+    author: thisUser.address,
     credentials,
     encryptedText: sharedBlob.toString('hex')
   }
@@ -32,11 +32,11 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
 export const performDecryptNote = (mnemonic, note) => {
   const thisUser = new BPrivacy({ mnemonic })
   const { credentials, encryptedText } = note
-  if (!credentials[thisUser.publicKey.toString('hex')]) {
+  if (!credentials[thisUser.address]) {
     return note
   }
-  const { sharedSyncKey } = credentials[thisUser.publicKey.toString('hex')]
-  const plainText = thisUser.decryptShared(encryptedText, sharedSyncKey)
+  const { encSymKey } = credentials[thisUser.address]
+  const plainText = thisUser.decryptShared(encryptedText, encSymKey.slice(2))
 
   return { ...note, plainText }
 }

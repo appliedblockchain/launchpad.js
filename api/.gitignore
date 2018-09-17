@@ -1,4 +1,9 @@
 build
 node_modules
+
 /contracts/*
-!contracts/.gitignore
+!contracts/.gitkeep
+
+
+
+

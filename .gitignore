@@ -6,3 +6,5 @@
 contracts/exportAddresses\.sh
 
 **/exportAddresses\.sh
+
+!**/.gitkeep
