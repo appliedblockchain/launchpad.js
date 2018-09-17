@@ -1,5 +1,3 @@
-'use strict'
-
 const getNote = require('./getNote')
 const addNote = require('./addNote')
 const getNotesCount = require('./getNotesCount')
