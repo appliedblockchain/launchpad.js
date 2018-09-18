@@ -17,9 +17,7 @@ class NotesList extends Component {
         }}
       >
         {notes.map((note, index) => (
-          <Fragment key={index}>
-            <Note note={note} />
-          </Fragment>
+          <Note key={index} note={note} />
         ))}
       </div>
     )

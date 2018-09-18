@@ -75,7 +75,7 @@ export default class Note extends Component {
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
               {Object.values(note.credentials).map(el => (
-                <Fragment key={el.publicKey}>
+                <Fragment key={el.address}>
                   <Typography
                     paragraph
                     variant="body2"
@@ -86,7 +86,7 @@ export default class Note extends Component {
                       textOverflow: 'ellipsis'
                     }}
                   >
-                    {el.publicKey}
+                    {el.address}
                   </Typography>
                 </Fragment>
               ))}

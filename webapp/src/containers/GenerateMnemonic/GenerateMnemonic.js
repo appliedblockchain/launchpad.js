@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import {
   Button,
   Checkbox,
@@ -8,43 +7,61 @@ import {
   FormLabel,
   FormControl
 } from '@material-ui/core'
-import { createForm, formShape } from 'rc-form'
 
 import styles from './style.module.css'
 
 class GenerateMnemonic extends Component {
+  state = {
+    isChecked: false,
+    isErrorRequiredCheckMnemonic: false
+  }
+
   componentDidMount() {
     const { generateMnemonic } = this.props
     generateMnemonic()
   }
+
   onProceed = ev => {
     ev.preventDefault()
-    this.props.form.validateFields(error => {
-      if (error) {
-        return
-      }
-      const { mnemonic, loadMnemonic } = this.props
-      loadMnemonic(mnemonic)
-    })
+    if (!this.state.isChecked) {
+      this.setState(state => ({
+        isErrorRequiredCheckMnemonic: true
+      }))
+      return
+    }
+    const { mnemonic, loadMnemonic } = this.props
+    loadMnemonic(mnemonic)
   }
+
+  onCheckbox = () => {
+    this.setState(state => ({
+      isChecked: !state.isChecked,
+      isErrorRequiredCheckMnemonic: false
+    }))
+  }
+
   render() {
     const { mnemonic } = this.props
-    const { getFieldDecorator } = this.props.form
+
     return (
       <form onSubmit={this.onProceed} className={styles.container}>
         <div className={styles.mnemonic}>{mnemonic}</div>
-        <FormControl required error={true}>
-          <FormLabel component="legend" />
+        <FormControl required>
           <FormControlLabel
-            required
-            control={getFieldDecorator('checked', {
-              rules: [
-                {
-                  required: true,
-                  message: 'please write down a revovery words!'
-                }
-              ]
-            })(<Checkbox color="primary" />)}
+            labelPlacement="end"
+            control={
+              <Fragment>
+                <Checkbox
+                  color="primary"
+                  name="checkbox"
+                  onChange={this.onCheckbox}
+                />
+                <FormLabel
+                  error={this.state.isErrorRequiredCheckMnemonic}
+                  component="legend"
+                />
+              </Fragment>
+            }
             label="I have written the recovery words"
           />
         </FormControl>
@@ -74,7 +91,6 @@ class GenerateMnemonic extends Component {
 GenerateMnemonic.propTypes = {
   generateMnemonic: PropTypes.func.isRequired,
   loadMnemonic: PropTypes.func.isRequired,
-  mnemonic: PropTypes.string.isRequired,
-  form: formShape
+  mnemonic: PropTypes.string.isRequired
 }
-export default withRouter(createForm()(GenerateMnemonic))
+export default GenerateMnemonic
