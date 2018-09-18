@@ -1,7 +1,6 @@
 'use strict'
 
 const router = require('koa-joi-router')
-const { chunk } = require('lodash')
 const { utils } = require('web3')
 const Joi = router.Joi
 
@@ -18,7 +17,6 @@ const handler = async ctx => {
     for (let i = 0; i < notesNumber; ++i) {
       notesPromises.push(methods.getNote(i.toString()).call())
     }
-
     const notesRaw = await Promise.all(notesPromises)
     const notes = notesRaw.map(noteRaw => {
       const {
@@ -28,16 +26,17 @@ const handler = async ctx => {
         3: addresses,
         4: encKeys
       } = noteRaw
-      const keysArr = chunk(
-        utils.hexToBytes(encKeys),
-        encKeys.length / addresses.length
-      ).map(el => utils.bytesToHex(el))
+      const encKeysBytes = utils.hexToBytes(encKeys)
+      const symKeyLength = encKeysBytes.length / addresses.length
+
       const credentials = {}
       for (let i = 0; i < addresses.length; ++i) {
+        const bottom = symKeyLength * i
+        const upper = bottom + symKeyLength
         const address = addresses[i]
         credentials[address] = {
           address,
-          encSymKey: keysArr[i]
+          encSymKey: utils.bytesToHex(encKeysBytes.slice(bottom, upper))
         }
       }
       return {
@@ -48,7 +47,7 @@ const handler = async ctx => {
         credentials
       }
     })
-    ctx.ok({ result: notes })
+    ctx.ok({ result: notes.reverse() })
   } catch (error) {
     ctx.badRequest({ error })
   }

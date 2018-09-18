@@ -1,7 +1,6 @@
 'use strict'
 
 const router = require('koa-joi-router')
-const { chunk } = require('lodash')
 const { utils } = require('web3')
 const Joi = router.Joi
 
@@ -18,18 +17,20 @@ const handler = async ctx => {
       3: addresses,
       4: encKeys
     } = result
-    const keysArr = chunk(
-      utils.hexToBytes(encKeys),
-      encKeys.length / addresses.length
-    ).map(el => utils.bytesToHex(el))
+    const encKeysBytes = utils.hexToBytes(encKeys)
+    const symKeyLength = encKeysBytes.length / addresses.length
+
     const credentials = {}
     for (let i = 0; i < addresses.length; ++i) {
+      const bottom = symKeyLength * i
+      const upper = bottom + symKeyLength
       const address = addresses[i]
       credentials[address] = {
         address,
-        encSymKey: keysArr[i]
+        encSymKey: utils.bytesToHex(encKeysBytes.slice(bottom, upper))
       }
     }
+
     if (!encryptedText) {
       ctx.status = 404
       return ctx.notFound({ result: null })

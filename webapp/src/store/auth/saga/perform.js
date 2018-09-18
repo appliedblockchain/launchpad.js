@@ -14,6 +14,6 @@ export const performLoadMnemonic = mnemonicString => {
   const { mnemonic, address, publicKey: publicKeyBuffer } = new BPrivacy({
     mnemonic: mnemonicString
   })
-  const publicKey = publicKeyBuffer.toString('hex')
+  const publicKey = `0x${publicKeyBuffer.toString('hex')}`
   return { mnemonic, address, publicKey }
 }

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 
 import { AppBar, Toolbar, Button, Typography } from '@material-ui/core'
 
-const UserInfo = ({ address, logout }) => (
+const UserInfo = ({ publicKey, logout }) => (
   <AppBar position="static">
     <Toolbar style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <Typography variant="body2" color="inherit" style={{ fontSize: '9px' }}>
-        {address}
+        {publicKey}
       </Typography>
       <Button color="inherit" onClick={logout}>
         Logout
@@ -17,7 +17,7 @@ const UserInfo = ({ address, logout }) => (
 )
 UserInfo.propTypes = {
   logout: PropTypes.func.isRequired,
-  address: PropTypes.string.isRequired
+  publicKey: PropTypes.string.isRequired
 }
 
 export default UserInfo

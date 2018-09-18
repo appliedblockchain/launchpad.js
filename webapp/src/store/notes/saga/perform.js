@@ -6,18 +6,23 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
   const [ sharedBlob, thisUserSymetricKey ] = thisUser.encryptShared(text)
 
   const credentials = {
-    [thisUser.publicKey.toString('hex')]: {
+    [thisUser.address]: {
       address: thisUser.address,
       encSymKey: `0x${thisUserSymetricKey.toString('hex')}`
     }
   }
-  for (const publicKey of publicKeys) {
+
+  for (let i = 0; i < publicKeys.length; ++i) {
+    const publicKey = publicKeys[i]
+
     const currentUserSymetricKey = thisUser.shareSecret(
       thisUserSymetricKey,
-      Buffer.from(publicKey, 'hex')
+      Buffer.from(publicKey.slice(2), 'hex')
     )
-    credentials[thisUser.address] = {
-      address: thisUser.address,
+
+    const address = BPrivacy.publicKeyToAddress(publicKey)
+    credentials[address] = {
+      address: address,
       encSymKey: `0x${currentUserSymetricKey.toString('hex')}`
     }
   }
@@ -36,7 +41,7 @@ export const performDecryptNote = (mnemonic, note) => {
     return note
   }
   const { encSymKey } = credentials[thisUser.address]
-  const plainText = thisUser.decryptShared(encryptedText, encSymKey.slice(2))
+  const plainText = thisUser.decryptShared(encryptedText, encSymKey)
 
   return { ...note, plainText }
 }

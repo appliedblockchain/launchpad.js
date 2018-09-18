@@ -2,9 +2,9 @@ import { connect } from 'react-redux'
 import Component from './UserInfo.js'
 import { logout } from 'store/auth'
 
-export const mapState = ({ auth: { address } }) => {
+export const mapState = ({ auth: { publicKey } }) => {
   return {
-    address
+    publicKey
   }
 }
 const mapDispatchToProps = dispatch => {

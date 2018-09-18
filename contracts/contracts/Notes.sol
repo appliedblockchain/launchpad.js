@@ -12,7 +12,7 @@ contract Notes {
         address[] addresses;
         bytes encKeys;
     }
-    mapping (uint => mapping(address => bytes) ) credentials;
+    mapping (uint => mapping(address => bytes) ) encSymKeys;
     mapping (uint => Note) notes;
     
     constructor () public{
