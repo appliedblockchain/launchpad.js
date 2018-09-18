@@ -7,9 +7,16 @@ For a detailed overview of setting up your smart contracts, [see here.](https://
 
 ### Getting started
 
+### Run blockchain network and contract deployment
 You will need to run an instance of parity:
 ```
 npm run parity
+```
+>**Note**  Next commands will run from the `/contracts` folder make sure you had run 
+`cd /contacnt npm i` first. 
+```
+npm run  contract-compile
+npm run contract-deploy
 ```
 
 Then for development, run:
