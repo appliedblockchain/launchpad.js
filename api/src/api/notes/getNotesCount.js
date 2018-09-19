@@ -9,7 +9,6 @@ const handler = async ctx => {
 
   try {
     const result = await methods.getNotesCount().call()
-
     if (!result) {
       return ctx.ok({ result: { count: Number(result) } })
     } else {

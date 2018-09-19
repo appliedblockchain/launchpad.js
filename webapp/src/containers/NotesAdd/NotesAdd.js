@@ -11,15 +11,11 @@ import {
 import styles from './style.module.css'
 
 class NotesAdd extends Component {
-  componentDidMount() {}
-
   addPublicKey = () => {
     const { form } = this.props
-
     const publicKeyIds = form.getFieldValue('publicKeyIds')
     const uuid = crypto.randomBytes(16).toString('hex')
     publicKeyIds[uuid] = uuid
-
     form.setFieldsValue({
       publicKeyIds
     })
@@ -66,12 +62,7 @@ class NotesAdd extends Component {
                 }
               ],
               initialValue: ''
-            })(
-              <Input
-                placeholder="Public key of a user to share note with"
-                className={styles.field}
-              />
-            )}
+            })(<Input placeholder="Public key of a user to share note with" />)}
             <div className={styles.fieldErrors}>
               {getFieldError(`publicKeys[${publicKeyId}]`)
                 ? getFieldError(`publicKeys[${publicKeyId}]`).join(',')
@@ -101,7 +92,6 @@ class NotesAdd extends Component {
           <Input
             label="Note Tag"
             placeholder="Note tag, visible for all users"
-            className={styles.field}
           />
         )}
         <div className={styles.fieldErrors}>

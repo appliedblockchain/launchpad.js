@@ -18,16 +18,14 @@ const handler = async ctx => {
     addresses.push(address)
     keys = [ ...keys, ...utils.hexToBytes(encSymKey) ]
   }
-
+  const keysHex = utils.bytesToHex(keys)
   const estimatedGasUsage = await methods
-    .addNote(tag, encryptedText, author, addresses, utils.bytesToHex(keys))
+    .addNote(tag, encryptedText, author, addresses, keysHex)
     .estimateGas()
   try {
-    await methods
-      .addNote(tag, encryptedText, author, addresses, utils.bytesToHex(keys))
-      .send({
-        gas: estimatedGasUsage
-      })
+    await methods.addNote(tag, encryptedText, author, addresses, keysHex).send({
+      gas: estimatedGasUsage
+    })
 
     ctx.ok('Note saved successfully')
   } catch (error) {

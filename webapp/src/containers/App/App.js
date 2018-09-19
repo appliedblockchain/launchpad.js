@@ -17,6 +17,7 @@ import LoadMnemonic from 'containers/LoadMnemonic'
 import NotesAdd from 'containers/NotesAdd'
 import NotesList from 'containers/NotesList'
 import UserInfo from 'containers/UserInfo'
+import HeaderBack from 'components/HeaderBack'
 
 const { history, persistor } = config
 const NotAuthenticatedRoutes = () => (
@@ -26,6 +27,7 @@ const NotAuthenticatedRoutes = () => (
       path={'/generate-mnemonic'}
       render={props => (
         <Fragment>
+          <HeaderBack />
           <GenerateMnemonic {...props} />
         </Fragment>
       )}
@@ -34,6 +36,7 @@ const NotAuthenticatedRoutes = () => (
       path={'/load-mnemonic'}
       render={props => (
         <Fragment>
+          <HeaderBack />
           <LoadMnemonic {...props} />
         </Fragment>
       )}
