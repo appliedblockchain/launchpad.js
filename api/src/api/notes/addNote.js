@@ -18,7 +18,9 @@ const handler = async ctx => {
     addresses.push(address)
     keys = [ ...keys, ...utils.hexToBytes(encSymKey) ]
   }
+
   const keysHex = utils.bytesToHex(keys)
+  console.log('KEYSHEX', keysHex, keysHex.length)
   const estimatedGasUsage = await methods
     .addNote(tag, encryptedText, author, addresses, keysHex)
     .estimateGas()

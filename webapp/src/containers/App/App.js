@@ -73,12 +73,12 @@ const AuthenticatedRoutes = () => (
   </Switch>
 )
 
-const App = ({ isAuthenteticated }) => {
+const App = ({ authenticated }) => {
   return (
     <PersistGate loading={<div>Loading</div>} persistor={persistor}>
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <ConnectedRouter history={history}>
-          {isAuthenteticated ? (
+          {authenticated ? (
             <AuthenticatedRoutes />
           ) : (
             <NotAuthenticatedRoutes />
@@ -90,7 +90,7 @@ const App = ({ isAuthenteticated }) => {
 }
 
 App.propTypes = {
-  isAuthenteticated: PropTypes.bool.isRequired
+  authenticated: PropTypes.bool.isRequired
 }
 
 export default App

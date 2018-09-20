@@ -1,4 +1,4 @@
-import BPrivacy from '@appliedblockchain/b-privacy'
+import Mantle from '@appliedblockchain/mantle'
 import cryptography from 'utils/cryptography'
 
 export const performEncryptMnemonic = userData => {
@@ -7,13 +7,13 @@ export const performEncryptMnemonic = userData => {
 }
 
 export const performGenerateMnemonic = () => {
-  return BPrivacy.generateMnemonicPhrase()
+  return Mantle.generateMnemonic()
 }
 
 export const performLoadMnemonic = mnemonicString => {
-  const { mnemonic, address, publicKey: publicKeyBuffer } = new BPrivacy({
-    mnemonic: mnemonicString
-  })
-  const publicKey = `0x${publicKeyBuffer.toString('hex')}`
+  const mantle = new Mantle()
+  mantle.loadMnemonic(mnemonicString)
+  const { mnemonic, address } = mantle
+  const publicKey = mantle.getPublicKey('hex0x')
   return { mnemonic, address, publicKey }
 }

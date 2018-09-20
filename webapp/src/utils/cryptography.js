@@ -1,13 +1,15 @@
-import BPrivacy from '@appliedblockchain/b-privacy'
+import Mantle from '@appliedblockchain/mantle'
 
-const encrypt = (toEncrypt, key) => BPrivacy.encryptSymmetric(
+const keccak256 = new Mantle.Web3().utils.keccak256
+
+const encrypt = (toEncrypt, key) => Mantle.encryptSymmetric(
   toEncrypt,
-  BPrivacy.keccak256(Buffer.from(key, 'utf8'))
+  keccak256(Buffer.from(key, 'utf8'))
 )
 
-const decrypt = (toDecrypt, key) => BPrivacy.decryptSymmetric(
+const decrypt = (toDecrypt, key) => Mantle.decryptSymmetric(
   toDecrypt,
-  BPrivacy.keccak256(Buffer.from(key, 'utf8'))
+  keccak256(Buffer.from(key, 'utf8'))
 )
 
 export default {
