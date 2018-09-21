@@ -7,12 +7,14 @@ const Joi = router.Joi
 const handler = async ctx => {
   const { NotesContract } = ctx.contracts
   const { methods } = NotesContract
+
   const {
     body: { tag, encryptedText, author, credentials }
   } = ctx.request
 
   const addresses = []
   let keys = []
+
   for (const key in credentials) {
     const { address, encSymKey } = credentials[key]
     addresses.push(address)
@@ -20,10 +22,11 @@ const handler = async ctx => {
   }
 
   const keysHex = utils.bytesToHex(keys)
-  console.log('KEYSHEX', keysHex, keysHex.length)
+
   const estimatedGasUsage = await methods
     .addNote(tag, encryptedText, author, addresses, keysHex)
     .estimateGas()
+
   try {
     await methods.addNote(tag, encryptedText, author, addresses, keysHex).send({
       gas: estimatedGasUsage

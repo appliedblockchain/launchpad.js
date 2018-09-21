@@ -5,6 +5,7 @@ export const mapState = ({ app, auth: { authenticated } }) => ({
   app,
   authenticated
 })
+
 const mapDispatchToProps = () => {
   return {}
 }
