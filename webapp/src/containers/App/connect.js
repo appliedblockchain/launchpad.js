@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import Component from './App.js'
 
-export const mapState = ({ app, auth: { authenticated } }) => ({
+const mapState = ({ app, auth: { authenticated } }) => ({
   app,
   authenticated
 })

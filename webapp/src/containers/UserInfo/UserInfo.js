@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import styles from './style.module.css'
 import { AppBar, Toolbar, Button, Typography } from '@material-ui/core'
 
 const UserInfo = ({ publicKey, logout }) => (
   <AppBar position="static">
-    <Toolbar style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <Typography variant="body2" color="inherit" style={{ fontSize: '9px' }}>
+    <Toolbar className={styles.toolbar}>
+      <Typography variant="body2" color="inherit" className={styles.pubKey}>
         {publicKey}
       </Typography>
       <Button color="inherit" onClick={logout}>
