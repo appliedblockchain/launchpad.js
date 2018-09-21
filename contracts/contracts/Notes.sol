@@ -12,7 +12,7 @@ contract Notes {
         address[] addresses;
         bytes encKeys;
     }
-    mapping (uint => mapping(address => bytes) ) encSymKeys;
+    mapping (uint => mapping(address => bytes)) encSymKeys;
     mapping (uint => Note) notes;
     
     constructor () public{
@@ -20,11 +20,11 @@ contract Notes {
     }
 
     function addNote(string tag, string content, address author, address[] addresses, bytes encKeys ) public {
-        uint keysNum = encKeys.length/181;
+        uint keysNum = encKeys.length / 188;
         uint addressesLength = addresses.length;
-        assert(encKeys.length%181 == 0 );
-        assert(addressesLength == keysNum );
-        Note memory note = Note( {tag:tag, encryptedText:content, author: author, addresses: addresses, encKeys: encKeys  });
+        assert(encKeys.length % 188 == 0);
+        assert(addressesLength == keysNum);
+        Note memory note = Note({ tag: tag, encryptedText: content, author: author, addresses: addresses, encKeys: encKeys });
         notes[notesCount] = note;
         notesCount++;
     }

@@ -17,6 +17,7 @@ const handler = async ctx => {
     for (let i = 0; i < notesNumber; ++i) {
       notesPromises.push(methods.getNote(i.toString()).call())
     }
+
     const notesRaw = await Promise.all(notesPromises)
     const notes = notesRaw.map(noteRaw => {
       const {
@@ -26,6 +27,7 @@ const handler = async ctx => {
         3: addresses,
         4: encKeys
       } = noteRaw
+
       const encKeysBytes = utils.hexToBytes(encKeys)
       const symKeyLength = encKeysBytes.length / addresses.length
 
@@ -34,11 +36,13 @@ const handler = async ctx => {
         const bottom = symKeyLength * i
         const upper = bottom + symKeyLength
         const address = addresses[i]
+
         credentials[address] = {
           address,
           encSymKey: utils.bytesToHex(encKeysBytes.slice(bottom, upper))
         }
       }
+
       return {
         tag,
         encryptedText,

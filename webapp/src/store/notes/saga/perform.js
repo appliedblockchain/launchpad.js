@@ -8,7 +8,7 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
 
   const symmetricKey = Mantle.createSymmetricKey()
   const encryptedNote = Mantle.encryptSymmetric(text, symmetricKey)
-  const encryptedSymmetricKey = Mantle.encrypt(bufferToHex0x(symmetricKey), author.publicKey)
+  const encryptedSymmetricKey = Mantle.encrypt(symmetricKey, author.publicKey)
 
   const credentials = {
     [author.address]: {
@@ -19,7 +19,7 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
 
   for (let i = 0; i < publicKeys.length; ++i) {
     const publicKey = publicKeys[i]
-    const encryptedSymmetricKey = Mantle.encrypt(bufferToHex0x(symmetricKey), publicKey)
+    const encryptedSymmetricKey = Mantle.encrypt(symmetricKey, publicKey)
 
     const address = publicKeyToAddress(publicKey)
     credentials[address] = {
