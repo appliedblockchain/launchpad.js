@@ -1,6 +1,10 @@
 .container {
-  margin: 0 auto;
+  background: #f9f9f9;
+  margin: 60px auto;
+  align-items: center;
   max-width: 540px;
+  padding: 30px;
+  color: #5d5d5d;
 }
 
 .addressLabel {

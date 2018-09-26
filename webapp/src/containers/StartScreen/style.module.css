@@ -1,14 +1,19 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  padding-top: 15%;
+  text-align: center;
+  min-height: 100vh;
 }
 
 .container a {
   text-align: center;
   display: block;
   width: 200px;
-  margin: 10px 4px;
+}
+
+.container a:first-child {
+  margin-bottom: 15px;
 }
 

@@ -47,6 +47,11 @@ export CONTRACT_ADDRESS="${Notes.options.address}"
     fs.writeFileSync(path, addresses);
     console.log("done:\n", addresses);
     console.log(`addresses saved at ${path}`);
+
+    const appPath = join(__dirname, "../../webapp/src/contracts/exportAddresses.sh");
+    fs.writeFileSync(appPath, addresses);
+    console.log("done:\n", addresses);
+    console.log(`addresses saved at ${appPath}`);
   } catch (err) {
     if (err.message === 'Invalid JSON RPC response: ""') {
       console.error("Error: Unable to connect to network, is parity running?");

@@ -52,8 +52,8 @@ class NotesAdd extends Component {
     const keys = getFieldValue('publicKeyIds')
     return Object.values(keys).map(publicKeyId => {
       return (
-        <div key={publicKeyId} style={{ display: 'flex' }}>
-          <div style={{ flex: 1 }}>
+        <div key={publicKeyId} className={styles.flex}>
+          <div className={styles.flex1}>
             {getFieldDecorator(`publicKeys[${publicKeyId}]`, {
               rules: [
                 {
@@ -62,7 +62,7 @@ class NotesAdd extends Component {
                 }
               ],
               initialValue: ''
-            })(<Input placeholder="Public key of a user to share note with" />)}
+            })(<Input className={styles.pubKey} placeholder="Public key of a user to share note with" />)}
             <div className={styles.fieldErrors}>
               {getFieldError(`publicKeys[${publicKeyId}]`)
                 ? getFieldError(`publicKeys[${publicKeyId}]`).join(',')
@@ -72,7 +72,7 @@ class NotesAdd extends Component {
           <IconButton onClick={() => this.removePublicKey(publicKeyId)}>
             <IndeterminateCheckBoxIcon
               color="primary"
-              style={{ fontSize: '38px' }}
+              className={styles.checkboxIcon}
             />
           </IconButton>
         </div>
@@ -118,9 +118,9 @@ class NotesAdd extends Component {
           Provide public keys of users which you want to share note with
         </FormLabel>
         {this.renderPublicKeysFields()}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div className={styles.addContainer}>
           <IconButton onClick={this.addPublicKey}>
-            <AddBoxIcon color="primary" style={{ fontSize: '38px' }} />
+            <AddBoxIcon color="primary" className={styles.checkboxIcon} />
           </IconButton>
         </div>
 

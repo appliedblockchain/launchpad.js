@@ -5,8 +5,11 @@ import { REST_API_LOCATION } from '../../../config'
 import { ACTIONS } from '..'
 import contract from '../../../contracts/Notes.json'
 
+const address = process.env.CONTRACT_ADDRESS
+console.log('**********', process.env)
+console.log('ADDRESS', address)
+
 const { abi, contractName } = contract
-const address = '0x1007442DE997416974bB79bBFb4A4395aB9fcC8a'
 const { ADD_NOTE, ADD_NOTE_SUCCESS, ADD_NOTE_FAIL } = ACTIONS
 
 export function* addNote(action) {
@@ -19,6 +22,7 @@ export function* addNote(action) {
       abi,
       address
     })
+    console.log('MANTLE CONTRACT', mantle.contracts[contractName])
 
     const { tag, text, publicKeys } = action.payload
     const encryptedNote = performEncryptNote(mnemonic, tag, text, publicKeys)
