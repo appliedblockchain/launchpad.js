@@ -1,36 +1,14 @@
 'use strict'
 
 const router = require('koa-joi-router')
-const { utils } = require('web3')
 const Joi = router.Joi
 
 const handler = async ctx => {
-  const { NotesContract } = ctx.contracts
-  const { methods } = NotesContract
-
-  const {
-    body: { tag, encryptedText, author, credentials }
-  } = ctx.request
-
-  const addresses = []
-  let keys = []
-
-  for (const key in credentials) {
-    const { address, encSymKey } = credentials[key]
-    addresses.push(address)
-    keys = [ ...keys, ...utils.hexToBytes(encSymKey) ]
-  }
-
-  const keysHex = utils.bytesToHex(keys)
-
-  const estimatedGasUsage = await methods
-    .addNote(tag, encryptedText, author, addresses, keysHex)
-    .estimateGas()
+  const { web3 } = ctx
 
   try {
-    await methods.addNote(tag, encryptedText, author, addresses, keysHex).send({
-      gas: estimatedGasUsage
-    })
+    const { rawTransaction } = ctx.request.body
+    await web3.eth.sendSignedTransaction(rawTransaction)
 
     ctx.ok('Note saved successfully')
   } catch (error) {
