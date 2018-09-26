@@ -1,4 +1,5 @@
 import Mantle from '@appliedblockchain/mantle'
+import { utils } from 'web3'
 
 const { bufferToHex0x, publicKeyToAddress } = Mantle.utils
 
@@ -28,7 +29,11 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
     }
   }
 
+  const { addresses, keysHex } = buildAddressesAndKeys(credentials)
+
   return {
+    addresses,
+    keysHex,
     credentials,
     tag,
     author: author.address,
@@ -55,3 +60,16 @@ export const performDecryptNote = (mnemonic, note) => {
 export const performDecryptNotes = (mnemonic, notes) => (
   notes.map(note => performDecryptNote(mnemonic, note))
 )
+
+function buildAddressesAndKeys (credentials) {
+  const addresses = []
+  let keys = []
+
+  for (const key in credentials) {
+    const { address, encSymKey } = credentials[key]
+    addresses.push(address)
+    keys = [ ...keys, ...utils.hexToBytes(encSymKey) ]
+  }
+
+  return { addresses, keysHex: utils.bytesToHex(keys) }
+}
