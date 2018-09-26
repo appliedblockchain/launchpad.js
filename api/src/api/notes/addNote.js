@@ -12,6 +12,7 @@ const handler = async ctx => {
 
     ctx.ok('Note saved successfully')
   } catch (error) {
+    console.log('ERR', error)
     ctx.badRequest({ error })
   }
 }

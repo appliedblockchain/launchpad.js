@@ -1,21 +1,26 @@
 .container {
-  margin: 0 auto;
+  background: #f9f9f9;
+  margin: 60px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 380px;
-  padding-top: 15%;
+  max-width: 540px;
+  padding: 30px;
+  color: #5d5d5d;
 }
 
 .mnemonic{
   margin-bottom: 30px;
 }
 
-.regenerate{
-  position: fixed !important;
-  right: 0;
-  bottom: 0;
+.proceed {
+  width: 100%;
+}
+
+.regenerate {
+  width: 100%;
+  margin-bottom: 15px !important;
 }
 
 

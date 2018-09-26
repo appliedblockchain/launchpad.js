@@ -10,6 +10,7 @@ export function* fetchNotes(action) {
     const res = yield call(fetch, `${REST_API_LOCATION}/notes`)
     const parsedResult = yield call([ res, res.json ])
     const notes = parsedResult.result
+    console.log('NOTES', notes)
     const decryptedNotes = performDecryptNotes(mnemonic, notes)
 
     yield put({
