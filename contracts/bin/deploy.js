@@ -46,10 +46,10 @@ const sendParams = {
     console.log("done:\n", addresses);
     console.log(`addresses saved at ${path}`);
 
-    const appEnvs = `REACT_APP_REST_API_LOCATION=//localhost:8080/api\nREACT_APP_CONTRACT_ADDRESS="${Notes.options.address}"`
-    const appPath = join(__dirname, "../../webapp/.env");
-    fs.writeFileSync(appPath, appEnvs);
-    console.log("done:\n", addresses);
+    const contractAddress = `export REACT_APP_CONTRACT_ADDRESS="${Notes.options.address}"`;
+    const appPath = join(__dirname, "../../webapp/src/contracts/contractAddress.sh");
+    fs.writeFileSync(appPath, contractAddress);
+    console.log("done:\n", contractAddress);
     console.log(`addresses saved at ${appPath}`);
   } catch (err) {
     if (err.message === 'Invalid JSON RPC response: ""') {
