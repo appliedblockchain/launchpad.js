@@ -29,6 +29,12 @@ export function* addNote(action) {
       params: [ tag, encryptedText, author, addresses, keysHex ]
     })
 
+    /* NOTE:
+      Mantle contains a proxy server that can send signed transactions itself.
+      It may be worth considering simply running an instance of the server, calling
+      the mantle.sendSignedTransaction method and removing the `addNote` endpoint in
+      base-app entirely
+    */
     yield call(fetch, `${REST_API_LOCATION}/notes`, {
       method: 'POST',
       headers: {

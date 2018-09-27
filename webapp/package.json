@@ -23,9 +23,9 @@
     "sass-loader": "^7.1.0"
   },
   "scripts": {
-    "start": "NODE_PATH=./src react-app-rewired start",
+    "start": "NODE_PATH=./src source ./src/contracts/contractAddress.sh && react-app-rewired start",
     "build": "NODE_PATH=./src react-app-rewired build",
-    "test": "NODE_PATH=./src react-scripts test --env=jsdom",
+    "test": "NODE_PATH=./src source ./src/contracts/contractAddress.sh && react-scripts test --env=jsdom",
     "test:ci": "CI=true NODE_PATH=./src react-app-rewired test --env=jsdom --testResultsProcessor='jest-multi-test-result-processor' --coverage",
     "lint": "eslint ./src --cache --ignore-path .gitignore",
     "lint:ci": "npm run lint -- --format junit --output-file reports/junit/eslint-results.xml",
