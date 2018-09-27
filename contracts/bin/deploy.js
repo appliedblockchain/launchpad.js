@@ -21,12 +21,6 @@ contractsFilenames.forEach(file => {
   }
 });
 
-const from = process.env.FROM || "0x1F2e5282481C07BC8B7b07E53Bc3EF6A8012D6b7"; // default from for parity-solo
-
-const sendParams = {
-  from,
-  gas: 50000000
-};
 
 (async () => {
   const web3 = new Web3(
@@ -36,21 +30,31 @@ const sendParams = {
   );
 
   try {
+    const coinbase = await web3.eth.getCoinbase()
+
+    // const from = process.env.FROM || "0x1F2e5282481C07BC8B7b07E53Bc3EF6A8012D6b7"; // default from for parity-solo
+    const from = process.env.FROM || coinbase; // default from for parity-solo
+
+    const sendParams = {
+      from,
+      gas: 50000000
+    };
+    
     const { abi, bytecode } = contracts.Notes;
     let Notes = new web3.eth.Contract(abi, { from, data: bytecode });
     Notes = await Notes.deploy({ arguments: [] }).send(sendParams);
 
     const addresses = `export CONTRACT_ADDRESS="${Notes.options.address}"`;
-    const path = join(__dirname, "..", "exportAddresses.sh");
+    const path = join(__dirname, "../../api/contracts/exportAddresses.sh");
     fs.writeFileSync(path, addresses);
     console.log("done:\n", addresses);
     console.log(`addresses saved at ${path}`);
 
-    const contractAddress = `export REACT_APP_CONTRACT_ADDRESS="${Notes.options.address}"`;
-    const appPath = join(__dirname, "../../webapp/src/contracts/contractAddress.sh");
-    fs.writeFileSync(appPath, contractAddress);
-    console.log("done:\n", contractAddress);
-    console.log(`addresses saved at ${appPath}`);
+    // const contractAddress = `export REACT_APP_CONTRACT_ADDRESS="${Notes.options.address}"`;
+    // const appPath = join(__dirname, "../../react/src/contracts/exportAddresses.sh");
+    // fs.writeFileSync(appPath, contractAddress);
+    // console.log("done:\n", contractAddress);
+    // console.log(`addresses saved at ${appPath}`);
   } catch (err) {
     if (err.message === 'Invalid JSON RPC response: ""') {
       console.error("Error: Unable to connect to network, is parity running?");

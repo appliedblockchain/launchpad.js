@@ -1,0 +1,115 @@
+version: "3.6"
+
+networks:
+  main:
+    attachable: true
+  static:
+  # parity: # TODO
+
+services:
+  api:
+    image: appliedblockchain/mantle-api:latest
+    build:
+      context: .
+      dockerfile: Dockerfile-api
+      args:
+        - NPM_TOKEN
+    environment:
+      - NODE_ENV=staging
+    networks:
+      - main
+    ports:
+      - 3000:3000
+    depends_on:
+      - parity1
+      - redis
+    deploy: &deploy_defaults
+      mode: global
+      update_config:
+        parallelism: 3
+        delay: 1s
+      restart_policy:
+        condition: on-failure
+
+  react:
+    image: appliedblockchain/mantle-react:latest
+    build:
+      context: ./react
+      args:
+        - NPM_TOKEN
+    ports:
+      - 80:80
+    networks:
+      - static
+    deploy:
+      <<: *deploy_defaults
+
+  redis:
+    image: redis
+    networks:
+      - main
+    deploy:
+      <<: *deploy_defaults
+
+  # from parity-deploy
+
+  parity1:
+    build:
+      context: ./stack
+      dockerfile: Dockerfile-parity
+      args:
+        PARITY_ID: 1
+    networks:
+    - main
+    ports:
+    - 8180:8180
+    - 8545:8545
+    - 8546:8546
+    - 30303:30303
+    image: appliedblockchain/mantle-parity1:latest
+    volumes:
+    - parity1_data:/parity/data
+    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
+  parity2:
+    build:
+      context: ./stack
+      dockerfile: Dockerfile-parity
+      args:
+        PARITY_ID: 2
+    networks:
+    - main
+    image: appliedblockchain/mantle-parity2:latest
+    volumes:
+    - parity2_data:/parity/data
+    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
+  parity3:
+    build:
+      context: ./stack
+      dockerfile: Dockerfile-parity
+      args:
+        PARITY_ID: 3
+    networks:
+    - main
+    image: appliedblockchain/mantle-parity3:latest
+    volumes:
+    - parity3_data:/parity/data
+    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
+
+  # explorer:
+  #   image: appliedblockchain/b-explorer
+  #   # Use if connecting to a localhost node (ETHEREUM_JSONRPC_ENDPOINT=http://localhost:8545)
+  #   # network_mode: host
+  #   depends_on:
+  #     - parity1
+  #   volumes:
+  #     - ./contracts/explorer:/home/explorer/config:ro
+  #   ports:
+  #     - 9000:3000
+  #   environment:
+  #     - ETHEREUM_JSONRPC_ENDPOINT=http://parity1:8545
+  #     - CONFIG_FILE_PATH=/home/explorer/config/config.json
+
+volumes:
+  parity1_data:
+  parity2_data:
+  parity3_data:

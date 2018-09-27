@@ -4,6 +4,7 @@ const router = require('koa-joi-router')
 const Joi = router.Joi
 
 const handler = async ctx => {
+  console.log('CONTEXT', ctx.request.body)
   const { web3 } = ctx
 
   try {

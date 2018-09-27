@@ -1,0 +1,6 @@
+{
+  "PORT": 3000,
+  "NODE_ENV": "staging",
+  // "ETHEREUM_JSONRPC_ENDPOINT": "ws://parity1:8546"
+  "ETHEREUM_JSONRPC_ENDPOINT": "http://parity1:8545"
+}

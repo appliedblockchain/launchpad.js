@@ -8,7 +8,7 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "start": "source ../contracts/exportAddresses.sh && node ./run",
+    "start": "source ./contracts/exportAddresses.sh && node ./run",
     "start:dev": "source ../contracts/exportAddresses.sh && nodemon ./run",
     "test": "source ../contracts/exportAddresses.sh && jest",
     "test:watch": "source ../contracts/exportAddresses.sh && jest --watch",

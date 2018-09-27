@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "consul": "^0.34.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "@appliedblockchain/eslint-config": "^2.2.0"
+  },
+  "scripts": {
+    "start": "node ./contract-addresses read"
+  },
+  "eslintConfig": {
+    "extends": "@appliedblockchain/eslint-config",
+    "globals": {
+      "def": true
+    }
+  }
+}
