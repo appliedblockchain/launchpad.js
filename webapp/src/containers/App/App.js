@@ -20,6 +20,7 @@ import UserInfo from 'containers/UserInfo'
 import HeaderBack from 'components/HeaderBack'
 
 const { history, persistor } = config
+
 const NotAuthenticatedRoutes = () => (
   <Switch>
     <Route exact path={ROUTE_URL.startScreen} component={StartScreen} />
