@@ -22,7 +22,7 @@ npm run contract-deploy
 Then for development, run:
 ```
 npm i
-npm run start:dev
+npm run start
 ```
 For details of how the contract is auto-deployed, please check the npm scripts in package.json.
 

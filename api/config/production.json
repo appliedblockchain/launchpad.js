@@ -1,4 +1,5 @@
 {
   "PORT": 80,
-  "NODE_ENV": "production"
+  "NODE_ENV": "production",
+  "ETHEREUM_JSONRPC_ENDPOINT": "http://parity1:8545"
 }

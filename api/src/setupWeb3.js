@@ -15,7 +15,6 @@ const setupWeb3 = async ({
   ethereumClientAddress = ETHEREUM_JSONRPC_ENDPOINT
 }) => {
   const web3 = new Web3(ethereumClientAddress)
-
   const NotesContract = new web3.eth.Contract(abi, contractAddress)
   NotesContract.options.from = await getFromAddress(web3)
 

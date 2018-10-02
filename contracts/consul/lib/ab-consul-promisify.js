@@ -1,7 +1,6 @@
 const { resolveCallback } = require('./ab-consul-callbacks')
 
 module.exports = (consul) => {
-
   const getPeers = () => (
     new Promise((resolve, reject) => {
       consul.status.peers(resolveCallback(resolve, reject)())

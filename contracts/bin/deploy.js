@@ -21,7 +21,6 @@ contractsFilenames.forEach(file => {
   }
 });
 
-
 (async () => {
   const web3 = new Web3(
     new Web3.providers.HttpProvider(
@@ -31,8 +30,6 @@ contractsFilenames.forEach(file => {
 
   try {
     const coinbase = await web3.eth.getCoinbase()
-
-    // const from = process.env.FROM || "0x1F2e5282481C07BC8B7b07E53Bc3EF6A8012D6b7"; // default from for parity-solo
     const from = process.env.FROM || coinbase; // default from for parity-solo
 
     const sendParams = {
@@ -49,12 +46,6 @@ contractsFilenames.forEach(file => {
     fs.writeFileSync(path, addresses);
     console.log("done:\n", addresses);
     console.log(`addresses saved at ${path}`);
-
-    // const contractAddress = `export REACT_APP_CONTRACT_ADDRESS="${Notes.options.address}"`;
-    // const appPath = join(__dirname, "../../react/src/contracts/exportAddresses.sh");
-    // fs.writeFileSync(appPath, contractAddress);
-    // console.log("done:\n", contractAddress);
-    // console.log(`addresses saved at ${appPath}`);
   } catch (err) {
     if (err.message === 'Invalid JSON RPC response: ""') {
       console.error("Error: Unable to connect to network, is parity running?");

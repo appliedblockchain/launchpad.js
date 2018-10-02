@@ -2,24 +2,30 @@
 
 set -ex
 
-# cd /contracts/consul && node consul-lock try-acquire "$(whoami)"
+cd /contracts/consul
 
-# cd /contracts/consul && node consul-lock check "$(whoami)"
+# All nodes will attempt to acquire a lock. The last node to acquire
+# the lock is elected as leader
+HOST=$(echo "$HOSTNAME")
+node consul-lock try-acquire "$HOST"
+sleep 5
+LEADER=$(node consul-lock check)
 
-cd /contracts && PROVIDER=http://parity1:8545 node ./bin/deploy.js
+if [ "$HOST" = $LEADER ]; then
+    cd /contracts && PROVIDER=http://parity1:8545 node ./bin/deploy.js
+    CONTRACT_ADDRESSES=$(cat /api/contracts/exportAddresses.sh)
+    cd /contracts/consul
+    node contract-addresses write "$CONTRACT_ADDRESSES"
+else
+    while [ $(node consul-lock check) = "$LEADER" ]
+    do
+        sleep 5
+    done
+fi
 
-CONTRACT_ADDRESSES=$(cat /api/contracts/exportAddresses.sh)
-
-cd /contracts/consul && node contract-addresses write "$CONTRACT_ADDRESSES"
-
-sleep $(((RANDOM % 5) + 1))
-
-echo "----------------------------"
-
-cd /contracts/consul && node contract-addresses read > /api/contracts/exportAddresses.sh
-
-cat  /api/contracts/exportAddresses.sh
-
+# Leader has finished deploying contract addresses - we can read contract addresses from consul and initialise
+cd /contracts/consul
+node contract-addresses read > /api/contracts/exportAddresses.sh
+cat /api/contracts/exportAddresses.sh
 cd /api
-
 npm start

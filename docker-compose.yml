@@ -4,7 +4,6 @@ networks:
   main:
     attachable: true
   static:
-  # parity: # TODO
 
 services:
   api:
@@ -39,6 +38,8 @@ services:
         - NPM_TOKEN
     ports:
       - 80:80
+    depends_on:
+      - api
     networks:
       - static
     deploy:
@@ -50,8 +51,6 @@ services:
       - main
     deploy:
       <<: *deploy_defaults
-
-  # from parity-deploy
 
   parity1:
     build:

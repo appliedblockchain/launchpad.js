@@ -31,7 +31,7 @@ const createServer = async contractAddress => {
   logger.debug('Creating server...')
 
   const { contracts, web3 } = await setupWeb3({ abi, contractAddress })
-  await checkContractDeployment(web3, contractAddress)
+  await checkContractDeployment(web3, contractAddress, contract.contractName)
 
   const app = new Koa()
 

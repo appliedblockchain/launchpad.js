@@ -29,22 +29,28 @@ class NotesAdd extends Component {
       publicKeyIds
     })
   }
+
   onSubmit = ev => {
     ev.preventDefault()
-    this.props.form.validateFields((error, { tag, text, publicKeys }) => {
+    const { addNote, form } = this.props
+
+    form.validateFields((error, { tag, text, publicKeys }) => {
       if (error) {
+        console.log('form validation error', error)
         return
       }
-      const { addNote } = this.props
+
       const uniquePublicKeys = [
         ...new Set(Object.values(publicKeys || {}))
       ].map(key => key.trim())
+
       addNote(tag, text, uniquePublicKeys)
 
       // temporary solution
-      this.props.form.resetFields()
+      form.resetFields()
     })
   }
+
   renderPublicKeysFields = () => {
     const { getFieldDecorator, getFieldValue, getFieldError } = this.props.form
     getFieldDecorator('publicKeyIds', { initialValue: {} })
@@ -79,6 +85,7 @@ class NotesAdd extends Component {
       )
     })
   }
+
   render() {
     const { getFieldDecorator, getFieldError } = this.props.form
 

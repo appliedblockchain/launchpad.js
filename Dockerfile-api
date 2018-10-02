@@ -39,8 +39,8 @@ WORKDIR /api
 RUN cd /api && npm install --only=production
 RUN cd /contracts && npm install --only=production
 
-COPY ./api        /api
-COPY ./contracts  /contracts
+COPY ./api /api
+COPY ./contracts /contracts
 
 EXPOSE 3000
 

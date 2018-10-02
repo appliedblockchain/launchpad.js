@@ -2,7 +2,7 @@
     "name": "base-app-mantle-contracts",
     "scripts": {
         "compile": "truffle compile",
-        "deploy": "node ./bin/deploy && rm -fr ../api/contracts/*.json && rm -fr ../webapp/src/contracts/*.json && cp -f ./build/contracts/*.json ../api/contracts && cp -f ./build/contracts/*.json ../webapp/src/contracts",
+        "deploy": "node ./bin/deploy && rm -fr ../api/contracts/*.json && cp -f ./build/contracts/*.json ../api/contracts",
         "export-addresses": "source ./exportAddresses.sh"
     },
     "dependencies": {

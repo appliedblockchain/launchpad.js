@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@appliedblockchain/mantle": "^1.0.7",
+    "@appliedblockchain/mantle": "^1.0.10",
     "@material-ui/core": "^3.1.2",
     "@material-ui/icons": "^3.0.1",
     "classnames": "^2.2.5",
@@ -23,9 +23,11 @@
     "sass-loader": "^7.1.0"
   },
   "scripts": {
-    "start": "NODE_PATH=./src source ./src/contracts/exportAddresses.sh && react-app-rewired start",
+    "start": "NODE_PATH=./src react-app-rewired start",
+    "start:staging": "NODE_PATH=./src sh -ac '. .env.staging; react-app-rewired start'",
     "build": "NODE_PATH=./src react-app-rewired build",
-    "test": "NODE_PATH=./src source ./src/contracts/exportAddresses.sh && react-scripts test --env=jsdom",
+    "build:staging": "NODE_PATH=./src sh -ac '. .env.staging; react-app-rewired build'",
+    "test": "NODE_PATH=./src react-scripts test --env=jsdom",
     "test:ci": "CI=true NODE_PATH=./src react-app-rewired test --env=jsdom --testResultsProcessor='jest-multi-test-result-processor' --coverage",
     "lint": "eslint ./src --cache --ignore-path .gitignore",
     "lint:ci": "npm run lint -- --format junit --output-file reports/junit/eslint-results.xml",

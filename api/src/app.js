@@ -11,7 +11,7 @@ const runApp = contractAddress => {
     app =>
       app.listen(PORT, err => {
         assert(!err, err)
-        console.log('Contract deployed at ', contractAddress)
+        console.log(`Contract deployed at ${contractAddress}`)
         console.log(`Docs available at http://localhost:${PORT}/docs`)
         logger.debug(`Server listening on ${PORT} in ${NODE_ENV} mode`)
       }),
