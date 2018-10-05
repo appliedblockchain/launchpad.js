@@ -11,6 +11,7 @@ export function* fetchNotes(action) {
     const parsedResult = yield call([ res, res.json ])
     const notes = parsedResult.result
     const decryptedNotes = performDecryptNotes(mnemonic, notes)
+
     yield put({
       type: FETCH_NOTES_SUCCESS,
       payload: decryptedNotes

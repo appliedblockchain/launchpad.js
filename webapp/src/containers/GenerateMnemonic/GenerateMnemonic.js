@@ -66,15 +66,6 @@ class GenerateMnemonic extends Component {
           />
         </FormControl>
         <Button
-          variant="outlined"
-          color="primary"
-          type="submit"
-          style={{ width: '100%' }}
-        >
-          Proceed
-        </Button>
-
-        <Button
           onClick={this.props.generateMnemonic}
           type="button"
           variant="outlined"
@@ -82,6 +73,14 @@ class GenerateMnemonic extends Component {
           className={styles.regenerate}
         >
           REGENERATE
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          type="submit"
+          className={styles.proceed}
+        >
+          Proceed
         </Button>
       </form>
     )

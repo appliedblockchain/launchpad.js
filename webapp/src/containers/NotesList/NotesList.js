@@ -10,6 +10,11 @@ class NotesList extends Component {
 
   render() {
     const { notes } = this.props
+
+    if (!notes.length) {
+      return null
+    }
+
     return (
       <div className={styles.container}>
         {notes.map((note, index) => (
