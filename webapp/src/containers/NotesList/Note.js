@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import styles from './style.module.css'
 
 import {
   Card,
@@ -10,6 +11,7 @@ import {
   CardActions,
   IconButton
 } from '@material-ui/core'
+
 import {
   ExpandMore as ExpandMoreIcon,
   ExpandLess as ExpandLessIcon
@@ -19,34 +21,22 @@ export default class Note extends Component {
   state = {
     expanded: false
   }
+
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }))
   }
+
   render() {
     const { note } = this.props
     return (
-      <div style={{ display: 'flex' }}>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            flexDirection: 'column',
-            paddingTop: '20px'
-          }}
-        >
+      <div className={styles.displayFlex}>
+        <div className={styles.cardContainer}>
           <Avatar>{note.author.slice(0, 2)}</Avatar>
-          <div
-            style={{
-              fontSize: '9px',
-              maxWidth: '70px',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}
-          >
+          <div className={styles.addressLabel}>
             {note.author}
           </div>
         </div>
-        <Card style={{ width: '100%', margin: '10px 8px' }}>
+        <Card className={styles.card}>
           <CardContent>
             <Typography variant="headline" component="h3">
               {note.tag}
@@ -57,14 +47,14 @@ export default class Note extends Component {
               <Typography
                 variant="headline"
                 component="h4"
-                style={{ color: 'red' }}
+                className={styles.notShared}
               >
                 THIS NOTE WAS NOT SHARED WITH YOU
               </Typography>
             )}
           </CardContent>
           <CardActions
-            style={{ display: 'flex', justifyContent: 'flex-end' }}
+            className={styles.cardAction}
             disableActionSpacing
           >
             <span>Shared with</span>
@@ -79,12 +69,7 @@ export default class Note extends Component {
                   <Typography
                     paragraph
                     variant="body2"
-                    style={{
-                      fontSize: '9px',
-                      maxWidth: '100%',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis'
-                    }}
+                    className={styles.note}
                   >
                     {el.address}
                   </Typography>

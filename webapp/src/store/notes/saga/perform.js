@@ -1,51 +1,57 @@
-import BPrivacy from '@appliedblockchain/b-privacy'
+import Mantle from '@appliedblockchain/mantle'
+
+const { bufferToHex0x, publicKeyToAddress } = Mantle.utils
 
 export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
-  const thisUser = new BPrivacy({ mnemonic })
+  const author = new Mantle()
+  author.loadMnemonic(mnemonic)
 
-  const [ sharedBlob, thisUserSymmetricKey ] = thisUser.encryptShared(text)
+  const symmetricKey = Mantle.createSymmetricKey()
+  const encryptedNote = Mantle.encryptSymmetric(text, symmetricKey)
+  const encryptedSymmetricKey = Mantle.encrypt(symmetricKey, author.publicKey)
 
   const credentials = {
-    [thisUser.address]: {
-      address: thisUser.address,
-      encSymKey: `0x${thisUserSymmetricKey.toString('hex')}`
+    [author.address]: {
+      address: author.address,
+      encSymKey: bufferToHex0x(encryptedSymmetricKey)
     }
   }
 
   for (let i = 0; i < publicKeys.length; ++i) {
     const publicKey = publicKeys[i]
-    const currentUserSymmetricKey = thisUser.shareSecret(
-      thisUserSymmetricKey,
-      Buffer.from(publicKey.slice(2), 'hex')
-    )
-    const address = BPrivacy.publicKeyToAddress(publicKey)
+    const encryptedSymmetricKey = Mantle.encrypt(symmetricKey, publicKey)
+
+    const address = publicKeyToAddress(publicKey)
     credentials[address] = {
-      address: address,
-      encSymKey: `0x${currentUserSymmetricKey.toString('hex')}`
+      address,
+      encSymKey: bufferToHex0x(encryptedSymmetricKey)
     }
   }
+
   return {
-    tag,
-    author: thisUser.address,
     credentials,
-    encryptedText: sharedBlob.toString('hex')
+    tag,
+    author: author.address,
+    encryptedText: encryptedNote.toString('hex')
   }
 }
 
 export const performDecryptNote = (mnemonic, note) => {
-  const thisUser = new BPrivacy({ mnemonic })
+  const mantle = new Mantle()
+  mantle.loadMnemonic(mnemonic)
+
   const { credentials, encryptedText } = note
-  if (!credentials[thisUser.address]) {
+  if (!credentials[mantle.address]) {
     return note
   }
-  const { encSymKey } = credentials[thisUser.address]
-  const plainText = thisUser.decryptShared(encryptedText, encSymKey)
+
+  const { encSymKey } = credentials[mantle.address]
+  const decryptedKey = mantle.decrypt(encSymKey)
+  const plainText = Mantle.decryptSymmetric(encryptedText, decryptedKey)
 
   return { ...note, plainText }
 }
 
-export const performDecryptNotes = (mnemonic, notes) => {
-  return notes.map(note => {
-    return performDecryptNote(mnemonic, note)
-  })
-}
+export const performDecryptNotes = (mnemonic, notes) => (
+  notes.map(note => performDecryptNote(mnemonic, note))
+)

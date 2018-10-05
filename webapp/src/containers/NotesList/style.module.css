@@ -1,25 +1,45 @@
 .container {
   margin: 0 auto;
+  max-width: 540px;
+}
+
+.addressLabel {
+  font-size: 9px;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 10px;
+}
+
+.note {
+  font-size: 9px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.displayFlex {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+}
+
+.cardAction {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cardContainer {
+  display: flex;
   align-items: center;
-  max-width: 380px;
-  padding-top: 15%;
+  flex-direction: column;
+  padding-top: 20px;
 }
 
-.field{
-  width: 100% !important;
-}
-.fieldErrors {
-  width: 100% !important;
-  text-align: left;
-  color: #f44336;
-}
-
-.buttonSubmit{
-  margin-top: 40px !important;
+.card {
   width: 100%;
+  margin: 10px 8px;
 }
 
+.notShared {
+  color: red;
+}
 

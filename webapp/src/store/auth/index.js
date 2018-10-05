@@ -43,7 +43,7 @@ export const logout = () => ({
 
 // Reducer
 const initialState = {
-  isAuthenteticated: false,
+  authenticated: false,
   mnemonic: '',
   address: '',
   publicKey: ''
@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
       const { mnemonic, address, publicKey } = action.payload
       return {
         ...state,
-        isAuthenteticated: true,
+        authenticated: true,
         mnemonic,
         address,
         publicKey
@@ -74,7 +74,7 @@ export default (state = initialState, action) => {
     case LOGOUT_SUCCESS:
       return {
         ...state,
-        isAuthenteticated: false,
+        authenticated: false,
         mnemonic: '',
         address: '',
         publicKey: ''

@@ -1,25 +1,10 @@
-.container {
-  margin: 0 auto;
+.toolbar {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 380px;
-  padding-top: 15%;
+  justify-content: flex-end;
 }
 
-.field{
-  width: 100% !important;
+.pubKey {
+  font-size: 9px;
+  margin: 0 auto !important;
 }
-.fieldErrors {
-  width: 100% !important;
-  text-align: left;
-  color: #f44336;
-}
-
-.buttonSubmit{
-  margin-top: 40px !important;
-  width: 100%;
-}
-
 
