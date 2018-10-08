@@ -30,9 +30,9 @@ module.exports = (consul) => {
   )
 
   return {
-    getPeers: getPeers,
-    getKv: getKv,
-    kvExists: kvExists,
-    setKv: setKv
+    getKv,
+    getPeers,
+    kvExists,
+    setKv
   }
 }

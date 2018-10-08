@@ -10,5 +10,5 @@ const initConsul = (host, token) => (
 )
 
 module.exports = {
-  initConsul: initConsul
+  initConsul
 }

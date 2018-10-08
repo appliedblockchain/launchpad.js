@@ -7,7 +7,7 @@
     "@appliedblockchain/eslint-config": "^2.2.0"
   },
   "scripts": {
-    "start": "node ./contract-addresses read"
+    "start": "node ./consul-utility get-key-value mantle-development/contract-addresses"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config",

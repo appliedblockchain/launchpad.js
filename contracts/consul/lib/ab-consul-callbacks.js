@@ -32,5 +32,5 @@ const resolveCallback = (resolve, reject, operation) => (
 )
 
 module.exports = {
-  resolveCallback: resolveCallback
+  resolveCallback
 }
