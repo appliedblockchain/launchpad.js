@@ -3,14 +3,25 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const { initConsul } = require('./lib/ab-consul')
 const { HOST, CONSUL_TOKEN } = require('./config/consul-config')
 const consul = initConsul(HOST, CONSUL_TOKEN)
-const { getPeers, kvExists, getKv, setKv } = require('./lib/ab-consul-promisify')(consul)
+const { delKv, getPeers, kvExists, getKv, setKv } = require('./lib/ab-consul-promisify')(consul)
 
 const command = process.argv[2]
 const key = process.argv[3]
 const value = process.argv[4]
 
-if (command !== 'set-key-value' && command !== 'get-key-value') {
-  throw new Error('Please specify "set-key-value" or "get-key-value" as first argument.')
+const validCommands = [
+  'set-key-value',
+  'get-key-value',
+  'check-key-exists',
+  'del-key-value'
+]
+
+if (validCommands.indexOf(command) === -1) {
+  const validOptions = validCommands
+    .map(command => `"${command}"`)
+    .join(', ')
+
+  throw new Error(`Please specify one of: ${validOptions} as first argument`)
 }
 
 if (!key) {
@@ -19,6 +30,10 @@ if (!key) {
 
 if (key.indexOf('mantle-development/') !== 0) {
   throw new Error(`Invalid key: supplied ${key}, expected a key with prefix "mantle-development/"`)
+}
+
+const delKeyValue = async () => {
+  await delKv(key)
 }
 
 const setKeyValue = async () => {
@@ -44,6 +59,11 @@ const getKeyValue = async () => {
   }
 }
 
+const checkKeyExists = async () => {
+  const keyExists = await kvExists(key)
+  console.log(!!keyExists)
+}
+
 const checkConnection = async () => {
   const peers = await getPeers()
   if (process.env.DEBUG !== undefined) {
@@ -61,6 +81,14 @@ const checkConnection = async () => {
 
     if (command === 'get-key-value') {
       await getKeyValue()
+    }
+
+    if (command === 'check-key-exists') {
+      await checkKeyExists()
+    }
+
+    if (command === 'del-key-value') {
+      await delKeyValue()
     }
   } catch (err) {
     console.error(err)

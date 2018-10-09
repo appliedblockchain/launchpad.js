@@ -1,6 +1,12 @@
 const { resolveCallback } = require('./ab-consul-callbacks')
 
 module.exports = (consul) => {
+  const delKv = key => (
+    new Promise((resolve, reject) => {
+      consul.kv.del(key, resolveCallback(resolve, reject, `delKv: ${key}`))
+    })
+  )
+
   const getPeers = () => (
     new Promise((resolve, reject) => {
       consul.status.peers(resolveCallback(resolve, reject)())
@@ -30,6 +36,7 @@ module.exports = (consul) => {
   )
 
   return {
+    delKv,
     getKv,
     getPeers,
     kvExists,
