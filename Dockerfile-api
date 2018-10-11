@@ -19,11 +19,6 @@ RUN mkdir /contracts
 COPY ./contracts/package* /contracts/
 RUN cd /contracts && npm install --only=production
 
-RUN mkdir /contracts/consul
-
-COPY ./contracts/consul/package* /contracts/consul/
-RUN cd /contracts/consul && npm install --only=production
-
 # stage 2
 FROM node:10.7-alpine
 
