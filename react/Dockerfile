@@ -7,7 +7,9 @@ RUN mkdir /react
 WORKDIR /react
 
 ARG NPM_TOKEN
+ARG BASIC_AUTH_HTPASSWD
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+RUN echo $BASIC_AUTH_HTPASSWD > /etc/nginx/.htpasswd
 
 ENV PATH /react/node_modules/.bin:$PATH
 COPY package* /react/
