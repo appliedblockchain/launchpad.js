@@ -36,7 +36,7 @@ services:
       context: ./react
       args:
         - NPM_TOKEN
-        - BASIC_AUTH_HTPASSWD
+        - BASIC_AUTH_HTPASSWD=admin:$$apr1$$6SESoef2$$haXLi9RTR.MOe76pJGH8r.
     ports:
       - 80:80
     depends_on:
