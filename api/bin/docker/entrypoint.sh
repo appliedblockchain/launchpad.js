@@ -2,6 +2,28 @@
 
 set -ex
 
+sleep 10
+PARITY_KEY="mantle-development/parity-nodes"
+PARITY_INSTANCES="parity1 parity2 parity3"
+
+for PARITY in $PARITY_INSTANCES
+do
+  ENODE_REQ=$(curl --data '{"method":"parity_enode","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST "$PARITY:8545")  
+  ENODE=$(echo "$ENODE_REQ" | grep -o "enode.*30303" | sed -e "s/\@.*/\@$PARITY:30303\"/" | sed -e "s/\"//g")
+  npx @appliedblockchain/consul set-kv "mantle-development/$PARITY" "$ENODE"
+done
+
+sleep 5
+
+for i in 1 2 3
+do
+  for j in 1 2 3
+  do
+    ENODE=$(npx @appliedblockchain/consul get-kv "mantle-development/parity$j")
+    curl --data '{"method":"parity_addReservedPeer","params":["'"$ENODE"'"],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST parity"$i":8545
+  done
+done
+
 CONTRACT_KEY="mantle-development/contract-addresses"
 LEADER_KEY="mantle-development/leader"
 

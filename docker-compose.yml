@@ -95,7 +95,7 @@ services:
     volumes:
     - parity3_data:/parity/data
     command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
-
+    
 volumes:
   parity1_data:
   parity2_data:
