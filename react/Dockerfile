@@ -7,9 +7,7 @@ RUN mkdir /react
 WORKDIR /react
 
 ARG NPM_TOKEN
-ARG BASIC_AUTH_HTPASSWD
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-RUN echo $BASIC_AUTH_HTPASSWD > /etc/nginx/.htpasswd
 
 ENV PATH /react/node_modules/.bin:$PATH
 COPY package* /react/
@@ -20,6 +18,8 @@ RUN npm run build:staging
 FROM nginx:alpine
 COPY --from=builder /react/build /usr/share/nginx/html
 COPY ./docker/nginx.conf /etc/nginx/nginx.conf
+ARG BASIC_AUTH_HTPASSWD
+RUN echo $BASIC_AUTH_HTPASSWD > /etc/nginx/.htpasswd
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
