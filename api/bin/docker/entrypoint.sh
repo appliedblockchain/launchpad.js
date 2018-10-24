@@ -2,7 +2,7 @@
 
 set -ex
 
-sleep 10
+sleep 5
 PARITY_KEY="mantle-development/parity-nodes"
 PARITY_INSTANCES="parity1 parity2 parity3"
 

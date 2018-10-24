@@ -28,5 +28,9 @@ COPY ./package* /parity/
 COPY ./docker/entrypoint.sh entrypoint.sh
 RUN npm install
 
-RUN ./entrypoint.sh
+# CMD [ "--chain", "/parity/spec.json", "--config", "/parity/authority.toml", "-d", "/parity/data" ]
+# ENTRYPOINT [ "/parity/parity", "--chain", "/parity/spec.json", "--config", "/parity/authority.toml", "-d", "/parity/data" ]
+ENTRYPOINT [ "sh", "./entrypoint.sh" ]
+# CMD "./entrypoint.sh"
+# CMD [ "sh", "./entrypoint.sh" ]
 
