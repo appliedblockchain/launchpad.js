@@ -7,7 +7,7 @@ networks:
 
 services:
   api:
-    image: appliedblockchain/mantle-api:enode-sync
+    image: appliedblockchain/mantle-api:latest
     build:
       context: .
       dockerfile: Dockerfile-api
@@ -32,7 +32,7 @@ services:
         condition: on-failure
 
   react:
-    image: appliedblockchain/mantle-react:enode-sync
+    image: appliedblockchain/mantle-react:latest
     build:
       context: ./react
       args:
@@ -67,10 +67,9 @@ services:
     - 8545:8545
     - 8546:8546
     - 30303:30303
-    image: appliedblockchain/mantle-parity1:enode-sync
+    image: appliedblockchain/mantle-parity1:latest
     volumes:
     - parity1_data:/parity/data
-    # command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
   parity2:
     build:
       context: ./stack
@@ -79,10 +78,9 @@ services:
         PARITY_ID: 2
     networks:
     - main
-    image: appliedblockchain/mantle-parity2:enode-sync
+    image: appliedblockchain/mantle-parity2:latest
     volumes:
     - parity2_data:/parity/data
-    # command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
   parity3:
     build:
       context: ./stack
@@ -91,10 +89,9 @@ services:
         PARITY_ID: 3
     networks:
     - main
-    image: appliedblockchain/mantle-parity3:enode-sync
+    image: appliedblockchain/mantle-parity3:latest
     volumes:
     - parity3_data:/parity/data
-    # command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
     
 volumes:
   parity1_data:
