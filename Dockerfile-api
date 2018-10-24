@@ -3,12 +3,6 @@ FROM node:10.7-alpine as builder
 RUN apk add --update --no-cache alpine-sdk git python && \
   rm -rf /tmp/* /var/cache/apk/*
 
-ENV JQ_VERSION='1.5'
-
-RUN wget --no-check-certificate https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64 -O /tmp/jq-linux64 && \
-    cp /tmp/jq-linux64 /usr/bin/jq && \
-    chmod +x /usr/bin/jq
-
 WORKDIR /api
 
 ARG NPM_TOKEN
