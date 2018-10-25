@@ -15,6 +15,7 @@ services:
         - NPM_TOKEN
     environment:
       - NODE_ENV=staging
+      - PROVIDER=http://parity1:8545
     networks:
       - main
     ports:
@@ -93,20 +94,6 @@ services:
     volumes:
     - parity3_data:/parity/data
     command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
-
-  # explorer:
-  #   image: appliedblockchain/b-explorer
-  #   # Use if connecting to a localhost node (ETHEREUM_JSONRPC_ENDPOINT=http://localhost:8545)
-  #   # network_mode: host
-  #   depends_on:
-  #     - parity1
-  #   volumes:
-  #     - ./contracts/explorer:/home/explorer/config:ro
-  #   ports:
-  #     - 9000:3000
-  #   environment:
-  #     - ETHEREUM_JSONRPC_ENDPOINT=http://parity1:8545
-  #     - CONFIG_FILE_PATH=/home/explorer/config/config.json
 
 volumes:
   parity1_data:

@@ -16,7 +16,7 @@ CONTRACT_ADDRESSES_EXIST=$(npx @appliedblockchain/consul check-key-exists $CONTR
 # Only re-deploy if no contract address exists, otherwise the address will already be available in consul
 if [ "$CONTRACT_ADDRESSES_EXIST" = "false" ]; then
   if [ "$HOSTNAME" = $LEADER ]; then
-      PROVIDER=http://parity1:8545 node /contracts/bin/deploy.js
+      PROVIDER="$PROVIDER" node /contracts/bin/deploy.js
       CONTRACT_ADDRESSES=$(cat /api/contracts/exportAddresses.sh)
 
       sleep 5
