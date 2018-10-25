@@ -15,11 +15,11 @@ contract Notes {
     mapping (uint => mapping(address => bytes)) encSymKeys;
     mapping (uint => Note) notes;
     
-    constructor () public{
+    constructor () public {
         notesCount = 0;
     }
 
-    function addNote(string tag, string content, address author, address[] addresses, bytes encKeys ) public {
+    function addNote(string tag, string content, address author, address[] addresses, bytes encKeys) public {
         uint keysNum = encKeys.length / 188;
         uint addressesLength = addresses.length;
         assert(encKeys.length % 188 == 0);
@@ -29,7 +29,7 @@ contract Notes {
         notesCount++;
     }
     
-    function getNotesCount() public view returns (uint ) {
+    function getNotesCount() public view returns (uint) {
         return notesCount;
     }
     

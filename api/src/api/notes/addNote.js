@@ -1,40 +1,36 @@
 'use strict'
 
 const router = require('koa-joi-router')
-const { utils } = require('web3')
 const Joi = router.Joi
+const Mantle = require('@appliedblockchain/mantle')
+const config = require('config')
+const ETHEREUM_JSONRPC_ENDPOINT = config.get('ETHEREUM_JSONRPC_ENDPOINT')
 
 const handler = async ctx => {
-  const { NotesContract } = ctx.contracts
-  const { methods } = NotesContract
-
-  const {
-    body: { tag, encryptedText, author, credentials }
-  } = ctx.request
-
-  const addresses = []
-  let keys = []
-
-  for (const key in credentials) {
-    const { address, encSymKey } = credentials[key]
-    addresses.push(address)
-    keys = [ ...keys, ...utils.hexToBytes(encSymKey) ]
-  }
-
-  const keysHex = utils.bytesToHex(keys)
-
-  const estimatedGasUsage = await methods
-    .addNote(tag, encryptedText, author, addresses, keysHex)
-    .estimateGas()
+  const { web3, contracts: { NotesContract } } = ctx
 
   try {
-    await methods.addNote(tag, encryptedText, author, addresses, keysHex).send({
-      gas: estimatedGasUsage
+    const { mnemonic, params } = ctx.request.body
+    const contract = {
+      abi: NotesContract._jsonInterface,
+      address: process.env.CONTRACT_ADDRESS,
+      name: 'Notes'
+    }
+
+    const mantle = new Mantle({ provider: ETHEREUM_JSONRPC_ENDPOINT })
+    mantle.loadMnemonic(mnemonic)
+    mantle.loadContract(contract)
+
+    const rawTransaction = await mantle.signTransaction({
+      params: params,
+      contractName: contract.name,
+      methodName: 'addNote'
     })
 
+    await web3.eth.sendSignedTransaction(rawTransaction)
     ctx.ok('Note saved successfully')
   } catch (error) {
-    ctx.badRequest({ error })
+    ctx.badRequest({ error: `${error}` })
   }
 }
 

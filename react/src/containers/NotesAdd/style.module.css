@@ -1,0 +1,47 @@
+.container {
+  background: #f9f9f9;
+  margin: 60px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 540px;
+  padding: 30px;
+  color: #5d5d5d;
+}
+
+.field {
+  width: 100% !important;
+  margin-bottom: 10px
+}
+
+.fieldErrors {
+  width: 100% !important;
+  text-align: left;
+  color: #f44336;
+}
+
+.buttonSubmit {
+  margin-top: 40px !important;
+  width: 100%;
+}
+
+.pubKey {
+  width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.checkboxIcon {
+  font-size: 38px;
+}
+
+.addContainer {
+  display: flex;
+  justify-content: center;
+}

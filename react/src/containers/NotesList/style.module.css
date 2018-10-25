@@ -1,0 +1,49 @@
+.container {
+  background: #f9f9f9;
+  margin: 60px auto;
+  align-items: center;
+  max-width: 540px;
+  padding: 30px;
+  color: #5d5d5d;
+}
+
+.addressLabel {
+  font-size: 9px;
+  max-width: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 10px;
+}
+
+.note {
+  font-size: 9px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.displayFlex {
+  display: flex;
+}
+
+.cardAction {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cardContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.card {
+  width: 100%;
+  margin: 10px 8px;
+}
+
+.notShared {
+  color: red;
+}
+

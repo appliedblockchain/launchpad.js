@@ -10,7 +10,6 @@ const handler = async ctx => {
 
   try {
     const notesCount = await methods.getNotesCount().call()
-
     const notesNumber = Number(notesCount)
 
     const notesPromises = []
@@ -53,7 +52,7 @@ const handler = async ctx => {
     })
     ctx.ok({ result: notes.reverse() })
   } catch (error) {
-    ctx.badRequest({ error })
+    ctx.badRequest({ error: `${error}` })
   }
 }
 

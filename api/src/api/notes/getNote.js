@@ -46,8 +46,7 @@ const handler = async ctx => {
       })
     }
   } catch (error) {
-    console.error(error)
-    ctx.badRequest({ error })
+    ctx.badRequest({ error: `${error}` })
   }
 }
 

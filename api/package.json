@@ -8,16 +8,15 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "start": "source ../contracts/exportAddresses.sh && node ./run",
-    "start:dev": "source ../contracts/exportAddresses.sh && nodemon ./run",
-    "test": "source ../contracts/exportAddresses.sh && jest",
-    "test:watch": "source ../contracts/exportAddresses.sh && jest --watch",
-    "test:ci": "source ../contracts/exportAddresses.sh && jest --ci --forceExit",
+    "start": "source ./contracts/exportAddresses.sh && node ./run",
+    "test": "source ./contracts/exportAddresses.sh && jest",
+    "test:watch": "source ./contracts/exportAddresses.sh && jest --watch",
+    "test:ci": "source ./contracts/exportAddresses.sh && jest --ci --forceExit",
     "lint": "eslint . --ignore-path .gitignore",
     "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo",
     "contract-compile": "npm run --prefix ../contracts compile",
     "contract-deploy": "npm run --prefix ../contracts  deploy",
-    "contract-export-addresses": "source ../contracts/exportAddresses.sh"
+    "contract-export-addresses": "source ./contracts/exportAddresses.sh"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
@@ -46,9 +45,11 @@
     "supertest": "^3.1.0"
   },
   "dependencies": {
+    "@appliedblockchain/consul": "^1.0.2",
     "@appliedblockchain/contract-artefacts-deployer": "0.0.4",
     "@appliedblockchain/koa-docs": "^2.1.0",
     "@appliedblockchain/koa-healthcheck": "^1.1.0",
+    "@appliedblockchain/mantle": "^1.0.10",
     "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
     "bunyan": "^1.8.12",

@@ -1,0 +1,43 @@
+FROM node:10.7-alpine as builder
+
+RUN apk add --update --no-cache alpine-sdk git python && \
+  rm -rf /tmp/* /var/cache/apk/*
+
+WORKDIR /api
+
+ARG NPM_TOKEN
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+ENV GIT_COMMIT_SHA ${GIT_COMMIT_SHA}
+ENV GIT_TAG ${GIT_TAG}
+
+COPY ./api/package* /api/
+RUN npm install --only=production
+
+RUN mkdir /contracts
+
+COPY ./contracts/package* /contracts/
+RUN cd /contracts && npm install --only=production
+
+# stage 2
+FROM node:10.7-alpine
+
+RUN apk --update --no-cache add alpine-sdk git python openssl curl bash && \
+  rm -rf /tmp/* /var/cache/apk/*
+
+COPY --from=builder /api /api
+COPY --from=builder /contracts /contracts
+
+WORKDIR /api
+
+# TODO: check if we need this
+RUN cd /api && npm install --only=production
+RUN cd /contracts && npm install --only=production
+
+COPY ./api /api
+COPY ./contracts /contracts
+
+EXPOSE 3000
+
+CMD [ "sh", "bin/docker/entrypoint.sh" ]
+
