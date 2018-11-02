@@ -6,7 +6,7 @@ const config = require('config')
 const { ignoreNumberedKeys } = require('../util/util')
 
 const client = new elasticsearch.Client({
-  host: `http://${config.elasticsearch.host}:9200/`
+  host: `http://${config.ELASTIC_SEARCH}:9200/`
 })
 
 
