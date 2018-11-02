@@ -1,9 +1,11 @@
 'use strict'
 
+const router = require('koa-joi-router')
+const Joi = router.Joi
 const elastic = require('../../helpers/elasticsearch')
 const ignoreNumberedKeys = require('../../util/util')
 
-const search = async (ctx) => {
+const handler = async (ctx) => {
   const { query, offset } = ctx.request.query
   const { NotesContract } = ctx.contracts
   const { methods } = NotesContract
@@ -24,4 +26,15 @@ const search = async (ctx) => {
 
 }
 
-module.exports = { search }
+module.exports = {
+  method: 'get',
+  path: '/search',
+  validate: {
+    output: {
+      200: {
+        body: Joi.object()
+      }
+    }
+  },
+  handler
+}
