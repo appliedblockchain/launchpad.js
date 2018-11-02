@@ -31,6 +31,22 @@ services:
       restart_policy:
         condition: on-failure
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - boostrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
   react:
     image: appliedblockchain/mantle-react:latest
     build:
@@ -100,3 +116,4 @@ volumes:
   parity1_data:
   parity2_data:
   parity3_data:
+  elasticsearch:
