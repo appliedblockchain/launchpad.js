@@ -17,6 +17,7 @@ const {
 const setupWeb3 = require('./setupWeb3')
 const checkContractDeployment = require('./checkContractDeployment')
 const { healthcheck } = require('./healthcheck')
+const elastic = require('./helpers/elasticsearch')
 
 const contract = require('../contracts/Notes.json')
 const abi = contract.abi
@@ -32,6 +33,8 @@ const createServer = async contractAddress => {
 
   const { contracts, web3 } = await setupWeb3({ abi, contractAddress })
   await checkContractDeployment(web3, contractAddress, contract.contractName)
+
+  await elastic.init()
 
   const app = new Koa()
 
