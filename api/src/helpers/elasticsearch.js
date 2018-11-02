@@ -109,7 +109,8 @@ module.exports = {
   upsertAsset,
   deleteAsset,
   search,
-  init
+  init,
+  LIMIT
 }
 
 
