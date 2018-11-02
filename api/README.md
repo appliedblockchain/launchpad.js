@@ -15,8 +15,8 @@ npm run parity
 >**Note**  Next commands will run from the `/contracts` folder make sure you had run 
 `cd /contracts npm i` first. 
 ```
-npm run contract-compile
-npm run contract-deploy
+npm run compile
+npm run deploy
 ```
 
 Then for development, run:
