@@ -7,3 +7,4 @@ react/node_modules
 react/build
 contracts/node_modules
 stack
+docker-dev
