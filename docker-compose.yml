@@ -36,7 +36,7 @@ services:
     container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
-      - boostrap.memory_lock=true
+      - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
@@ -46,6 +46,8 @@ services:
       - elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+    networks:
+      - main
 
   react:
     image: appliedblockchain/mantle-react:latest
