@@ -15,6 +15,8 @@ contract Notes {
     mapping (uint => mapping(address => bytes)) encSymKeys;
     mapping (uint => Note) notes;
     
+    event NoteAdded(uint id);
+
     constructor () public {
         notesCount = 0;
     }
@@ -26,6 +28,7 @@ contract Notes {
         assert(addressesLength == keysNum);
         Note memory note = Note({ tag: tag, encryptedText: content, author: author, addresses: addresses, encKeys: encKeys });
         notes[notesCount] = note;
+        emit NoteAdded(notesCount);
         notesCount++;
     }
     
