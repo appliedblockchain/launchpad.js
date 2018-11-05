@@ -4,7 +4,10 @@ const router = require('koa-joi-router')
 const Joi = router.Joi
 const Mantle = require('@appliedblockchain/mantle')
 const config = require('config')
+const ContractEvents = require('../../helpers/ContractEvents')
 const ETHEREUM_JSONRPC_ENDPOINT = config.get('ETHEREUM_JSONRPC_ENDPOINT')
+
+const noteAddedEvent = new ContractEvents('Notes', 'NoteAdded')
 
 const handler = async ctx => {
   const { web3, contracts: { NotesContract } } = ctx
@@ -27,7 +30,13 @@ const handler = async ctx => {
       methodName: 'addNote'
     })
 
+
     await web3.eth.sendSignedTransaction(rawTransaction)
+
+    noteAddedEvent.on('data', event => {
+      console.log(event)
+    })
+
     ctx.ok('Note saved successfully')
   } catch (error) {
     ctx.badRequest({ error: `${error}` })
