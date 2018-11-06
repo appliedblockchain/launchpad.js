@@ -13,7 +13,8 @@ COPY ./parity/chain/reserved_peers reserved_peers
 ARG PARITY_ID
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
-RUN echo ${PARITY_ID}
+
+RUN echo "Building parity${PARITY_ID}..."
 
 COPY ./parity/${PARITY_ID}/password       password
 COPY ./parity/${PARITY_ID}/authority.toml authority.toml

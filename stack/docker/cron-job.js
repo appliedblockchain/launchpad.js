@@ -8,7 +8,8 @@ const s3 = new AWS.S3()
 cron.schedule('* * * * *', () => {
   console.log('RUNNING PARITY BACKUP TASK...')
 
-  const backupName = createFilename('base-app-mantle-parity')
+  const parityID = process.env.PARITY_ID
+  const backupName = createFilename()
   const command = `sh cron-job.sh ${backupName}`
 
   const execution = exec(command)
@@ -19,7 +20,7 @@ cron.schedule('* * * * *', () => {
       const params = {
         Bucket: 'ab-parity-backups',
         Body: body,
-        Key: backupName
+        Key: `base-app-mantle/parity${parityID}/${backupName}`
       }
 
       s3.upload(params, (err, data) => {
@@ -33,7 +34,7 @@ cron.schedule('* * * * *', () => {
   })
 })
 
-function createFilename(prefix) {
+function createFilename() {
   const date = new Date()
 
   let day = date.getDate()
@@ -44,5 +45,5 @@ function createFilename(prefix) {
  
   const year = `${date.getFullYear()}`
 
-  return `${prefix}-${day}-${month}-${year}.tar.gz`
+  return `${day}-${month}-${year}.tar.gz`
 }
