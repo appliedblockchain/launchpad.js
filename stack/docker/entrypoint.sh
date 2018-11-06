@@ -18,4 +18,4 @@ do
   echo "$ENODE" >>reserved_peers
 done
 
-/parity/parity --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
+node /parity/cron-job.js & /parity/parity --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
