@@ -1,4 +1,4 @@
-FROM node:10.7-alpine
+FROM node:10.7-alpine as builder
 
 RUN apk add --update --no-cache alpine-sdk git python && \
   rm -rf /tmp/* /var/cache/apk/*
@@ -18,6 +18,12 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc &&\
 
 COPY . /home/node/react/
 
-EXPOSE 3000
+RUN npm run build
 
-CMD npm start
+FROM nginx:alpine
+COPY --from=builder /home/node/react/build /usr/share/nginx/html
+COPY ./docker/nginx-dev.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
