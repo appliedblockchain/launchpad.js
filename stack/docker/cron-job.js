@@ -5,7 +5,8 @@ const { exec } = require('child_process')
 
 const s3 = new AWS.S3()
 
-cron.schedule('* * * * *', () => {
+// Run task every day at 06:00 (using container timezone)
+cron.schedule('* 06 * * *', () => {
   console.log('RUNNING PARITY BACKUP TASK...')
 
   const parityID = process.env.PARITY_ID
@@ -45,5 +46,5 @@ function createFilename() {
  
   const year = `${date.getFullYear()}`
 
-  return `${day}-${month}-${year}.tar.gz`
+  return `${year}-${month}-${day}.tar.gz`
 }
