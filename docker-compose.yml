@@ -75,7 +75,9 @@ services:
       context: ./stack
       dockerfile: Dockerfile-parity
       args:
-        PARITY_ID: 2
+        - PARITY_ID=2
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
     networks:
     - main
     image: appliedblockchain/mantle-parity2:latest
