@@ -3,7 +3,8 @@
 const router = require('koa-joi-router')
 const Joi = router.Joi
 const elastic = require('../../helpers/elasticsearch')
-const ignoreNumberedKeys = require('../../util/util')
+
+const noteUtil = require('../../helpers/notes.js')
 
 const handler = async (ctx) => {
   const { query, offset } = ctx.request.query
@@ -15,20 +16,21 @@ const handler = async (ctx) => {
     return
   }
 
-  const results = await elastic.search(query, offset)
-  console.log(results)
-  const matches = await Promise.all(results.map(r => methods.getNote(r._id).call().then(ignoreNumberedKeys)))
+  const advanceQuery = `tag: ${query}, plainText: ${query}`
+
+  const results = await elastic.advanceSearch(advanceQuery, offset)
+
+  const result = await Promise.all(results.map(r => methods.getNote(r._id).call().then(noteUtil.addCredentials)))
 
   ctx.body = {
-    next: matches.length === elastic.LIMIT ? (+offset) + elastic.LIMIT : null,
-    matches
+    next: result.length === elastic.LIMIT ? (+offset) + elastic.LIMIT : null,
+    result
   }
-
 }
 
 module.exports = {
   method: 'get',
-  path: '/search',
+  path: '/notes/search',
   validate: {
     output: {
       200: {

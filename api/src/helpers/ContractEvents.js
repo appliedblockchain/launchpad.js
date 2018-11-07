@@ -17,10 +17,10 @@ class ContractEvents extends Events {
       // contracts aren't ready yet, add this listener to the setup queue
       listeners.push(this)
     }
-
   }
 
   ready(contract) {
+    console.log(contract)
     if (!contract.events[this.event]) {
       throw new ReferenceError(`Event '${this.event}' not defined on contract '${this.contractName}'`)
     }

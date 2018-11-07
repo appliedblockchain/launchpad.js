@@ -41,7 +41,7 @@
     "@appliedblockchain/eslint-config": "^2.2.0",
     "eslint": "^4.19.1",
     "jest": "^23.1.0",
-    "nodemon": "^1.17.5",
+    "nodemon": "^1.18.6",
     "supertest": "^3.1.0"
   },
   "dependencies": {
@@ -52,6 +52,7 @@
     "@appliedblockchain/mantle": "^1.0.10",
     "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
+    "abi-decoder": "^1.2.0",
     "bunyan": "^1.8.12",
     "config": "^1.30.0",
     "elasticsearch": "^15.2.0",
@@ -61,6 +62,6 @@
     "koa-joi-router": "^5.1.0",
     "koa-respond": "^1.0.1",
     "lodash": "^4.17.11",
-    "web3": "^1.0.0-beta.33"
+    "web3": "1.0.0-beta.33"
   }
 }

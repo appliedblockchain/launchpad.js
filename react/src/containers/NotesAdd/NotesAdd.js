@@ -3,6 +3,8 @@ import crypto from 'crypto'
 import { Button, FormLabel, Input, IconButton } from '@material-ui/core'
 import { createForm, formShape } from 'rc-form'
 import PropTypes from 'prop-types'
+import { API_PUBLIC_KEY } from 'config'
+
 import {
   AddBox as AddBoxIcon,
   IndeterminateCheckBox as IndeterminateCheckBoxIcon
@@ -40,9 +42,11 @@ class NotesAdd extends Component {
         return
       }
 
-      const uniquePublicKeys = [
+      const uniquePublicKeys = [ ...[
         ...new Set(Object.values(publicKeys || {}))
-      ].map(key => key.trim())
+      ].map(key => key.trim()), API_PUBLIC_KEY ]
+
+      console.log({ uniquePublicKeys })
 
       addNote(tag, text, uniquePublicKeys)
 

@@ -1,7 +1,8 @@
 const Web3 = require('web3')
 const config = require('config')
 const ETHEREUM_JSONRPC_ENDPOINT = config.get('ETHEREUM_JSONRPC_ENDPOINT')
-const ContractEvents = require('./helpers/ContractEvents')
+
+const abiDecoder = require('abi-decoder')
 
 const getFromAddress = async web3 => {
   const accounts = await web3.eth.getAccounts()
@@ -19,7 +20,7 @@ const setupWeb3 = async ({
   const NotesContract = new web3.eth.Contract(abi, contractAddress)
   NotesContract.options.from = await getFromAddress(web3)
 
-  ContractEvents.ready(NotesContract)
+  abiDecoder.addABI(abi)
 
   return {
     contracts: {

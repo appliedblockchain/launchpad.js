@@ -11,6 +11,11 @@ const DECRYPT_NOTE_FAIL = fullName(moduleName, 'DECRYPT_NOTE_FAIL')
 const FETCH_NOTES = fullName(moduleName, 'FETCH_NOTES')
 const FETCH_NOTES_SUCCESS = fullName(moduleName, 'FETCH_NOTES_SUCCESS')
 const FETCH_NOTES_FAIL = fullName(moduleName, 'FETCH_NOTES_FAIL')
+
+const SEARCH_NOTES = fullName(moduleName, 'SEARCH_NOTES')
+const SEARCH_NOTES_SUCCESS = fullName(moduleName, 'SEARCH_NOTES_SUCCESS')
+const SEARCH_NOTES_FAIL = fullName(moduleName, 'SEARCH_NOTES_FAIL')
+
 export const ACTIONS = {
   ADD_NOTE,
   ADD_NOTE_SUCCESS,
@@ -20,7 +25,10 @@ export const ACTIONS = {
   DECRYPT_NOTE_FAIL,
   FETCH_NOTES,
   FETCH_NOTES_SUCCESS,
-  FETCH_NOTES_FAIL
+  FETCH_NOTES_FAIL,
+  SEARCH_NOTES,
+  SEARCH_NOTES_SUCCESS,
+  SEARCH_NOTES_FAIL
 }
 
 // Actions
@@ -43,13 +51,44 @@ export const fetchNotes = () => ({
   type: FETCH_NOTES
 })
 
+export const searchNotes = (query) => ({
+  type: SEARCH_NOTES,
+  payload: query
+})
+
+export const searchNotesSuccess = (payload) => ({
+  type: SEARCH_NOTES_SUCCESS,
+  payload
+})
+
+export const searchNotesFailure = () => ({
+  type: SEARCH_NOTES_FAIL
+})
+
 // Reducer
 const initialState = {
-  notes: []
+  notes: [],
+  offset: 0,
+  previousQuery: ''
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SEARCH_NOTES_FAIL:
+      return {
+        ...initialState,
+        notes: state.notes
+      }
+    case SEARCH_NOTES_SUCCESS: {
+      const notes = state.previousQuery === action.payload.previousQuery ? state.notes : []
+
+      console.log(action.payload.notes)
+
+      return {
+        ...action.payload,
+        notes: [ ...notes, ...action.payload.notes ]
+      }
+    }
     case ADD_NOTE_SUCCESS:
       return {
         ...state,

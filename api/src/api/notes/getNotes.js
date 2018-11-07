@@ -1,8 +1,9 @@
 'use strict'
 
 const router = require('koa-joi-router')
-const { utils } = require('web3')
 const Joi = router.Joi
+
+const noteUtil = require('../../helpers/notes.js')
 
 const handler = async ctx => {
   const { NotesContract } = ctx.contracts
@@ -18,38 +19,7 @@ const handler = async ctx => {
     }
 
     const notesRaw = await Promise.all(notesPromises)
-    const notes = notesRaw.map(noteRaw => {
-      const {
-        0: tag,
-        1: encryptedText,
-        2: author,
-        3: addresses,
-        4: encKeys
-      } = noteRaw
-
-      const encKeysBytes = utils.hexToBytes(encKeys)
-      const symKeyLength = encKeysBytes.length / addresses.length
-
-      const credentials = {}
-      for (let i = 0; i < addresses.length; ++i) {
-        const bottom = symKeyLength * i
-        const upper = bottom + symKeyLength
-        const address = addresses[i]
-
-        credentials[address] = {
-          address,
-          encSymKey: utils.bytesToHex(encKeysBytes.slice(bottom, upper))
-        }
-      }
-
-      return {
-        tag,
-        encryptedText,
-        author,
-        addresses,
-        credentials
-      }
-    })
+    const notes = notesRaw.map(noteUtil.addCredentials)
     ctx.ok({ result: notes.reverse() })
   } catch (error) {
     ctx.badRequest({ error: `${error}` })
