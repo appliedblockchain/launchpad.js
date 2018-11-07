@@ -3,7 +3,6 @@ version: "3.6"
 networks:
   main:
     attachable: true
-  static:
 
 services:
   api:
@@ -43,7 +42,7 @@ services:
     depends_on:
       - api
     networks:
-      - static
+      - main
     deploy:
       <<: *deploy_defaults
 
