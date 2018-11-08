@@ -3,7 +3,8 @@ import Component from './NotesList.js'
 import { fetchNotes } from 'store/notes'
 
 const mapState = (state) => ({
-  notes: state.notes.notes
+  notes: state.notes.notes,
+  offset: state.notes.offset
 })
 
 const mapDispatchToProps = dispatch => ({
