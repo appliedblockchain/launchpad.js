@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './style.module.css'
 import Note from './Note'
-import { Button } from '@material-ui/core'
 
 class NotesList extends Component {
   componentDidMount() {
