@@ -23,11 +23,9 @@ export function* searchNotes(action) {
     const previousQuery = yield select(state => state.notes.previousQuery)
     const mnemonic = yield select(state => state.auth.mnemonic)
 
-    const nextOffset = (
-      previousQuery === query && action.payload.offset !== null
-    )
-    ? yield select(state => state.notes.offset)
-    : 0
+    const useOffset = previousQuery === query && action.payload.offset !== null
+    const offsetToUse = yield select(state => state.notes.offset) || 0
+    const nextOffset = useOffset ? offsetToUse : 0
 
     const { result, next } = yield call(getSearchResults, query, nextOffset)
 

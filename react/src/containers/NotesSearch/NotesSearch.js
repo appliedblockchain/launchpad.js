@@ -3,7 +3,23 @@ import PropTypes from 'prop-types'
 import SearchBar from 'material-ui-search-bar'
 
 class NotesSearch extends Component {
-  state = {}
+  handleScroll = () => {
+    const { searchNotes, query } = this.props
+    const wrappedElement = document.getElementById('root')
+    const isBottom = wrappedElement.getBoundingClientRect().bottom <= window.innerHeight
+
+    if (isBottom && query) {
+      searchNotes({ query })
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
 
   render () {
     const { searchNotes, query } = this.props
