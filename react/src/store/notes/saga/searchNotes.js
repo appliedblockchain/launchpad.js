@@ -7,7 +7,7 @@ import { searchNotesSuccess, searchNotesFailure } from 'store/notes'
 
 const { SEARCH_NOTES } = ACTIONS
 
-async function getSearchResults(query, offset) {
+async function getSearchResults(query, offset = 0) {
   const url = query !== '' ? `${REST_API_LOCATION}/notes/search?query=${query}&offset=${offset}` : `${REST_API_LOCATION}/notes`
 
   const response = await fetch(url)
@@ -19,13 +19,13 @@ async function getSearchResults(query, offset) {
 
 export function* searchNotes(action) {
   try {
-    const query = action.payload
+    const query = action.payload !== null ? action.payload : yield select(state => state.notes.query)
 
     const mnemonic = yield select(state => state.auth.mnemonic)
     const offset = yield select(state => state.notes.offset)
     const previousQuery = yield select(state => state.notes.previousQuery)
 
-    const nextOffset = previousQuery === query ? offset : 0
+    const nextOffset = previousQuery === query && offset ? offset : 0
 
     const { result, next } = yield call(getSearchResults, query, nextOffset)
 
@@ -34,7 +34,8 @@ export function* searchNotes(action) {
     yield put(searchNotesSuccess({
       notes: decryptedNotes,
       offset: next,
-      previousQuery: query
+      previousQuery: query,
+      query: query
     }))
   } catch (err) {
     console.error(err)

@@ -65,13 +65,14 @@ export const searchNotesFailure = () => ({
   type: SEARCH_NOTES_FAIL
 })
 
-// Reducer
 const initialState = {
   notes: [],
+  query: '',
   offset: 0,
   previousQuery: ''
 }
 
+// Reducer
 export default (state = initialState, action) => {
   switch (action.type) {
     case SEARCH_NOTES_FAIL:
@@ -79,10 +80,10 @@ export default (state = initialState, action) => {
         ...initialState,
         notes: state.notes
       }
+    // case SEARCH_NOTES:
+    //   return { ...state, query: (action.payload !== null ? action.payload : state.query) }
     case SEARCH_NOTES_SUCCESS: {
       const notes = state.previousQuery === action.payload.previousQuery ? state.notes : []
-
-      console.log(action.payload.notes)
 
       return {
         ...action.payload,
@@ -92,7 +93,8 @@ export default (state = initialState, action) => {
     case ADD_NOTE_SUCCESS:
       return {
         ...state,
-        notes: [ action.payload, ...state.notes ]
+        notes: [ action.payload, ...state.notes ],
+        query: ''
       }
     case DECRYPT_NOTE_SUCCESS:
       return {

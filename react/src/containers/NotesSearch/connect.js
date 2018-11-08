@@ -6,7 +6,11 @@ const mapDispatchToProps = dispatch => ({
   searchNotes: (query) => dispatch(searchNotes(query))
 })
 
+const mapState = ({ notes: { query } }) => ({
+  query
+})
+
 export default connect(
-  null,
+  mapState,
   mapDispatchToProps
 )(Component)

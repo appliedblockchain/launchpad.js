@@ -57,7 +57,7 @@ export const performDecryptNote = (mnemonic, note) => {
   return { ...note, plainText }
 }
 
-export const performDecryptNotes = (mnemonic, notes) => (
+export const performDecryptNotes = (mnemonic, notes = []) => (
   notes.map(note => performDecryptNote(mnemonic, note))
 )
 
