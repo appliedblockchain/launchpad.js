@@ -52,6 +52,7 @@
     "@appliedblockchain/mantle": "^1.0.10",
     "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
+    "@sentry/node": "^4.3.0",
     "bunyan": "^1.8.12",
     "config": "^1.30.0",
     "koa": "^2.5.1",

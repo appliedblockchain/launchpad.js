@@ -1,0 +1,62 @@
+version: "3.6"
+x-sentry-defaults: &sentry-defaults
+  restart: unless-stopped
+  build:
+    context: ./sentry
+    dockerfile: Dockerfile
+  depends_on:
+    - redis
+    - postgres
+    - memcached
+    - smtp
+  env_file: .env
+  environment:
+    SENTRY_MEMCACHED_HOST: memcached
+    SENTRY_REDIS_HOST: redis
+    SENTRY_POSTGRES_HOST: postgres
+    SENTRY_EMAIL_HOST: smtp
+  networks:
+    - main
+  volumes:
+    - sentry-data:/var/lib/sentry/files
+
+services:
+  smtp:
+    restart: unless-stopped
+    image: tianon/exim4
+    networks:
+      - main
+
+  memcached:
+    restart: unless-stopped
+    image: memcached:1.4
+    networks:
+      - main
+
+  postgres:
+    restart: unless-stopped
+    image: postgres:9.5
+    volumes:
+      - sentry-postgres:/var/lib/postgresql/data
+    networks:
+      - main
+
+  sentry-web:
+    <<: *sentry-defaults
+
+    ports:
+      - '9000:9000'
+
+  sentry-cron:
+    <<: *sentry-defaults
+    command: run cron
+
+  sentry-worker:
+    <<: *sentry-defaults
+    command: run worker
+
+volumes:
+  sentry-data:
+    external: true
+  sentry-postgres:
+    external: true
