@@ -19,13 +19,15 @@ async function getSearchResults(query, offset = 0) {
 
 export function* searchNotes(action) {
   try {
-    const query = action.payload !== null ? action.payload : yield select(state => state.notes.query)
-
-    const mnemonic = yield select(state => state.auth.mnemonic)
-    const offset = yield select(state => state.notes.offset)
+    const query = action.payload.query === null ? yield select(state => state.notes.query) : action.payload.query
     const previousQuery = yield select(state => state.notes.previousQuery)
+    const mnemonic = yield select(state => state.auth.mnemonic)
 
-    const nextOffset = previousQuery === query && offset ? offset : 0
+    const nextOffset = (
+      previousQuery === query && action.payload.offset !== null
+    )
+    ? yield select(state => state.notes.offset)
+    : 0
 
     const { result, next } = yield call(getSearchResults, query, nextOffset)
 

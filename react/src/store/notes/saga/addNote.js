@@ -1,7 +1,7 @@
 import { all, takeLatest, put, select, call } from 'redux-saga/effects'
 import { performEncryptNote } from './perform'
 import { REST_API_LOCATION } from '../../../config'
-import { ACTIONS } from '..'
+import { ACTIONS, fetchNotes } from '..'
 
 const { ADD_NOTE, ADD_NOTE_SUCCESS, ADD_NOTE_FAIL } = ACTIONS
 
@@ -26,6 +26,7 @@ export function* addNote(action) {
       type: ADD_NOTE_SUCCESS,
       payload: { ...encryptedNote, plainText: text }
     })
+    yield put(fetchNotes())
   } catch (err) {
     yield put({
       type: ADD_NOTE_FAIL,

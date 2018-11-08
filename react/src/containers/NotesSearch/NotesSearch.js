@@ -10,14 +10,13 @@ class NotesSearch extends Component {
 
     return (
       <SearchBar
-        onChange={(newQuery) => searchNotes(newQuery, 0)}
-        onRequestSearch={() => searchNotes(null, 0)}
+        onChange={newQuery => searchNotes({ query: newQuery })}
+        onRequestSearch={() => searchNotes({ query: null, offset: null})}
         style={{
           margin: '0 auto',
           maxWidth: 600
         }}
-
-        value = { query }
+        value = {query}
       />
     )
   }

@@ -1,5 +1,7 @@
+import _uniqBy from 'lodash/uniqBy'
 import fullName from 'utils/fullName'
 const moduleName = 'notes'
+
 // Action Names
 const ADD_NOTE = fullName(moduleName, 'ADD_NOTE')
 const ADD_NOTE_SUCCESS = fullName(moduleName, 'ADD_NOTE_SUCCESS')
@@ -51,12 +53,12 @@ export const fetchNotes = () => ({
   type: FETCH_NOTES
 })
 
-export const searchNotes = (query) => ({
+export const searchNotes = payload => ({
   type: SEARCH_NOTES,
-  payload: query
+  payload
 })
 
-export const searchNotesSuccess = (payload) => ({
+export const searchNotesSuccess = payload => ({
   type: SEARCH_NOTES_SUCCESS,
   payload
 })
@@ -67,8 +69,8 @@ export const searchNotesFailure = () => ({
 
 const initialState = {
   notes: [],
-  query: '',
   offset: 0,
+  query: '',
   previousQuery: ''
 }
 
@@ -80,14 +82,12 @@ export default (state = initialState, action) => {
         ...initialState,
         notes: state.notes
       }
-    // case SEARCH_NOTES:
-    //   return { ...state, query: (action.payload !== null ? action.payload : state.query) }
     case SEARCH_NOTES_SUCCESS: {
       const notes = state.previousQuery === action.payload.previousQuery ? state.notes : []
 
       return {
         ...action.payload,
-        notes: [ ...notes, ...action.payload.notes ]
+        notes: _uniqBy([ ...notes, ...action.payload.notes ], note => `${note.author}${note.encryptedText}`)
       }
     }
     case ADD_NOTE_SUCCESS:
