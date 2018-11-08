@@ -9,31 +9,19 @@ class NotesList extends Component {
     this.props.fetchNotes()
   }
 
-  render() {
+  renderNoteList() {
     const { notes, previousQuery, offset, searchNotes } = this.props
 
+    if (notes.length === 0) {
+      return <p className="message">No notes found</p>
+    }
+    return notes.map((note, index) => <Note key={index} note={note} />)
+  }
+
+  render() {
     return (
       <div className={styles.container}>
-
-        {
-          notes.length ?
-            notes.map((note, index) => (
-              <Note key={index} note={note} />
-            ))
-            :
-            <p className="message">No notes found</p>
-        }
-        { !!(previousQuery && offset) &&
-          <Button
-            type="submit"
-            variant="outlined"
-            color="primary"
-            className={styles.buttonMore}
-            onClick={() => searchNotes(previousQuery, offset)}
-          >
-            LOAD MORE
-          </Button>
-        }
+        { this.renderNoteList() }
       </div>
     )
   }

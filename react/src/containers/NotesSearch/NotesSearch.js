@@ -3,14 +3,22 @@ import PropTypes from 'prop-types'
 import SearchBar from 'material-ui-search-bar'
 
 class NotesSearch extends Component {
+  state = { previousScroll: 0 }
+
   handleScroll = () => {
     const { searchNotes, query } = this.props
+    const { previousScroll } = this.state
+
+    const currentScroll = window.scrollY
     const wrappedElement = document.getElementById('root')
     const isBottom = wrappedElement.getBoundingClientRect().bottom <= window.innerHeight
+    const isGoingDown = (currentScroll - previousScroll) > 0
 
-    if (isBottom && query) {
+    if (isBottom && isGoingDown && query) {
       searchNotes({ query })
     }
+
+    this.setState({ previousScroll: currentScroll })
   }
 
   componentDidMount() {
