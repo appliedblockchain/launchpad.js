@@ -10,7 +10,7 @@ class NotesList extends Component {
   }
 
   render() {
-    const { notes, previousQuery, offset } = this.props
+    const { notes, previousQuery, offset, searchNotes } = this.props
 
     return (
       <div className={styles.container}>
@@ -23,13 +23,13 @@ class NotesList extends Component {
             :
             <p className="message">No notes found</p>
         }
-        { (previousQuery && offset) &&
+        { !!(previousQuery && offset) &&
           <Button
             type="submit"
             variant="outlined"
             color="primary"
             className={styles.buttonMore}
-
+            onClick={() => searchNotes(previousQuery, offset)}
           >
             LOAD MORE
           </Button>
@@ -43,7 +43,8 @@ NotesList.propTypes = {
   notes: PropTypes.array.isRequired,
   previousQuery: PropTypes.string.isRequired,
   offset: PropTypes.number.isRequired,
-  fetchNotes: PropTypes.func.isRequired
+  fetchNotes: PropTypes.func.isRequired,
+  searchNotes: PropTypes.func.isRequired
 }
 
 export default NotesList

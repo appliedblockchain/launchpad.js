@@ -46,8 +46,10 @@ const internals = {
         obj.range = {}
         obj.range[key] = lt
       } else {
-        obj[key] = value
-        obj = { match: obj }
+        obj[key] = {}
+        obj[key].value = value
+        obj[key].transpositions = true
+        obj = { fuzzy: obj }
       }
 
       if (must) {
