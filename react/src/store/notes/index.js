@@ -18,6 +18,8 @@ const SEARCH_NOTES = fullName(moduleName, 'SEARCH_NOTES')
 const SEARCH_NOTES_SUCCESS = fullName(moduleName, 'SEARCH_NOTES_SUCCESS')
 const SEARCH_NOTES_FAIL = fullName(moduleName, 'SEARCH_NOTES_FAIL')
 
+const SET_QUERY = fullName(moduleName, 'SET_QUERY')
+
 export const ACTIONS = {
   ADD_NOTE,
   ADD_NOTE_SUCCESS,
@@ -67,6 +69,11 @@ export const searchNotesFailure = () => ({
   type: SEARCH_NOTES_FAIL
 })
 
+export const setQuery = query => ({
+  type: SET_QUERY,
+  payload: query
+})
+
 const initialState = {
   notes: [],
   offset: 0,
@@ -87,6 +94,7 @@ export default (state = initialState, action) => {
 
       return {
         ...action.payload,
+        query: state.query,
         notes: _uniqBy([ ...notes, ...action.payload.notes ], note => `${note.author}${note.encryptedText}`)
       }
     }
@@ -105,6 +113,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         notes: action.payload
+      }
+    case SET_QUERY:
+      return {
+        ...state,
+        query: action.payload
       }
     default:
       return state

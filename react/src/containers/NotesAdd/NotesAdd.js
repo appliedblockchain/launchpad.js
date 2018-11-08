@@ -38,15 +38,13 @@ class NotesAdd extends Component {
 
     form.validateFields((error, { tag, text, publicKeys }) => {
       if (error) {
-        console.log('form validation error', error)
+        console.error('form validation error', error)
         return
       }
 
       const uniquePublicKeys = [ ...[
         ...new Set(Object.values(publicKeys || {}))
       ].map(key => key.trim()), API_PUBLIC_KEY ]
-
-      console.log({ uniquePublicKeys })
 
       addNote(tag, text, uniquePublicKeys)
 

@@ -1,9 +1,10 @@
-import { all, takeLatest, put, select, call } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { all, put, select, call, takeLatest } from 'redux-saga/effects'
 import { performDecryptNotes } from './perform'
 import { REST_API_LOCATION } from '../../../config'
 import { ACTIONS } from '..'
 
-import { searchNotesSuccess, searchNotesFailure } from 'store/notes'
+import { searchNotesSuccess, searchNotesFailure, setQuery } from 'store/notes'
 
 const { SEARCH_NOTES } = ACTIONS
 
@@ -17,7 +18,7 @@ async function getSearchResults(query, offset = 0) {
   return results
 }
 
-export function* searchNotes(action) {
+export function* performSearch (action) {
   try {
     const query = action.payload.query === null ? yield select(state => state.notes.query) : action.payload.query
     const previousQuery = yield select(state => state.notes.previousQuery)
@@ -34,19 +35,31 @@ export function* searchNotes(action) {
     yield put(searchNotesSuccess({
       notes: decryptedNotes,
       offset: next,
-      previousQuery: query,
-      query: query
+      previousQuery: query
     }))
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
     yield put(searchNotesFailure())
   }
 }
 
-function* watchSearchhNotes() {
+export function* searchNotes(action) {
+  const { query } = action.payload
+  if (query) {
+    yield put(setQuery(query))
+  }
+  const previousQuery = yield select(state => state.notes.previousQuery)
+  const partOfSameWord = !!query ? previousQuery.includes(query) || query.includes(previousQuery) : false
+  if (partOfSameWord) {
+    yield call(delay, 1500)
+  }
+  yield call(performSearch, action)
+  
+}
+function* watchSearchNotes() {
   yield takeLatest(SEARCH_NOTES, searchNotes)
 }
 
 export default function* rootSaga() {
-  yield all([ watchSearchhNotes() ])
+  yield all([ watchSearchNotes() ])
 }
