@@ -1,3 +1,4 @@
+import Mantle from '@appliedblockchain/mantle'
 import { all, put, select, call, takeLatest, throttle } from 'redux-saga/effects'
 import { performDecryptNotes } from './perform'
 import { REST_API_LOCATION } from '../../../config'
@@ -9,8 +10,8 @@ const { SEARCH_NOTES } = ACTIONS
 const THROTTLE_QUERY = 'THROTTLE_QUERY'
 const REGULAR_QUERY = 'REGULAR_QUERY'
 
-async function getSearchResults(query, offset = 0) {
-  const url = query !== '' ? `${REST_API_LOCATION}/notes/search?query=${query}&offset=${offset}` : `${REST_API_LOCATION}/notes`
+async function getSearchResults(query, offset = 0, sig) {
+  const url = query !== '' ? `${REST_API_LOCATION}/notes/search?query=${query}&sig=${sig}&offset=${offset}` : `${REST_API_LOCATION}/notes`
 
   const response = await fetch(url)
 
@@ -29,7 +30,11 @@ export function* performSearch (action) {
     const offsetToUse = yield select(state => state.notes.offset) || 0
     const nextOffset = useOffset ? offsetToUse : 0
 
-    const { result, next } = yield call(getSearchResults, query, nextOffset)
+    const mantle = new Mantle()
+    mantle.loadMnemonic(mnemonic)
+    const sig = Mantle.sign(query, mantle.privateKey)
+
+    const { result, next } = yield call(getSearchResults, query, nextOffset, sig)
     const decryptedNotes = yield call(performDecryptNotes, mnemonic, result)
 
     yield put(searchNotesSuccess({

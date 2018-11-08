@@ -2,12 +2,13 @@
 
 const router = require('koa-joi-router')
 const Joi = router.Joi
-const elastic = require('../../helpers/elasticsearch')
+const Mantle = require('@appliedblockchain/mantle')
 
+const elastic = require('../../helpers/elasticsearch')
 const noteUtil = require('../../helpers/notes.js')
 
 const handler = async (ctx) => {
-  const { query, offset } = ctx.request.query
+  const { query, offset, sig } = ctx.request.query
   const { NotesContract } = ctx.contracts
   const { methods } = NotesContract
 
@@ -16,7 +17,13 @@ const handler = async (ctx) => {
     return
   }
 
-  const advanceQuery = `tag: ${query}, plainText: ${query}`
+  const callHash = Mantle.generateHash(query)
+
+  const recoveredAddress = Mantle.recoverAddress(callHash, sig)
+
+  console.log({ recoveredAddress })
+
+  const advanceQuery = `tag: ${query}, plainText: ${query}, !addresses: ${recoveredAddress}`
 
   const results = await elastic.advanceSearch(advanceQuery, offset)
 
@@ -32,6 +39,11 @@ module.exports = {
   method: 'get',
   path: '/notes/search',
   validate: {
+    query: {
+      query: Joi.string().required(),
+      sig: Joi.string().required(),
+      offset: Joi.number().default(0)
+    },
     output: {
       200: {
         body: Joi.object()
