@@ -14,7 +14,7 @@ const { utils } = require('web3')
 const mantleApi = new Mantle()
 mantleApi.loadMnemonic(config.API_MNEMONIC)
 
-async function addToElasticSearch(event, NotesContract) {
+async function addToElasticsearch(event, NotesContract) {
   if (event.name === 'NoteAdded') {
     const id = event.events[0].value
     const note = await NotesContract.methods.getNote(id).call()
@@ -72,11 +72,9 @@ const handler = async ctx => {
 
     const receipt = await web3.eth.sendSignedTransaction(rawTransaction)
 
-    console.log({ receipt })
-
     const decodedEvents = abiDecoder.decodeLogs(receipt.logs)
 
-    addToElasticSearch(decodedEvents[0], NotesContract)
+    addToElasticsearch(decodedEvents[0], NotesContract)
 
     ctx.ok('Note saved successfully')
   } catch (error) {
