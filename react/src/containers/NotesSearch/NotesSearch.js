@@ -3,11 +3,18 @@ import PropTypes from 'prop-types'
 import SearchBar from 'material-ui-search-bar'
 
 class NotesSearch extends Component {
-  state = { previousScroll: 0 }
+  static getDerivedStateFromProps(props) {
+    if (props.query === '') {
+      return { query: '' }
+    }
+    return null
+  }
+
+  state = { query: '', previousScroll: 0 }
 
   handleScroll = () => {
-    const { searchNotes, query } = this.props
-    const { previousScroll } = this.state
+    const { searchNotes } = this.props
+    const { query, previousScroll } = this.state
 
     const currentScroll = window.scrollY
     const wrappedElement = document.getElementById('root')
@@ -30,12 +37,13 @@ class NotesSearch extends Component {
   }
 
   render () {
-    const { searchNotes, query } = this.props
+    const { query } = this.state
+    const { searchNotes } = this.props
 
     return (
       <SearchBar
         onChange={newQuery => searchNotes({ query: newQuery })}
-        onRequestSearch={() => searchNotes({ query: null, offset: null})}
+        onRequestSearch={() => searchNotes({ query, offset: null})}
         style={{
           margin: '0 auto',
           maxWidth: 600

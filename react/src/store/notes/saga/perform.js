@@ -3,9 +3,14 @@ import { utils } from 'web3'
 
 const { bufferToHex0x, publicKeyToAddress } = Mantle.utils
 
+let mantle
+let author
+
 export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
-  const author = new Mantle()
-  author.loadMnemonic(mnemonic)
+  if (!author) {
+    author = new Mantle()
+    author.loadMnemonic(mnemonic)
+  }
 
   const symmetricKey = Mantle.createSymmetricKey()
   const encryptedNote = Mantle.encryptSymmetric(text, symmetricKey)
@@ -42,8 +47,10 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
 }
 
 export const performDecryptNote = (mnemonic, note) => {
-  const mantle = new Mantle()
-  mantle.loadMnemonic(mnemonic)
+  if (!mantle) {
+    mantle = new Mantle()
+    mantle.loadMnemonic(mnemonic)
+  }
 
   const { credentials, encryptedText } = note
   if (!credentials[mantle.address]) {

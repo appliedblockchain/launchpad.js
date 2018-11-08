@@ -30,8 +30,7 @@ export function* performSearch (action) {
     const nextOffset = useOffset ? offsetToUse : 0
 
     const { result, next } = yield call(getSearchResults, query, nextOffset)
-
-    const decryptedNotes = performDecryptNotes(mnemonic, result)
+    const decryptedNotes = yield call(performDecryptNotes, mnemonic, result)
 
     yield put(searchNotesSuccess({
       notes: decryptedNotes,
@@ -52,8 +51,10 @@ export function* searchNotes(action) {
   const previousQuery = yield select(state => state.notes.previousQuery)
   const partOfSameWord = !!query ? previousQuery.includes(query) || query.includes(previousQuery) : false
   if (partOfSameWord) {
+    console.log('Throttle')
     yield put({ type: THROTTLE_QUERY, payload: action.payload })
   } else {
+    console.log('Regular')
     yield put({ type: REGULAR_QUERY, payload: action.payload })
   }
 }
