@@ -10,7 +10,7 @@ class NotesList extends Component {
   }
 
   renderNoteList() {
-    const { notes, previousQuery, offset, searchNotes } = this.props
+    const { notes } = this.props
 
     if (notes.length === 0) {
       return <p className="message">No notes found</p>
@@ -29,10 +29,7 @@ class NotesList extends Component {
 
 NotesList.propTypes = {
   notes: PropTypes.array.isRequired,
-  previousQuery: PropTypes.string.isRequired,
-  offset: PropTypes.number.isRequired,
-  fetchNotes: PropTypes.func.isRequired,
-  searchNotes: PropTypes.func.isRequired
+  fetchNotes: PropTypes.func.isRequired
 }
 
 export default NotesList

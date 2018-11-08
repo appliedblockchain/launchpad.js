@@ -10,7 +10,4 @@ const mapDispatchToProps = dispatch => ({
   searchNotes: data => dispatch(searchNotes(data))
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Component)
+export default connect(mapStateToProps, mapDispatchToProps)(Component)
