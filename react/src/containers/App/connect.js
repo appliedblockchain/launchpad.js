@@ -1,16 +1,11 @@
 import { connect } from 'react-redux'
 import Component from './App.js'
 
-const mapState = ({ app, auth: { authenticated } }) => ({
-  app,
-  authenticated
+const mapStateToProps = state => ({
+  app: state.app,
+  authenticated: state.auth.authenticated
 })
 
-const mapDispatchToProps = () => {
-  return {}
-}
+const mapDispatchToProps = () => ({})
 
-export default connect(
-  mapState,
-  mapDispatchToProps
-)(Component)
+export default connect(mapStateToProps, mapDispatchToProps)(Component)

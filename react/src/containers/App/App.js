@@ -1,15 +1,13 @@
 import React, { Fragment, Component } from 'react'
 import PropTypes from 'prop-types'
-import Page404 from 'containers/Page404'
-import { PersistGate } from 'redux-persist/es/integration/react'
-import { ConnectedRouter } from 'react-router-redux'
 import { Route } from 'react-router'
+import { ConnectedRouter } from 'react-router-redux'
 import { Switch, Redirect } from 'react-router-dom'
+import { PersistGate } from 'redux-persist/es/integration/react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-import config from 'store'
-import { ROUTE_URL } from 'constants.js'
 import StartScreen from 'containers/StartScreen'
+import Page404 from 'containers/Page404'
 import GenerateMnemonic from 'containers/GenerateMnemonic'
 import LoadMnemonic from 'containers/LoadMnemonic'
 import NotesAdd from 'containers/NotesAdd'
@@ -17,6 +15,8 @@ import NotesList from 'containers/NotesList'
 import NotesSearch from 'containers/NotesSearch'
 import UserInfo from 'containers/UserInfo'
 import HeaderBack from 'components/HeaderBack'
+import config from 'store'
+import { ROUTE_URL } from 'constants.js'
 
 const { history, persistor } = config
 
@@ -29,28 +29,25 @@ const renderNotes = () => (
   </Fragment>
 )
 
+const renderGenerateMnemonic = props => (
+  <Fragment>
+    <HeaderBack />
+    <GenerateMnemonic {...props} />
+  </Fragment>
+)
+
+const renderLoadMnemonic = props => (
+  <Fragment>
+    <HeaderBack />
+    <LoadMnemonic {...props} />
+  </Fragment>
+)
 
 const NotAuthenticatedRoutes = () => (
   <Switch>
-    <Route exact path={ROUTE_URL.startScreen} component={StartScreen} />
-    <Route
-      path={ROUTE_URL.generateMnemonic}
-      render={props => (
-        <Fragment>
-          <HeaderBack />
-          <GenerateMnemonic {...props} />
-        </Fragment>
-      )}
-    />
-    <Route
-      path={'/load-mnemonic'}
-      render={props => (
-        <Fragment>
-          <HeaderBack />
-          <LoadMnemonic {...props} />
-        </Fragment>
-      )}
-    />
+    <Route exact path={ROUTE_URL.startScreen} render={() => <StartScreen />} />
+    <Route path={ROUTE_URL.generateMnemonic} render={renderGenerateMnemonic} />
+    <Route path={ROUTE_URL.loadMnemonic} render={renderLoadMnemonic} />
     <Route render={() => <Redirect to={ROUTE_URL.generateMnemonic} />} />
     <Route render={() => <Page404 />} />
   </Switch>
@@ -58,7 +55,7 @@ const NotAuthenticatedRoutes = () => (
 
 const AuthenticatedRoutes = () => (
   <Switch>
-    <Route path={ROUTE_URL.notes} render={renderNotes()} />
+    <Route path={ROUTE_URL.notes} render={renderNotes} />
     <Route render={() => <Redirect to={ROUTE_URL.notes} />} />
     <Route render={() => <Page404 />} />
   </Switch>
