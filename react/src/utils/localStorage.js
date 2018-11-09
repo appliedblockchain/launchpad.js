@@ -1,9 +1,7 @@
 import _fromPairs from 'lodash/fromPairs'
 
 const keys = {
-  auth: 'persist:auth',
-  registrationData: 'registrationData',
-  sharedComputer: 'sharedComputer'
+  auth: 'persist:auth'
 }
 
 const getItem = (key, parsed = false) => {
@@ -65,11 +63,11 @@ const removeItem = key => {
   }
 }
 
-const getJWT = () => {
+export const clearAuth = () => {
   try {
-    return getItem(keys.auth, true).jwt
-  } catch (_) {
-    return null
+    window.localStorage.removeItem(keys.auth)
+  } catch (error) {
+    console.error(error)
   }
 }
 
@@ -77,6 +75,6 @@ export default {
   getItem,
   setItem,
   removeItem,
-  getJWT,
+  clearAuth,
   keys
 }

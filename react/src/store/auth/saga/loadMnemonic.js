@@ -10,18 +10,19 @@ export function* loadMnemonic(action) {
   } else {
     mnemonic = action.payload
   }
-  try {
-    const authData = performLoadMnemonic(mnemonic)
-    yield put({
-      type: LOAD_MNEMONIC_SUCCESS,
-      payload: authData
-    })
-  } catch (error) {
-    console.error(error)
-    yield put({
-      type: LOAD_MNEMONIC_FAIL,
-      payload: {}
-    })
+  if (mnemonic) {
+    try {
+      const authData = performLoadMnemonic(mnemonic)
+      yield put({
+        type: LOAD_MNEMONIC_SUCCESS,
+        payload: authData
+      })
+    } catch (error) {
+      console.error(error)
+      yield put({
+        type: LOAD_MNEMONIC_FAIL
+      })
+    }
   }
 }
 
