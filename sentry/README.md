@@ -10,13 +10,17 @@ https://github.com/getsentry/onpremise/blob/master/README.md
 ## Volumes
 Create volume for sentry to persit data
 
-`docker volume create --name=sentry-data && docker volume create --name=sentry-postgres`
+```shell
+docker volume create --name=sentry-data && docker volume create --name=sentry-postgres
+```
 
 ## Build
 
 Build all images
 
-`docker-compose -f docker-compose.yml -f docker-compose.with-sentry.yml build --build-arg NPM_TOKEN=$NPM_TOKEN`
+```shell
+docker-compose -f docker-compose.yml -f docker-compose.with-sentry.yml build --build-arg NPM_TOKEN=$NPM_TOKEN
+```
 
 
 ## Sentry Setup
@@ -25,7 +29,9 @@ Build all images
 This will generate a key that is used by sentry-web container
 > Note: Sentry specific configuration
 
-`docker-compose -f docker-compose.yml -f docker-compose.with-sentry.yml run --rm sentry-web config generate-secret-key`
+```shell
+docker-compose -f docker-compose.yml -f docker-compose.with-sentry.yml run --rm sentry-web config generate-secret-key
+```
 
 The generated key has to be put in `.env` file which is used in `docker-compose.with-sentry.yml`
 
@@ -38,4 +44,13 @@ The generated key has to be put in `.env` file which is used in `docker-compose.
 This will migrate sentry database schema to `postgres` instance
 > Note: Sentry specific
 
-`docker-compose -f docker-compose.yml -f docker-compose.with-sentry.yml run --rm sentry-web upgrade`
+```shell
+docker-compose -f docker-compose.yml -f docker-compose.with-sentry.yml run --rm sentry-web upgrade
+```
+
+
+## Run Sentry Container
+
+```shell
+docker-compose -f docker-compose.yml -f docker-compose.with-sentry.yml run --rm sentry-web upgrade
+```
