@@ -2,14 +2,12 @@ import { all, takeLatest, put, select, call } from 'redux-saga/effects'
 import { performEncryptNote } from './perform'
 import { REST_API_LOCATION } from '../../../config'
 import { ACTIONS, fetchNotes } from '..'
-import Mantle from '@appliedblockchain/mantle'
 
 const { ADD_NOTE, ADD_NOTE_SUCCESS, ADD_NOTE_FAIL } = ACTIONS
 
 export function* addNote(action) {
   try {
     const mantle = yield select(state => state.auth.mantle)
-    const mnemonic = yield select(state => state.auth.mnemonic)
 
     const { tag, text, publicKeys } = action.payload
     const encryptedNote = performEncryptNote(mantle, tag, text, publicKeys)
@@ -23,11 +21,8 @@ export function* addNote(action) {
 
       contract = yield response.json()
       contract.loaded = true
+      mantle.loadContract(contract)
     }
-
-    const mantle = new Mantle()
-    mantle.loadMnemonic(mnemonic)
-    mantle.loadContract(contract)
 
     const rawTransaction = yield mantle.signTransaction({
       params: params,
