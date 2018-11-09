@@ -6,5 +6,6 @@
 .pubKey {
   font-size: 9px;
   margin: 0 auto !important;
+  word-break: break-all;
 }
 
