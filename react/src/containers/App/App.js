@@ -46,8 +46,8 @@ const renderLoadMnemonic = props => (
 const NotAuthenticatedRoutes = () => (
   <Switch>
     <Route exact path={ROUTE_URL.startScreen} render={() => <StartScreen />} />
-    <Route path={ROUTE_URL.generateMnemonic} render={renderGenerateMnemonic} />
-    <Route path={ROUTE_URL.loadMnemonic} render={renderLoadMnemonic} />
+    <Route path={ROUTE_URL.generateMnemonic} component={props => renderGenerateMnemonic(props)} />
+    <Route path={ROUTE_URL.loadMnemonic} component={props => renderLoadMnemonic(props)} />
     <Route render={() => <Redirect to={ROUTE_URL.generateMnemonic} />} />
     <Route render={() => <Page404 />} />
   </Switch>

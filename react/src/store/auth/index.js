@@ -30,6 +30,11 @@ export const generateMnemonic = () => ({
   type: GENERATE_MNEMONIC
 })
 
+export const generateMnemonicSuccess = mnemonic => ({
+  type: GENERATE_MNEMONIC_SUCCESS,
+  payload: mnemonic
+})
+
 export const loadMnemonic = mnemonic => ({
   type: LOAD_MNEMONIC,
   payload: mnemonic
@@ -61,9 +66,7 @@ export default (state = initialState, action) => {
     case GENERATE_MNEMONIC_SUCCESS: {
       return {
         ...state,
-        authenticated: true,
-        mantle: action.payload.mantle,
-        mnemonic: action.payload.mnemonic
+        mnemonic: action.payload
       }
     }
     case LOAD_MNEMONIC_SUCCESS:

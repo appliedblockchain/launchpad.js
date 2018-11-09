@@ -17,9 +17,8 @@ class GenerateMnemonic extends Component {
   }
 
   componentDidMount() {
-    // const { generateMnemonic } = this.props
-    // generateMnemonic()
-    console.log('GenerateMnemonic componentDidMount')
+    const { generateMnemonic } = this.props
+    generateMnemonic()
   }
 
   onProceed = ev => {

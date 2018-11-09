@@ -9,7 +9,7 @@ import rootSaga from './sagas'
 import { loadMnemonic } from './auth'
 
 // Create a history of your choosing (we're using a browser history in this case)
-const history = createHistory()
+export const history = createHistory()
 const sagaMiddleware = createSagaMiddleware()
 let composeEnhancers = compose
 const middlewares = [ sagaMiddleware ]
