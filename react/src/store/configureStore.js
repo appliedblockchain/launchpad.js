@@ -6,6 +6,7 @@ import { createLogger } from 'redux-logger'
 import { persistStore } from 'redux-persist'
 import reducers from './reducers'
 import rootSaga from './sagas'
+import { loadMnemonic } from './auth'
 
 // Create a history of your choosing (we're using a browser history in this case)
 const history = createHistory()
@@ -28,7 +29,7 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middlewares))
 )
 
-const rehydrateCallback = () => {}
+const rehydrateCallback = () => store.dispatch(loadMnemonic('from_store'))
 const persistor = persistStore(store, null, rehydrateCallback)
 sagaMiddleware.run(rootSaga)
 

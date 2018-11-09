@@ -44,6 +44,7 @@ export const logout = () => ({
 // Reducer
 const initialState = {
   authenticated: false,
+  mantle: {},
   mnemonic: '',
   address: '',
   publicKey: ''
@@ -54,13 +55,15 @@ export default (state = initialState, action) => {
     case GENERATE_MNEMONIC_SUCCESS: {
       return {
         ...state,
-        mnemonic: action.payload
+        mantle: action.payload.mantle,
+        mnemonic: action.payload.mnemonic
       }
     }
     case LOAD_MNEMONIC_SUCCESS: {
-      const { mnemonic, address, publicKey } = action.payload
+      const { mantle, mnemonic, address, publicKey } = action.payload
       return {
         ...state,
+        mantle,
         authenticated: true,
         mnemonic,
         address,
@@ -68,8 +71,6 @@ export default (state = initialState, action) => {
       }
     }
     case LOAD_MNEMONIC_FAIL:
-      return state
-    default:
       return state
     case LOGOUT_SUCCESS:
       return {
@@ -79,5 +80,7 @@ export default (state = initialState, action) => {
         address: '',
         publicKey: ''
       }
+    default:
+      return state
   }
 }

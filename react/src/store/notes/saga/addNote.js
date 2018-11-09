@@ -1,16 +1,17 @@
 import { all, takeLatest, put, select, call } from 'redux-saga/effects'
 import { performEncryptNote } from './perform'
 import { REST_API_LOCATION } from '../../../config'
-import { ACTIONS } from '..'
+import { ACTIONS, fetchNotes } from '..'
 
 const { ADD_NOTE, ADD_NOTE_SUCCESS, ADD_NOTE_FAIL } = ACTIONS
 
 export function* addNote(action) {
   try {
+    const mantle = yield select(state => state.auth.mantle)
     const mnemonic = yield select(state => state.auth.mnemonic)
 
     const { tag, text, publicKeys } = action.payload
-    const encryptedNote = performEncryptNote(mnemonic, tag, text, publicKeys)
+    const encryptedNote = performEncryptNote(mantle, tag, text, publicKeys)
     const { addresses, keysHex, encryptedText, author } = encryptedNote
     const params = [ tag, encryptedText, author, addresses, keysHex ]
 
@@ -26,6 +27,7 @@ export function* addNote(action) {
       type: ADD_NOTE_SUCCESS,
       payload: { ...encryptedNote, plainText: text }
     })
+    yield put(fetchNotes())
   } catch (err) {
     yield put({
       type: ADD_NOTE_FAIL,
