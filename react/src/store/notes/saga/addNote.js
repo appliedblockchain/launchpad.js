@@ -7,10 +7,11 @@ const { ADD_NOTE, ADD_NOTE_SUCCESS, ADD_NOTE_FAIL } = ACTIONS
 
 export function* addNote(action) {
   try {
+    const mantle = yield select(state => state.auth.mantle)
     const mnemonic = yield select(state => state.auth.mnemonic)
 
     const { tag, text, publicKeys } = action.payload
-    const encryptedNote = performEncryptNote(mnemonic, tag, text, publicKeys)
+    const encryptedNote = performEncryptNote(mantle, tag, text, publicKeys)
     const { addresses, keysHex, encryptedText, author } = encryptedNote
     const params = [ tag, encryptedText, author, addresses, keysHex ]
 
