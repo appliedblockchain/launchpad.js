@@ -12,6 +12,14 @@ class NotesSearch extends Component {
 
   state = { query: '', previousScroll: 0 }
 
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
   handleScroll = () => {
     const { searchNotes } = this.props
     const { query, previousScroll } = this.state
@@ -28,14 +36,6 @@ class NotesSearch extends Component {
     this.setState({ previousScroll: currentScroll })
   }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
-  }
-
   render () {
     const { query } = this.state
     const { searchNotes } = this.props
@@ -43,7 +43,7 @@ class NotesSearch extends Component {
     return (
       <SearchBar
         onChange={newQuery => searchNotes({ query: newQuery })}
-        onRequestSearch={() => searchNotes({ query, offset: null})}
+        onRequestSearch={() => searchNotes({ query, offset: null })}
         style={{
           margin: '0 auto',
           maxWidth: 600

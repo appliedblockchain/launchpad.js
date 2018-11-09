@@ -45,6 +45,9 @@ const internals = {
         const lt = { lt: value.substring(1) }
         obj.range = {}
         obj.range[key] = lt
+      } else if (value.match(/^0x/)) {
+        obj[key] = value
+        obj = { match: obj }
       } else {
         obj[key] = {}
         obj[key].value = value
