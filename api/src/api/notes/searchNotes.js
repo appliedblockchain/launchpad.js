@@ -21,8 +21,6 @@ const handler = async (ctx) => {
 
   const recoveredAddress = Mantle.recoverAddress(callHash, sig)
 
-  console.log({ recoveredAddress })
-
   const advanceQuery = `tag: ${query}, plainText: ${query}, !addresses: ${recoveredAddress}`
 
   const results = await elastic.advanceSearch(advanceQuery, offset)
