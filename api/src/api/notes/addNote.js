@@ -32,7 +32,6 @@ async function addToElasticsearch(event, NotesContract) {
       credentials[address] = utils.bytesToHex(encKeysBytes.slice(bottom, upper))
     }
 
-
     if (credentials[mantleApi.address]) {
 
       const encSymKey = credentials[mantleApi.address]
