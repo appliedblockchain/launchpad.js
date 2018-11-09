@@ -10,7 +10,7 @@ const authPersistConfig = {
   key: 'auth',
   storage,
   transforms: [],
-  blacklist: [ 'privateKey' ]
+  blacklist: [ 'authenticated', 'privateKey', 'mantle' ]
 }
 const persistAuth = persistReducer(authPersistConfig, auth)
 const reducers = combineReducers({

@@ -16,10 +16,10 @@ class GenerateMnemonic extends Component {
     isErrorRequiredCheckMnemonic: false
   }
 
-  componentDidMount() {
-    const { generateMnemonic } = this.props
-    generateMnemonic()
-  }
+  // componentDidMount() {
+  //   const { generateMnemonic } = this.props
+  //   generateMnemonic()
+  // }
 
   onProceed = ev => {
     ev.preventDefault()

@@ -4,9 +4,15 @@ import styles from './style.module.css'
 import Note from './Note'
 
 class NotesList extends Component {
-  componentDidMount() {
-    this.props.fetchNotes()
+  static getDerivedStateFromProps(props, state) {
+    if (props.authenticated && !state.hasFetchedNotes) {
+      props.fetchNotes()
+      return { hasFetchedNotes: true }
+    }
+    return null
   }
+
+  state = { hasFetchedNotes: false }
 
   renderNoteList() {
     const { notes } = this.props
