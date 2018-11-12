@@ -43,16 +43,12 @@ class NotesSearch extends Component {
 
   render () {
     const { query } = this.state
-    console.log('Query: ', query)
     const { searchNotes } = this.props
 
     return (
       <SearchBar
         onChange={this.handleSearch}
-        onRequestSearch={() => {
-          console.log('onRequestSearch: ', query)
-          searchNotes({ query, offset: null })
-        }}
+        onRequestSearch={() => searchNotes({ query, offset: null })}
         style={{
           margin: '0 auto',
           maxWidth: 600

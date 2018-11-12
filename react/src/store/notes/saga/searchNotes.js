@@ -14,7 +14,6 @@ async function getSearchResults(query, offset = 0, sig) {
   const url = query !== ''
     ? `${REST_API_LOCATION}/notes/search?query=${query}&sig=${sig}&offset=${offset}`
     : `${REST_API_LOCATION}/notes`
-  console.log('Hitting API at: ', url)
 
   const response = await fetch(url)
 
@@ -51,9 +50,7 @@ export function* performSearch (action) {
 export function* searchNotes(action) {
   const { query } = action.payload
 
-  console.log('In searchNotes saga with query: ', query)
   if (query || query === '') {
-    console.log('Putting empty query: ', query)
     yield put(setQuery(query))
   }
   const previousQuery = yield select(state => state.notes.previousQuery)

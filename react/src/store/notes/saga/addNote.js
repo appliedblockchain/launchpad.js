@@ -1,9 +1,9 @@
 import { all, takeLatest, put, select, call } from 'redux-saga/effects'
 import { performEncryptNote } from './perform'
 import { REST_API_LOCATION } from '../../../config'
-import { ACTIONS, fetchNotes } from '..'
+import { ACTIONS, fetchNotes, addNoteSuccess, addNoteFail } from '../index'
 
-const { ADD_NOTE, addNoteSuccess, addNoteFail } = ACTIONS
+const { ADD_NOTE } = ACTIONS
 
 export function* addNote(action) {
   try {
