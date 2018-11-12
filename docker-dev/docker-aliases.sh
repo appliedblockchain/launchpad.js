@@ -19,7 +19,11 @@ alias cssh="docker_ssh $1"
 # ssh into a container, take the container image name or a part of the id.
 alias dssh="image_ssh $1"
 
-MANTLE_APP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+if [ -n "$ZSH_VERSION" ]; then
+  MANTLE_APP_DIR=`dirname $0:A`
+else
+  MANTLE_APP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+fi
 
 # Function used for the aliases
 mantle_compose_dev () {

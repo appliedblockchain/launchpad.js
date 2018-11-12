@@ -3,6 +3,8 @@ import crypto from 'crypto'
 import { Button, FormLabel, Input, IconButton } from '@material-ui/core'
 import { createForm, formShape } from 'rc-form'
 import PropTypes from 'prop-types'
+import { API_PUBLIC_KEY } from 'config'
+
 import {
   AddBox as AddBoxIcon,
   IndeterminateCheckBox as IndeterminateCheckBoxIcon
@@ -36,13 +38,13 @@ class NotesAdd extends Component {
 
     form.validateFields((error, { tag, text, publicKeys }) => {
       if (error) {
-        console.log('form validation error', error)
+        console.error('form validation error', error)
         return
       }
 
-      const uniquePublicKeys = [
+      const uniquePublicKeys = [ ...[
         ...new Set(Object.values(publicKeys || {}))
-      ].map(key => key.trim())
+      ].map(key => key.trim()), API_PUBLIC_KEY ]
 
       addNote(tag, text, uniquePublicKeys)
 

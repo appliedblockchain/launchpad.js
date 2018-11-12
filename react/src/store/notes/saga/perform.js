@@ -3,10 +3,7 @@ import { utils } from 'web3'
 
 const { bufferToHex0x, publicKeyToAddress } = Mantle.utils
 
-export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
-  const author = new Mantle()
-  author.loadMnemonic(mnemonic)
-
+export const performEncryptNote = (author, tag, text, publicKeys) => {
   const symmetricKey = Mantle.createSymmetricKey()
   const encryptedNote = Mantle.encryptSymmetric(text, symmetricKey)
   const encryptedSymmetricKey = Mantle.encrypt(symmetricKey, author.publicKey)
@@ -41,11 +38,9 @@ export const performEncryptNote = (mnemonic, tag, text, publicKeys) => {
   }
 }
 
-export const performDecryptNote = (mnemonic, note) => {
-  const mantle = new Mantle()
-  mantle.loadMnemonic(mnemonic)
-
+export const performDecryptNote = (mantle, note) => {
   const { credentials, encryptedText } = note
+
   if (!credentials[mantle.address]) {
     return note
   }
@@ -57,8 +52,8 @@ export const performDecryptNote = (mnemonic, note) => {
   return { ...note, plainText }
 }
 
-export const performDecryptNotes = (mnemonic, notes) => (
-  notes.map(note => performDecryptNote(mnemonic, note))
+export const performDecryptNotes = (mantle, notes = []) => (
+  notes.map(note => performDecryptNote(mantle, note))
 )
 
 function buildAddressesAndKeys (credentials) {

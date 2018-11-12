@@ -1,1 +1,2 @@
 export const REST_API_LOCATION = process.env.REACT_APP_REST_API_LOCATION
+export const API_PUBLIC_KEY = 'aacb0505a5e5d2152998cdaaaba15b8cbd11e5e275a23fca18bbc5acdef5a6ecd8c13078f43bc7c5f777f5a9a9255b074d622e5d412e4efd1a6a9056d327e5fc'

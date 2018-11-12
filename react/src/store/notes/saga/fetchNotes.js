@@ -6,11 +6,11 @@ const { FETCH_NOTES, FETCH_NOTES_SUCCESS, FETCH_NOTES_FAIL } = ACTIONS
 
 export function* fetchNotes(action) {
   try {
-    const mnemonic = yield select(state => state.auth.mnemonic)
+    const mantle = yield select(state => state.auth.mantle)
     const res = yield call(fetch, `${REST_API_LOCATION}/notes`)
     const parsedResult = yield call([ res, res.json ])
     const notes = parsedResult.result
-    const decryptedNotes = performDecryptNotes(mnemonic, notes)
+    const decryptedNotes = performDecryptNotes(mantle, notes)
 
     yield put({
       type: FETCH_NOTES_SUCCESS,
