@@ -3,7 +3,7 @@ import { performEncryptNote } from './perform'
 import { REST_API_LOCATION } from '../../../config'
 import { ACTIONS, fetchNotes } from '..'
 
-const { ADD_NOTE, ADD_NOTE_SUCCESS, ADD_NOTE_FAIL } = ACTIONS
+const { ADD_NOTE, addNoteSuccess, addNoteFail } = ACTIONS
 
 export function* addNote(action) {
   try {
@@ -38,20 +38,11 @@ export function* addNote(action) {
       body: JSON.stringify({ rawTransaction })
     })
 
-    yield put({
-      type: ADD_NOTE_SUCCESS,
-      payload: {
-        note: { ...encryptedNote, plainText: text },
-        contract
-      }
-    })
+    yield put(addNoteSuccess({ note: { ...encryptedNote, plainText: text }, contract }))
     yield put(fetchNotes())
   } catch (err) {
     console.error(err)
-    yield put({
-      type: ADD_NOTE_FAIL,
-      payload: action.payload
-    })
+    yield put(addNoteFail(action.payload))
   }
 }
 

@@ -45,6 +45,16 @@ export const addNote = (tag, text, publicKeys) => ({
   }
 })
 
+export const addNoteSuccess = payload => ({
+  type: ADD_NOTE_SUCCESS,
+  payload
+})
+
+export const addNoteFail = payload => ({
+  type: ADD_NOTE_FAIL,
+  payload
+})
+
 export const decryptNote = mnemonic => ({
   type: DECRYPT_NOTE,
   payload: mnemonic
@@ -92,10 +102,10 @@ export default (state = initialState, action) => {
       }
     case SEARCH_NOTES_SUCCESS: {
       const notes = state.previousQuery === action.payload.previousQuery ? state.notes : []
-
       return {
         ...action.payload,
         query: state.query,
+        contract: state.contract,
         notes: _uniqBy([ ...notes, ...action.payload.notes ], note => `${note.author}${note.encryptedText}`)
       }
     }
