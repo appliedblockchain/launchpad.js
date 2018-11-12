@@ -108,7 +108,8 @@ const objectSearch = async (queryObject, offset) => {
     from: offset,
     size: LIMIT,
     body: {
-      query: queryObject
+      query: queryObject,
+      min_score: 1.25
     }
   }
 

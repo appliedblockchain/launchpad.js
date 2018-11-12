@@ -32,7 +32,6 @@ async function addToElasticsearch(event, NotesContract) {
       credentials[address] = utils.bytesToHex(encKeysBytes.slice(bottom, upper))
     }
 
-
     if (credentials[mantleApi.address]) {
 
       const encSymKey = credentials[mantleApi.address]
@@ -52,23 +51,7 @@ const handler = async ctx => {
   const { web3, contracts: { NotesContract } } = ctx
 
   try {
-    const { mnemonic, params } = ctx.request.body
-    const contract = {
-      abi: NotesContract._jsonInterface,
-      address: process.env.CONTRACT_ADDRESS,
-      name: 'Notes'
-    }
-
-    const mantle = new Mantle({ provider: ETHEREUM_JSONRPC_ENDPOINT })
-    mantle.loadMnemonic(mnemonic)
-    mantle.loadContract(contract)
-
-    const rawTransaction = await mantle.signTransaction({
-      params: params,
-      contractName: contract.name,
-      methodName: 'addNote'
-    })
-
+    const { rawTransaction } = ctx.request.body
 
     const receipt = await web3.eth.sendSignedTransaction(rawTransaction)
 
