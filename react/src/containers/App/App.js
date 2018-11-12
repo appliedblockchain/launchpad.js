@@ -16,6 +16,7 @@ import GenerateMnemonic from 'containers/GenerateMnemonic'
 import LoadMnemonic from 'containers/LoadMnemonic'
 import NotesAdd from 'containers/NotesAdd'
 import NotesList from 'containers/NotesList'
+import NotesSearch from 'containers/NotesSearch'
 import UserInfo from 'containers/UserInfo'
 import HeaderBack from 'components/HeaderBack'
 
@@ -65,6 +66,7 @@ const AuthenticatedRoutes = () => (
         <Fragment>
           <UserInfo />
           <NotesAdd />
+          <NotesSearch />
           <NotesList />
         </Fragment>
       )}

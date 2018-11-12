@@ -31,7 +31,21 @@ services:
         delay: 1s
       restart_policy:
         condition: on-failure
-
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    container_name: elasticsearch
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+    networks:
+      - main
   react:
     image: appliedblockchain/mantle-react:latest
     build:
@@ -61,7 +75,11 @@ services:
       context: ./stack
       dockerfile: Dockerfile-parity
       args:
-        PARITY_ID: 1
+        - PARITY_ID=1
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
+    environment:
+      - PARITY_ID=1
     networks:
     - main
     ports:
@@ -72,33 +90,39 @@ services:
     image: appliedblockchain/mantle-parity1:latest
     volumes:
     - parity1_data:/parity/data
-    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
   parity2:
     build:
       context: ./stack
       dockerfile: Dockerfile-parity
       args:
-        PARITY_ID: 2
+        - PARITY_ID=2
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
+    environment:
+      - PARITY_ID=2
     networks:
     - main
     image: appliedblockchain/mantle-parity2:latest
     volumes:
     - parity2_data:/parity/data
-    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
   parity3:
     build:
       context: ./stack
       dockerfile: Dockerfile-parity
       args:
-        PARITY_ID: 3
+        - PARITY_ID=3
+        - AWS_ACCESS_KEY_ID
+        - AWS_SECRET_ACCESS_KEY
+    environment:
+      - PARITY_ID=3
     networks:
     - main
     image: appliedblockchain/mantle-parity3:latest
     volumes:
     - parity3_data:/parity/data
-    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
 
 volumes:
   parity1_data:
   parity2_data:
   parity3_data:
+  elasticsearch:
