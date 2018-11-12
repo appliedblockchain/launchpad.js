@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@appliedblockchain/consul": "^1.0.2"
+    "@appliedblockchain/consul": "^1.0.2",
+    "aws-sdk": "^2.349.0",
+    "node-cron": "^2.0.3"
   }
 }
