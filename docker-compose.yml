@@ -88,7 +88,6 @@ services:
     image: appliedblockchain/mantle-parity1:latest
     volumes:
     - parity1_data:/parity/data
-    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
   parity2:
     build:
       context: ./stack
@@ -100,7 +99,6 @@ services:
     image: appliedblockchain/mantle-parity2:latest
     volumes:
     - parity2_data:/parity/data
-    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
   parity3:
     build:
       context: ./stack
@@ -112,8 +110,7 @@ services:
     image: appliedblockchain/mantle-parity3:latest
     volumes:
     - parity3_data:/parity/data
-    command: --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
-
+    
 volumes:
   parity1_data:
   parity2_data:
