@@ -1,9 +1,7 @@
 version: "3.6"
 x-sentry-defaults: &sentry-defaults
   restart: unless-stopped
-  build:
-    context: ./sentry
-    dockerfile: Dockerfile
+  image: sentry:9.0-onbuild
   depends_on:
     - redis
     - postgres
