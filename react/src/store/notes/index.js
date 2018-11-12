@@ -78,7 +78,8 @@ const initialState = {
   notes: [],
   offset: 0,
   query: '',
-  previousQuery: ''
+  previousQuery: '',
+  contract: { loaded: false }
 }
 
 // Reducer
@@ -101,7 +102,8 @@ export default (state = initialState, action) => {
     case ADD_NOTE_SUCCESS:
       return {
         ...state,
-        notes: [ action.payload, ...state.notes ],
+        notes: [ action.payload.note, ...state.notes ],
+        contract: action.payload.contract,
         query: ''
       }
     case DECRYPT_NOTE_SUCCESS:
