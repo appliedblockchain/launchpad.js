@@ -28,7 +28,7 @@ export function* performSearch (action) {
     const previousQuery = yield select(state => state.notes.previousQuery)
     const mantle = yield select(state => state.auth.mantle)
 
-    const useOffset = previousQuery === query && action.payload.offset !== null
+    const useOffset = previousQuery === query && ![ null, undefined ].includes(action.payload.offset)
     const offsetToUse = yield select(state => state.notes.offset) || 0
     const nextOffset = useOffset ? offsetToUse : 0
 
