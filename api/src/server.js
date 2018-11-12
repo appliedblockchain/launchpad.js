@@ -38,7 +38,7 @@ const createServer = async contractAddress => {
   app
     .use(assignToContext({ contracts, web3 }))
     .use(errorHandler)
-    .use(healthcheck(contractAddress))
+    .use(healthcheck(contractAddress, web3))
     .use(docs.get('/docs', configureDocs(routes)))
     .use(compress())
     .use(respond())
