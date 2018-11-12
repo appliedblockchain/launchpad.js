@@ -7,6 +7,7 @@ import { persistStore } from 'redux-persist'
 import reducers from './reducers'
 import rootSaga from './sagas'
 import { loadMnemonic } from './auth'
+import { NOT_AUTHENTICATED_ROUTES } from 'constants.js'
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
@@ -29,8 +30,13 @@ const store = createStore(
   composeEnhancers(applyMiddleware(...middlewares))
 )
 
-const rehydrateCallback = () => store.dispatch(loadMnemonic('from_store'))
-const persistor = persistStore(store, null, rehydrateCallback)
+const rehydrateCallback = () => {
+  const location = store.getState().router.location.pathname
+  if (!NOT_AUTHENTICATED_ROUTES.includes(location)) {
+    store.dispatch(loadMnemonic('from_store'))
+  }
+}
+export const persistor = persistStore(store, null, rehydrateCallback)
 sagaMiddleware.run(rootSaga)
 
 const config = {
