@@ -16,6 +16,7 @@ services:
     environment:
       - NODE_ENV=staging
       - PROVIDER=http://parity1:8545
+      - SENTRY_DSN=http://6f20a6d7d8154e1f93593c634f943f7d@sentry-web:9000/3
     networks:
       - main
     ports:
@@ -60,6 +61,7 @@ services:
       - static
     deploy:
       <<: *deploy_defaults
+    restart: unless-stopped
 
   redis:
     image: redis
