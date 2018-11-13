@@ -65,6 +65,11 @@ export const fetchNotes = () => ({
   type: FETCH_NOTES
 })
 
+export const fetchNotesSuccess = notes => ({
+  type: FETCH_NOTES_SUCCESS,
+  payload: notes
+})
+
 export const searchNotes = payload => ({
   type: SEARCH_NOTES,
   payload
@@ -95,6 +100,23 @@ const initialState = {
 // Reducer
 export default (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_NOTES_SUCCESS:
+      return {
+        ...state,
+        notes: action.payload
+      }
+    case ADD_NOTE_SUCCESS:
+      return {
+        ...state,
+        notes: [ action.payload.note, ...state.notes ],
+        contract: action.payload.contract,
+        query: ''
+      }
+    case SET_QUERY:
+      return {
+        ...state,
+        query: action.payload
+      }
     case SEARCH_NOTES_FAIL:
       return {
         ...initialState,
@@ -109,28 +131,6 @@ export default (state = initialState, action) => {
         notes: _uniqBy([ ...notes, ...action.payload.notes ], note => `${note.author}${note.encryptedText}`)
       }
     }
-    case ADD_NOTE_SUCCESS:
-      return {
-        ...state,
-        notes: [ action.payload.note, ...state.notes ],
-        contract: action.payload.contract,
-        query: ''
-      }
-    case DECRYPT_NOTE_SUCCESS:
-      return {
-        ...state
-      }
-
-    case FETCH_NOTES_SUCCESS:
-      return {
-        ...state,
-        notes: action.payload
-      }
-    case SET_QUERY:
-      return {
-        ...state,
-        query: action.payload
-      }
     default:
       return state
   }

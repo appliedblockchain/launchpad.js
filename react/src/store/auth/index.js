@@ -43,6 +43,19 @@ export const loadMnemonic = mnemonic => ({
   payload: mnemonic
 })
 
+export const loadMnemonicSuccess = payload => ({
+  type: LOAD_MNEMONIC_SUCCESS,
+  payload
+})
+
+export const loadMnemonicFail = () => ({
+  type: LOAD_MNEMONIC_FAIL
+})
+
+export const loadMnemonicPersist = () => ({
+  type: LOAD_MNEMONIC_PERSIST
+})
+
 export const logout = () => ({
   type: LOGOUT
 })
