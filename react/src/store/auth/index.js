@@ -1,3 +1,4 @@
+import Mantle from '@appliedblockchain/mantle'
 import fullName from 'utils/fullName'
 import localStorage from 'utils/localStorage'
 
@@ -50,13 +51,32 @@ export const logoutSuccess = () => ({
   type: LOGOUT_SUCCESS
 })
 
+let mantle = {}
+let address = ''
+let publicKey = ''
+let mnemonic = localStorage.getAuth('mnemonic', true) || ''
+if (mnemonic) {
+  try {
+    mantle = new Mantle()
+    mantle.loadMnemonic(mnemonic)
+    address = mantle.address
+    publicKey = mantle.getPublicKey('hex0x')
+  } catch (error) {
+    console.log(error)
+    mnemonic = ''
+    address = ''
+    publicKey = ''
+    mantle = {}
+  }
+}
+
 // Reducer
 const initialState = {
   authenticated: !!localStorage.getAuth('mnemonic', true),
-  mantle: {},
-  mnemonic: localStorage.getAuth('mnemonic', true) || '',
-  address: '',
-  publicKey: ''
+  mantle,
+  mnemonic,
+  address,
+  publicKey
 }
 const logoutState = {
   ...initialState,
