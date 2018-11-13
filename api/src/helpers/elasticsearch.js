@@ -1,6 +1,5 @@
 'use strict'
 
-
 const elasticsearch = require('elasticsearch')
 const config = require('config')
 const { ignoreNumberedKeys } = require('../util/util')
@@ -16,19 +15,25 @@ const internals = {
   makeQueryObject(advanceQueryString) {
     const queryObject = {
       bool: {
+        should: [],
         must: [],
-        should: []
+        filter: []
       }
     }
 
     advanceQueryString.split(',').map(x => x.trim()).forEach((x => {
-      let must = false
+      let matchType
 
       let [ key, value ] = x.split(':').map(x => x.trim()) // eslint-disable-line
 
       if (key.startsWith('!')) {
-        must = true
+        matchType = 'must'
         key = key.substring(1)
+      } else if (key.startsWith('$')) {
+        matchType = 'filter'
+        key = key.substring(1)
+      } else {
+        matchType = 'should'
       }
 
       if (key === 'type') {
@@ -55,12 +60,7 @@ const internals = {
         obj = { fuzzy: obj }
       }
 
-      if (must) {
-        queryObject.bool.must.push(obj)
-      } else {
-        queryObject.bool.should.push(obj)
-      }
-
+      queryObject.bool[matchType].push(obj)
     }))
 
     return queryObject
@@ -109,7 +109,7 @@ const objectSearch = async (queryObject, offset) => {
     size: LIMIT,
     body: {
       query: queryObject,
-      min_score: 1.25
+      min_score: 0.1
     }
   }
 

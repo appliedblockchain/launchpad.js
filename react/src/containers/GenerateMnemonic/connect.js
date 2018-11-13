@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { generateMnemonic, loadMnemonic } from 'store/auth'
 import Component from './GenerateMnemonic.js'
 
-const mapState = ({ auth: { mnemonic } }) => ({
+const mapStateToProps = ({ auth: { mnemonic } }) => ({
   mnemonic
 })
 
@@ -11,7 +11,4 @@ const mapDispatchToProps = dispatch => ({
   loadMnemonic: mnemonic => dispatch(loadMnemonic(mnemonic))
 })
 
-export default connect(
-  mapState,
-  mapDispatchToProps
-)(Component)
+export default connect(mapStateToProps, mapDispatchToProps)(Component)

@@ -11,7 +11,9 @@ const THROTTLE_QUERY = 'THROTTLE_QUERY'
 const REGULAR_QUERY = 'REGULAR_QUERY'
 
 async function getSearchResults(query, offset = 0, sig) {
-  const url = query !== '' ? `${REST_API_LOCATION}/notes/search?query=${query}&sig=${sig}&offset=${offset}` : `${REST_API_LOCATION}/notes`
+  const url = query !== ''
+    ? `${REST_API_LOCATION}/notes/search?query=${query}&sig=${sig}&offset=${offset}`
+    : `${REST_API_LOCATION}/notes`
 
   const response = await fetch(url)
 
@@ -26,7 +28,7 @@ export function* performSearch (action) {
     const previousQuery = yield select(state => state.notes.previousQuery)
     const mantle = yield select(state => state.auth.mantle)
 
-    const useOffset = previousQuery === query && action.payload.offset !== null
+    const useOffset = previousQuery === query && ![ null, undefined ].includes(action.payload.offset)
     const offsetToUse = yield select(state => state.notes.offset) || 0
     const nextOffset = useOffset ? offsetToUse : 0
 
@@ -47,11 +49,12 @@ export function* performSearch (action) {
 
 export function* searchNotes(action) {
   const { query } = action.payload
+
   if (query || query === '') {
     yield put(setQuery(query))
   }
   const previousQuery = yield select(state => state.notes.previousQuery)
-  const partOfSameWord = !!query ? previousQuery.includes(query) || query.includes(previousQuery) : false
+  const partOfSameWord = query ? previousQuery.includes(query) || query.includes(previousQuery) : false
   if (partOfSameWord) {
     yield put({ type: THROTTLE_QUERY, payload: action.payload })
   } else {
