@@ -3,7 +3,8 @@ import reducer, { ACTIONS, fetchNotes, searchNotes, addNote } from './index'
 describe('reducer: store/notes', () => {
   const {
     FETCH_NOTES, SEARCH_NOTES, ADD_NOTE,
-    FETCH_NOTES_SUCCESS, ADD_NOTE_SUCCESS
+    FETCH_NOTES_SUCCESS, ADD_NOTE_SUCCESS,
+    SET_QUERY
   } = ACTIONS
 
   describe('Action Creators', () => {
@@ -61,6 +62,16 @@ describe('reducer: store/notes', () => {
         const payload = { note: 2, contract: true }
         const action = { type: ADD_NOTE_SUCCESS, payload }
         const produces = { ...previousState, notes: [ 2, 1 ], contract: true, query: '' }
+        expect(reducer(previousState, action)).toEqual(produces)
+      })
+    })
+
+    describe('SET_QUERY', () => {
+      it('sets the query to the expected value', () => {
+        const previousState = { query: 'query' }
+        const payload = 'different'
+        const action = { type: SET_QUERY, payload }
+        const produces = { query: payload }
         expect(reducer(previousState, action)).toEqual(produces)
       })
     })
