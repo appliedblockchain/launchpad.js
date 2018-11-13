@@ -67,10 +67,26 @@ const removeItem = key => {
 export const setAuth = authObject => {
   try {
     const _persist = getItem('persist:auth', true)._persist
-    console.log('New persist: ', { ...authObject, _persist })
     setItem('persist:auth', JSON.stringify({ ...authObject, _persist }))
   } catch (error) {
     console.error(error)
+  }
+}
+
+export const getAuth = (key, parsed = false) => {
+  if (key === undefined) {
+    return getItem('persist:auth', parsed)
+  } else {
+    try {
+      if (parsed) {
+        return getItem('persist:auth', true)[key]
+      } else {
+        const parsedAuthKey = getItem('persist:auth', true)[key]
+        return JSON.stringify(parsedAuthKey)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
 
@@ -86,7 +102,8 @@ export default {
   getItem,
   setItem,
   removeItem,
-  clearAuth,
   setAuth,
+  getAuth,
+  clearAuth,
   keys
 }

@@ -13,10 +13,7 @@ export function* loadMnemonic(action) {
   if (mnemonic) {
     try {
       const authData = performLoadMnemonic(mnemonic)
-      yield put({
-        type: LOAD_MNEMONIC_SUCCESS,
-        payload: authData
-      })
+      yield put({ type: LOAD_MNEMONIC_SUCCESS, payload: authData })
       yield put({ type: LOAD_MNEMONIC_PERSIST })
     } catch (error) {
       console.error(error)

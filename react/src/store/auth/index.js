@@ -50,17 +50,18 @@ export const logoutSuccess = () => ({
   type: LOGOUT_SUCCESS
 })
 
-export const logoutClear = () => ({
-  type: LOGOUT_CLEAR
-})
-
 // Reducer
 const initialState = {
-  authenticated: false,
+  authenticated: !!localStorage.getAuth('mnemonic', true),
   mantle: {},
-  mnemonic: '',
+  mnemonic: localStorage.getAuth('mnemonic', true) || '',
   address: '',
   publicKey: ''
+}
+const logoutState = {
+  ...initialState,
+  mnemonic: '',
+  authenticated: false
 }
 
 export default (state = initialState, action) => {
@@ -89,12 +90,9 @@ export default (state = initialState, action) => {
       }
     }
     case LOAD_MNEMONIC_FAIL:
-      return initialState
+      return logoutState
     case LOGOUT_SUCCESS:
-      return initialState
-    case LOGOUT_CLEAR:
-      localStorage.clearAuth()
-      return initialState
+      return logoutState
     default:
       return state
   }
