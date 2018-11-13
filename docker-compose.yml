@@ -24,7 +24,6 @@ services:
       - 3000:3000
     depends_on:
       - parity1
-      - redis
     deploy: &deploy_defaults
       mode: global
       update_config:
@@ -54,6 +53,7 @@ services:
       args:
         - NPM_TOKEN
         - BASIC_AUTH_HTPASSWD=admin:$$apr1$$6SESoef2$$haXLi9RTR.MOe76pJGH8r.
+        - TEST_MODE # if set, the react app will be built to use localhost as a backend
     ports:
       - 80:80
     depends_on:
@@ -63,14 +63,6 @@ services:
     deploy:
       <<: *deploy_defaults
     restart: unless-stopped
-
-  redis:
-    image: redis
-    networks:
-      - main
-    deploy:
-      <<: *deploy_defaults
-
   parity1:
     build:
       context: ./stack

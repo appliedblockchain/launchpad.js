@@ -62,15 +62,8 @@ services:
       - 9200:9200
     networks:
       - main
-  redis:
-    image: redis
-    volumes:
-      - redis:/data
-    networks:
-      - main
 volumes:
   parity:
-  redis:
   elasticsearch:
 networks:
   main:

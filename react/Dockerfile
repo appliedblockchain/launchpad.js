@@ -1,4 +1,4 @@
-FROM node:10.7-alpine as builder
+FROM node:10.13-alpine as builder
 
 RUN apk add --update --no-cache alpine-sdk git python && \
   rm -rf /tmp/* /var/cache/apk/*
@@ -6,14 +6,18 @@ RUN apk add --update --no-cache alpine-sdk git python && \
 RUN mkdir /react
 WORKDIR /react
 
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 
 ENV PATH /react/node_modules/.bin:$PATH
 COPY package* /react/
-RUN npm i
+
+ARG NPM_TOKEN
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc &&\
+  npm i &&\
+  rm ~/.npmrc
+
 COPY . /react
-RUN npm run build:staging
+
+RUN if [ "$TEST_MODE" != "" ] ; then npm run build:staging ; else npm run build:test-mode ; fi
 
 FROM nginx:alpine
 COPY --from=builder /react/build /usr/share/nginx/html

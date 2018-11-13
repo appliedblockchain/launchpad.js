@@ -27,6 +27,7 @@
     "start": "NODE_PATH=./src react-app-rewired start",
     "start:staging": "NODE_PATH=./src sh -ac '. .env.staging; react-app-rewired start'",
     "build": "NODE_PATH=./src react-app-rewired build",
+    "build:test-mode": "NODE_PATH=./src sh -ac '. .env.test-mode; react-app-rewired build'",
     "build:staging": "NODE_PATH=./src sh -ac '. .env.staging; react-app-rewired build'",
     "test": "NODE_PATH=./src react-scripts test --env=jsdom",
     "test:ci": "CI=true NODE_PATH=./src react-app-rewired test --env=jsdom --testResultsProcessor='jest-multi-test-result-processor' --coverage",
