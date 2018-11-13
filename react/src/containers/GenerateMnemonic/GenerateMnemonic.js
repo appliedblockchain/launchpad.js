@@ -16,21 +16,19 @@ class GenerateMnemonic extends Component {
     isErrorRequiredCheckMnemonic: false
   }
 
-  // componentDidMount() {
-  //   const { generateMnemonic } = this.props
-  //   generateMnemonic()
-  // }
+  componentDidMount() {
+    const { generateMnemonic } = this.props
+    generateMnemonic()
+  }
 
   onProceed = ev => {
     ev.preventDefault()
     if (!this.state.isChecked) {
-      this.setState(state => ({
-        isErrorRequiredCheckMnemonic: true
-      }))
-      return
+      this.setState({ isErrorRequiredCheckMnemonic: true })
+    } else {
+      const { mnemonic, loadMnemonic } = this.props
+      loadMnemonic(mnemonic)
     }
-    const { mnemonic, loadMnemonic } = this.props
-    loadMnemonic(mnemonic)
   }
 
   onCheckbox = () => {

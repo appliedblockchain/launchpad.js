@@ -20,9 +20,17 @@ const handler = async (ctx) => {
   const callHash = Mantle.generateHash(query)
   const recoveredAddress = Mantle.recoverAddress(callHash, sig)
 
-  const advanceQuery = `tag: ${query}, plainText: ${query}, !addresses: ${recoveredAddress}`
+  const terms = query.replace(/ +/, ' ').split(' ')
+
+  let advanceQuery = ''
+  terms.forEach(t => {
+    advanceQuery += `tag: ${t}, plainText: ${t},`
+  })
+
+  advanceQuery += ` $addresses: ${recoveredAddress}`
 
   const results = await elastic.advanceSearch(advanceQuery, offset)
+
   const result = await Promise.all(results.map(r => methods.getNote(r._id).call().then(noteUtil.addCredentials)))
 
   ctx.body = {
