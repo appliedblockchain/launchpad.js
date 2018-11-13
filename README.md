@@ -19,4 +19,4 @@ Mono-repo with awith Base App Example
 5. Stop the stack(CTRL+C)
 6. Load the contract addresses in your shell: `source api/contracts/exportAddresses.sh`
 7. Start the stack again `docker-compose up`
-8. If you need to push the images to docker hub, make sure to rebuild the react container with test mode disabled fist: `docker-compose build --build-arg TEST_MODE=true --build-arg NPM_TOKEN=$NPM_TOKEN react`
+8. If you need to push the images to docker hub, make sure to rebuild the react container with test mode disabled fist: `docker-compose build --build-arg --build-arg NPM_TOKEN=$NPM_TOKEN react`
