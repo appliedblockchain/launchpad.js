@@ -7,7 +7,11 @@ export const ROUTE_URL = {
   notes: '/notes'
 }
 
+export const NOT_AUTHENTICATED_ROUTES = [ ROUTE_URL.startScreen, ROUTE_URL.generateMnemonic, ROUTE_URL.loadMnemonic ]
+export const AUTHENTICATED_ROUTES = [ ROUTE_URL.notes ]
+
 export default {
   ROUTE_URL,
+  NOT_AUTHENTICATED_ROUTES,
   APP_PREFIX
 }

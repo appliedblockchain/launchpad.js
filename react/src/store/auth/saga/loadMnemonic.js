@@ -1,7 +1,7 @@
 import { all, takeLatest, put, select } from 'redux-saga/effects'
 import { performLoadMnemonic } from './perform'
 import { ACTIONS } from '../index'
-const { LOAD_MNEMONIC, LOAD_MNEMONIC_SUCCESS, LOAD_MNEMONIC_FAIL } = ACTIONS
+const { LOAD_MNEMONIC, LOAD_MNEMONIC_SUCCESS, LOAD_MNEMONIC_PERSIST, LOAD_MNEMONIC_FAIL } = ACTIONS
 
 export function* loadMnemonic(action) {
   let mnemonic
@@ -13,15 +13,11 @@ export function* loadMnemonic(action) {
   if (mnemonic) {
     try {
       const authData = performLoadMnemonic(mnemonic)
-      yield put({
-        type: LOAD_MNEMONIC_SUCCESS,
-        payload: authData
-      })
+      yield put({ type: LOAD_MNEMONIC_SUCCESS, payload: authData })
+      yield put({ type: LOAD_MNEMONIC_PERSIST })
     } catch (error) {
       console.error(error)
-      yield put({
-        type: LOAD_MNEMONIC_FAIL
-      })
+      yield put({ type: LOAD_MNEMONIC_FAIL })
     }
   }
 }

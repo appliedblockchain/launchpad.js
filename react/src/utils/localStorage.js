@@ -1,7 +1,8 @@
 import _fromPairs from 'lodash/fromPairs'
 
 const keys = {
-  auth: 'persist:auth'
+  auth: 'persist:auth',
+  tempMnemonic: 'temp_mnemonic'
 }
 
 const getItem = (key, parsed = false) => {
@@ -63,6 +64,32 @@ const removeItem = key => {
   }
 }
 
+export const setAuth = authObject => {
+  try {
+    const _persist = getItem('persist:auth', true)._persist
+    setItem('persist:auth', JSON.stringify({ ...authObject, _persist }))
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const getAuth = (key, parsed = false) => {
+  if (key === undefined) {
+    return getItem('persist:auth', parsed)
+  } else {
+    try {
+      if (parsed) {
+        return getItem('persist:auth', true)[key]
+      } else {
+        const parsedAuthKey = getItem('persist:auth', true)[key]
+        return JSON.stringify(parsedAuthKey)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 export const clearAuth = () => {
   try {
     window.localStorage.removeItem(keys.auth)
@@ -75,6 +102,8 @@ export default {
   getItem,
   setItem,
   removeItem,
+  setAuth,
+  getAuth,
   clearAuth,
   keys
 }
