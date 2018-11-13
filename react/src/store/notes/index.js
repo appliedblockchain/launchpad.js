@@ -118,11 +118,6 @@ export default (state = initialState, action) => {
         ...state,
         query: action.payload
       }
-    case SEARCH_NOTES_FAIL:
-      return {
-        ...initialState,
-        notes: state.notes
-      }
     case SEARCH_NOTES_SUCCESS: {
       const notes = state.previousQuery === action.payload.previousQuery ? state.notes : []
       return {
@@ -132,6 +127,12 @@ export default (state = initialState, action) => {
         notes: _uniqBy([ ...notes, ...action.payload.notes ], note => `${note.author}${note.encryptedText}`)
       }
     }
+    case SEARCH_NOTES_FAIL:
+      return {
+        ...initialState,
+        notes: state.notes,
+        contract: state.contract
+      }
     default:
       return state
   }
