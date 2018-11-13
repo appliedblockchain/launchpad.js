@@ -55,12 +55,14 @@ let mantle = {}
 let address = ''
 let publicKey = ''
 let mnemonic = localStorage.getAuth('mnemonic', true) || ''
+let authenticated = false
 if (mnemonic) {
   try {
     mantle = new Mantle()
     mantle.loadMnemonic(mnemonic)
     address = mantle.address
     publicKey = mantle.getPublicKey('hex0x')
+    authenticated = true
   } catch (error) {
     console.log(error)
     mnemonic = ''
@@ -72,7 +74,7 @@ if (mnemonic) {
 
 // Reducer
 const initialState = {
-  authenticated: !!localStorage.getAuth('mnemonic', true),
+  authenticated,
   mantle,
   mnemonic,
   address,
