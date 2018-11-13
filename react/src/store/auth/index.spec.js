@@ -3,7 +3,8 @@ import reducer, { ACTIONS, generateMnemonic, loadMnemonic, logout } from './inde
 describe('reducer: store/auth', () => {
   const {
     GENERATE_MNEMONIC, LOAD_MNEMONIC, LOGOUT,
-    GENERATE_MNEMONIC_SUCCESS, LOAD_MNEMONIC_SUCCESS
+    GENERATE_MNEMONIC_SUCCESS, LOAD_MNEMONIC_SUCCESS,
+    LOGOUT_SUCCESS
   } = ACTIONS
 
   describe('Action Creators', () => {
@@ -52,6 +53,23 @@ describe('reducer: store/auth', () => {
         const payload = { mnemonic: 'mnemonic', mantle: { isBuilt: true } }
         const action = { type: LOAD_MNEMONIC_SUCCESS, payload }
         const produces = { ...previousState, authenticated: true, mnemonic: 'temp', mantle: { isBuilt: true } }
+        expect(reducer(previousState, action)).toEqual(produces)
+      })
+    })
+
+    describe('LOGOUT_SUCCESS', () => {
+      it('sets the logout state', () => {
+        const previousState = {
+          authenticated: true, mantle: { isBuilt: true }, mnemonic: 'mnemonic', address: '0x123', publicKey: '0x456'
+        }
+        const action = { type: LOGOUT_SUCCESS }
+        const produces = {
+          authenticated: false,
+          mantle: {},
+          mnemonic: '',
+          address: '',
+          publicKey: ''
+        }
         expect(reducer(previousState, action)).toEqual(produces)
       })
     })

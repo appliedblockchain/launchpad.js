@@ -94,9 +94,11 @@ const initialState = {
   publicKey
 }
 const logoutState = {
-  ...initialState,
+  authenticated: false,
+  mantle: {},
   mnemonic: '',
-  authenticated: false
+  address: '',
+  publicKey: ''
 }
 
 export default (state = initialState, action) => {
