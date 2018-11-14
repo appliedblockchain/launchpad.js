@@ -12,8 +12,8 @@ You will need to run an instance of parity:
 ```
 npm run parity
 ```
->**Note**  Next commands will run from the `/contracts` folder make sure you had run 
-`cd /contracts npm i` first. 
+>**Note**  Next commands will run from the `/contracts` folder make sure you had run
+`cd /contracts npm i` first.
 ```
 npm run compile
 npm run deploy
