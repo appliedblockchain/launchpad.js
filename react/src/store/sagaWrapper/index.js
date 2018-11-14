@@ -144,6 +144,8 @@ export const sagaWrapper = () => {}
 
 export function* _sagaWrapper(action) {
   let sagaResult
+  let caughtError
+  let caughtErrorParsed
 
   const { saga, options } = action.payload
   const baseOptions = options.useDefaultOptions ? Object.assign({}, generalOptions, options.defaultOptions) : generalOptions
@@ -223,11 +225,13 @@ export function* _sagaWrapper(action) {
     // Attempot to run the saga
     sagaResult = yield call(saga)
   } catch (error) {
+    caughtError = error
     // Handle error logging
     if (logError(action, error)) {
       console.error(error)
     }
-    const parsedError = parseError(error)
+    const parsedError = customErrorMessage || parseError(error)
+    caughtErrorParsed = parsedError
     if (logParsedError(action, parsedError)) {
       console.error(parsedError)
     }
@@ -277,7 +281,68 @@ export function* _sagaWrapper(action) {
     }
   }
 
-  
+  // performPostWrapFunctions, performPostWrapSagas,
+  // postWrapFunctions, postWrapSagas,
+  // postWrapFunctionArgs, postWrapSagaArgs,
+  // putPostWrapFunctionResults, putPostWrapSagaResults,
+
+  /* Post Wrap Functions */
+  const _performPostWrapFunctions = Array.isArray(performPostWrapFunctions) ? performPostWrapFunctions : [ performPostWrapFunctions ]
+  const _postWrapFunctions = Array.isArray(postWrapFunctions) ? postWrapFunctions : [ postWrapFunctions ]
+  const _postWrapFunctionArgs = Array.isArray(postWrapFunctionArgs) ? postWrapFunctionArgs : [ postWrapFunctionArgs ]
+  const _putPostWrapFunctionResults = Array.isArray(putPostWrapFunctionResults) ? putPostWrapFunctionResults : [ putPostWrapFunctionResults ]
+
+  for (let index = 0; index < _postWrapFunctions.length; index++) {
+    const correspondingPerformCheck = _performPostWrapFunctions[index]
+    const postWrapFunction = _postWrapFunctions[index]
+    const correspondingArgument = _postWrapFunctionArgs[index]
+    const correspondingPutCheck = _putPostWrapFunctionResults[index]
+    if (correspondingPerformCheck(action, correspondingArgument,
+      { result: sagaResult, error: caughtError, parsedError: caughtErrorParsed }
+    )) {
+      const result = postWrapFunction(action, correspondingArgument,
+        { result: sagaResult, error: caughtError, parsedError: caughtErrorParsed }
+      )
+      if (correspondingPutCheck(action, correspondingArgument,
+        { result: sagaResult, error: caughtError, parsedError: caughtErrorParsed }
+      )) {
+        if (result && result.type) {
+          yield put(result)
+        } else if (correspondingArgument.PUT_TYPE) {
+          yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+        }
+      }
+    }
+  }
+
+  /* Post Wrap Sagas */
+  const _performPostWrapSagas = Array.isArray(performPostWrapSagas) ? performPostWrapSagas : [ performPostWrapSagas ]
+  const _postWrapSagas = Array.isArray(postWrapSagas) ? postWrapSagas : [ postWrapSagas ]
+  const _postWrapSagaArgs = Array.isArray(postWrapSagaArgs) ? postWrapSagaArgs : [ postWrapSagaArgs ]
+  const _putPostWrapSagaResults = Array.isArray(putPostWrapSagaResults) ? putPostWrapSagaResults : [ putPostWrapSagaResults ]
+
+  for (let index = 0; index < _preWrapSagas.length; index++) {
+    const correspondingPerformCheck = _performPostWrapSagas[index]
+    const postWrapSaga = _postWrapSagas[index]
+    const correspondingArgument = _postWrapSagaArgs[index]
+    const correspondingPutCheck = _putPostWrapSagaResults[index]
+    if (correspondingPerformCheck(action, correspondingArgument,
+      { result: sagaResult, error: caughtError, parsedError: caughtErrorParsed }
+    )) {
+      const result = yield call(postWrapSaga, action, correspondingArgument,
+        { result: sagaResult, error: caughtError, parsedError: caughtErrorParsed }
+      )
+      if (correspondingPutCheck(action, correspondingArgument, result,
+        { result: sagaResult, error: caughtError, parsedError: caughtErrorParsed }
+      )) {
+        if (result && result.type) {
+          yield put(result)
+        } else if (correspondingArgument.PUT_TYPE) {
+          yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+        }
+      }
+    }
+  }
 }
 
 function* watchSagaWrapper() {
