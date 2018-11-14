@@ -8,19 +8,27 @@ export const ACTIONS = {
   SAGA_WRAPPER: fullName('sagaWrapper', 'SAGA_WRAPPER')
 }
 
-export const defaultOptions = {
+export const generalOptions = {
   /*
-    performPreWrapFunctions: action, preWrapFunctionsArgs -> boolean
-    performPreWrapFunctions is called with the action and the corresponding preWrapFunctionsArgs and decides if
-    the pre wrap functions are executed.
+    The saga wrapper will check of the given arguments are arrays or not and if they are not, it will treat them as an array of
+    one
   */
-  performPreWrapFunctions: () => false,
   /*
-    performPreWrapSagas: action, preWrapSagaArgs -> boolean
-    performPreWrapSagas is called with the action and the corresponding preWrapSagaArgs and decides if
-    the pre wrap sagas are executed.
+    performPreWrapFunctions: [ (action, preWrapFunctionsArg) -> boolean ]
+    performPreWrapFunctions is a list of functions called with the action and the corresponding preWrapFunctionsArg and decides if
+    the pre wrap function is executed.
+
+    For example, if performPreWrapFunctions is [ (action, preWrapFunctionsArg) => preWrapFunctionsArg === 1, () => false ],
+    preWrapFunctions is [ doSomething, doSomethingElse ] and preWrapFunctionsArgs is [ 1, 2 ], in this case,
+    doSomething will be executed but doSomethingElse will not be.
   */
-  performPreWrapSagas: () => false,
+  performPreWrapFunctions: [],
+  /*
+    performPreWrapSagas: [ (action, preWrapSagaArgs) -> boolean ]
+    performPreWrapSagas is a list of sagas called with the action and the corresponding preWrapSagaArg and decides if
+    the pre wrap saga is executed.
+  */
+  performPreWrapSagas: [],
   /*
     preWrapFunctions: [ preWrapFunctionsArgs -> * ]
     preWrapFunctionsArgs is a list of functions that are executed before the wrapped saga is executed.
@@ -47,6 +55,24 @@ export const defaultOptions = {
     internally, something like yield call(doSomething,1) and yield call(doSomethingElse, 2) will take place.
   */
   preWrapSagaArgs: [],
+  /*
+    putPreWrapFunctionResults: [ (action, preWrapFunctionArg, result) => true ]
+
+    putPreWrapFunctionResults is a list of functions called with the action, corresponding preWrapFunctionArg and the result
+    of that function. If the result of calling this function is true, the result of the preWrapFunction is put into redux, with
+    the action type being preWrapFunctionArg.PUT_TYPE
+
+    For example, if putPreWrapFunctionResults is [ () => true ], and the result of calling preWrapFunction(preWrapFunctionArg) is
+    0, then internally, put({ type: preWrapFunctionArg.PUT_TYPE, payload: 1 }) will happen.
+  */
+  putPreWrapFunctionResults: [],
+  /*
+    putPreWrapFunctionResults: [ (action, putPreWrapSagaArg, result) => true ]
+
+    Similar to putPreWrapFunctionResults, but for sagas.
+  */
+  putPreWrapSagaResults: [],
+  
 
   // This function is called with the caughtError and the arguments given to the outer saga and decides if the error actions are triggered
   actOnError: () => true,
@@ -70,7 +96,7 @@ export function* sagaWrapper(action) {
   let result
   let encounteredError = false
 
-  const { saga, args, options } = action.payload
+  const { saga, options } = action.payload
   const {
     loading, error, logError, throwError, onError, onSuccess, customErrorMessage,
     LOADING_ACTION_START, LOADING_ACTION_STOP, ERROR_ACTION
