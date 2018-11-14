@@ -59,11 +59,16 @@ export const generalOptions = {
     putPreWrapFunctionResults: [ (action, preWrapFunctionArg, result) => true ]
 
     putPreWrapFunctionResults is a list of functions called with the action, corresponding preWrapFunctionArg and the result
-    of that function. If the result of calling this function is true, the result of the preWrapFunction is put into redux, with
-    the action type being preWrapFunctionArg.PUT_TYPE
+    of that function. If the result of calling this function is true, the result of the preWrapFunction is put into redux.
+
+    The assumption is the result of preWrapFunction is an action ( as in { type, payload } ). If it is, it is put, otherwise,
+    preWrapFunctionArg will be checked for PUT_KEY. If it has, { type: PUT_KEY, payload: result } is put.
+
+    If this does not either, either, nothing will be put.
 
     For example, if putPreWrapFunctionResults is [ () => true ], and the result of calling preWrapFunction(preWrapFunctionArg) is
-    0, then internally, put({ type: preWrapFunctionArg.PUT_TYPE, payload: 1 }) will happen.
+    { type: SOME_TYPE, payload: 0 }, then that is put. Otherwise, if preWrapFunctionArg.PUT_TYPE exists,
+    { type: preWrapFunctionArg.PUT_TYPE, payload: result } is put.
   */
   putPreWrapFunctionResults: [],
   /*
@@ -72,24 +77,75 @@ export const generalOptions = {
     Similar to putPreWrapFunctionResults, but for sagas.
   */
   putPreWrapSagaResults: [],
-  
-
-  // This function is called with the caughtError and the arguments given to the outer saga and decides if the error actions are triggered
-  actOnError: () => true,
-  // This function is called with the caughtError and decides if the error is logged
+  /* The following options follow the same rules as the preWrap ones, except for errors */
+  /* The error and parsed error is passed as well */
+  performErrorFunctions: [],
+  performErrorSagas: [],
+  errorFunctions: [],
+  errorSagas: [],
+  errorFunctionArgs: [],
+  errorSagaArgs: [],
+  putErrorFunctionResults: [],
+  putErrorSagaResults: [],
+  /*
+    logError: (action, error) => bool
+    logError is called with the action and the error and decides if the error is logged or not.
+  */
   logError: () => true,
-  // This function is called with the result and decides if the result is acceptable or not
-  throwError: () => false,
-  // This function is called with the result and caughtError and is executed before failAction is put
-  onError: () => {},
-  // This function is called with the result if no error was caught and is executed at the very end
-  onSuccess: () => {},
-  // If this is passed to the application, the errorMessage will not be computed and this will be used instead
-  customErrorMessage: null,
-  LOADING_ACTION_START: null,
-  LOADING_ACTION_STOP: null,
-  ERROR_ACTION: null,
-  successAction, successPayload, failAction, failPayload
+  /*
+    parseError: error => error
+    parseError is called with the error and attempts to extract details for the error.
+
+    For example, parseError could be something like error => error.status === 404 ? 'Resource not found' : 'Unknown Error'
+ */
+  parseError: error => error.toString(),
+  logParsedError: () => false,
+  /*
+    customErrorMessage: string
+    customErrorMessage can be used to log / display a pre determined message, if the nature of the saga if known in advance.
+  */
+  customErrorMessage: '',
+  /* The following options follow the same rules as the preWrap ones, except for post wrap */
+  /* The result of the given saga is passed as well */
+  performPostWrapFunctions: [],
+  performPostWrapSagas: [],
+  postWrapFunctions: [],
+  postWrapSagas: [],
+  postWrapFunctionArgs: [],
+  postWrapSagaArgs: [],
+  putPostWrapFunctionResults: [],
+  putPostWrapSagaResults: [],
+  /* The following options follow the same rules as the postWrap ones, except for success / fail */
+  performSuccessFunctions: [],
+  performSuccessWrapSagas: [],
+  successFunctions: [],
+  successSagas: [],
+  successFunctionArgs: [],
+  successSagaArgs: [],
+  putSuccessFunctionResults: [],
+  putSuccessSagaResults: [],
+  performFailFunctions: [],
+  performFailWrapSagas: [],
+  failFunctions: [],
+  failSagas: [],
+  failFunctionArgs: [],
+  failSagaArgs: [],
+  putFailFunctionResults: [],
+  putFailSagaResults: []
+}
+
+export const defaultOptions = {
+  performPreWrapFunctions: () => true,
+  preWrapFunctions: action => setLoading({ taget: action.payload.saga.name, value: true }),
+  putPreWrapFunctionResults: () => true,
+  performErrorFunctions: () => true,
+  errorFunctions: (...args) => setGlobalError(args[3]),
+  putErrorFunctionResults: () => true,
+  logError: () => false,
+  performPostWrapFunctions: () => true,
+  postWrapFunctions: action => setLoading({ taget: action.payload.saga.name, value: false }),
+  putPostWrapFunctionResults: () => true,
+  performFailFunctions: 
 }
 
 export function* sagaWrapper(action) {
@@ -100,7 +156,7 @@ export function* sagaWrapper(action) {
   const {
     loading, error, logError, throwError, onError, onSuccess, customErrorMessage,
     LOADING_ACTION_START, LOADING_ACTION_STOP, ERROR_ACTION
-  } = Object.assign(defaultOptions, options)
+  } = Object.assign({}, generalOptions, defaultOptions, options)
   const _args = (args && Array.isArray(args)) || []
 
   if (loading(_args)) {
