@@ -1,12 +1,16 @@
 // Move from util to sagas
 
-import { all, takeEvery, put, call, select } from 'redux-saga/effects'
-import { delay } from 'redux-saga'
+import { all, takeEvery, put, call } from 'redux-saga/effects'
 import fullName from 'utils/fullName'
 
 export const ACTIONS = {
   SAGA_WRAPPER: fullName('sagaWrapper', 'SAGA_WRAPPER')
 }
+
+export const sagaWrapper = (saga, options) => ({
+  type: ACTIONS.SAGA_WRAPPER,
+  payload: { saga, options }
+})
 
 export const generalOptions = {
   /*
@@ -140,8 +144,6 @@ export const generalOptions = {
   putFailSagaResults: []
 }
 
-export const sagaWrapper = () => {}
-
 export function* _sagaWrapper(action) {
   let sagaResult
   let caughtError
@@ -163,6 +165,7 @@ export function* _sagaWrapper(action) {
     postWrapFunctionArgs, postWrapSagaArgs,
     putPostWrapFunctionResults, putPostWrapSagaResults,
     performSuccessFunctions, performSuccessSagas,
+    // Maybe add perform for success / fail?
     successFunctions, successSagas,
     successFunctionArgs, successSagaArgs,
     putSuccessFunctionResults, putSuccessSagaResults,
@@ -173,7 +176,7 @@ export function* _sagaWrapper(action) {
     logError, logParsedError, parseError, customErrorMessage
   } = Object.assign({}, baseOptions, options)
 
-  /* ToDo: Add length check */
+  /* ToDo: Add length check - For example successFunctions length must equal successFunctionArgs length  */
 
   /* Pre Wrap Functions */
   const _performPreWrapFunctions = Array.isArray(performPreWrapFunctions) ? performPreWrapFunctions : [ performPreWrapFunctions ]
@@ -280,12 +283,6 @@ export function* _sagaWrapper(action) {
       }
     }
   }
-
-  // performPostWrapFunctions, performPostWrapSagas,
-  // postWrapFunctions, postWrapSagas,
-  // postWrapFunctionArgs, postWrapSagaArgs,
-  // putPostWrapFunctionResults, putPostWrapSagaResults,
-
   /* Post Wrap Functions */
   const _performPostWrapFunctions = Array.isArray(performPostWrapFunctions) ? performPostWrapFunctions : [ performPostWrapFunctions ]
   const _postWrapFunctions = Array.isArray(postWrapFunctions) ? postWrapFunctions : [ postWrapFunctions ]
@@ -343,11 +340,62 @@ export function* _sagaWrapper(action) {
       }
     }
   }
+
+  if (caughtError) {
+    /* Fail Functions */
+    const _failFunctions = Array.isArray(failFunctions) ? failFunctions : [ failFunctions ]
+    const _failFunctionArgs = Array.isArray(failFunctionArgs) ? failFunctionArgs : [ failFunctionArgs ]
+    const _putFailFunctionResults = Array.isArray(putFailFunctionResults) ? putFailFunctionResults : [ putFailFunctionResults ]
+
+    for (let index = 0; index < _failFunctions.length; index++) {
+      const failFunction = _failFunctions[index]
+      const correspondingArgument = _failFunctionArgs[index]
+      const correspondingPutCheck = _putFailFunctionResults[index]
+
+      const result = failFunction(action, correspondingArgument,
+        { error: caughtError, parsedError: caughtErrorParsed }
+      )
+      if (correspondingPutCheck(action, correspondingArgument,
+        { error: caughtError, parsedError: caughtErrorParsed }
+      )) {
+        if (result && result.type) {
+          yield put(result)
+        } else if (correspondingArgument.PUT_TYPE) {
+          yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+        }
+      }
+    }
+
+    /* Fail Sagas */
+    const _failSagas = Array.isArray(failSagas) ? failSagas : [ failSagas ]
+    const _failSagaArgs = Array.isArray(failSagaArgs) ? failSagaArgs : [ failSagaArgs ]
+    const _putFailSagaResults = Array.isArray(putFailSagaResults) ? putFailSagaResults : [ putFailSagaResults ]
+
+    for (let index = 0; index < _failSagas.length; index++) {
+      const failSaga = _failSagas[index]
+      const correspondingArgument = _failSagaArgs[index]
+      const correspondingPutCheck = _putFailSagaResults[index]
+      const result = yield call(failSaga, action, correspondingArgument,
+        { error: caughtError, parsedError: caughtErrorParsed }
+      )
+      if (correspondingPutCheck(action, correspondingArgument, result,
+        { error: caughtError, parsedError: caughtErrorParsed }
+      )) {
+        if (result && result.type) {
+          yield put(result)
+        } else if (correspondingArgument.PUT_TYPE) {
+          yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+        }
+      }
+    }
+  } else {
+
+  }
 }
 
 function* watchSagaWrapper() {
   const { SAGA_WRAPPER } = ACTIONS
-  yield takeEvery(SAGA_WRAPPER, sagaWrapper)
+  yield takeEvery(SAGA_WRAPPER, _sagaWrapper)
 }
 
 export default function* rootSaga() {
