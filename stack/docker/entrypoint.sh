@@ -5,7 +5,7 @@ set -ex
 
 if [ "$1" = "restore" ]
 then
-  node /parity/restore.js "$2"
+  node /parity/download.js "$2"
 
   tar -xzvf "$2" -C /
 
