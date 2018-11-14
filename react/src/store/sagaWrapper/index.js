@@ -14,12 +14,18 @@ export const generalOptions = {
     one
   */
   /*
+    useDefaultOptions: bool
+    useDefaultOptions is a boolean that decides if the default options, specific to each application, should be used. If set to
+    true, general defaults will be overridden
+  */
+  useDefaultOptions: true,
+  /*
     performPreWrapFunctions: [ (action, preWrapFunctionsArg) -> boolean ]
     performPreWrapFunctions is a list of functions called with the action and the corresponding preWrapFunctionsArg and decides if
     the pre wrap function is executed.
 
     For example, if performPreWrapFunctions is [ (action, preWrapFunctionsArg) => preWrapFunctionsArg === 1, () => false ],
-    preWrapFunctions is [ doSomething, doSomethingElse ] and preWrapFunctionsArgs is [ 1, 2 ], in this case,
+    preWrapFunctions is [ doSomething, doSomethingElse ] and preWrapFunctionArgs is [ 1, 2 ], in this case,
     doSomething will be executed but doSomethingElse will not be.
   */
   performPreWrapFunctions: [],
@@ -30,23 +36,23 @@ export const generalOptions = {
   */
   performPreWrapSagas: [],
   /*
-    preWrapFunctions: [ preWrapFunctionsArgs -> * ]
-    preWrapFunctionsArgs is a list of functions that are executed before the wrapped saga is executed.
+    preWrapFunctions: [ (action, preWrapFunctionArgs) -> * ]
+    preWrapFunctionArgs is a list of functions that are executed before the wrapped saga is executed.
   */
   preWrapFunctions: [],
   /*
-    preWrapSagas: [ preWrapSagaArgs -> * ]
+    preWrapSagas: [ (action, preWrapSagaArgs) -> * ]
     preWrapSagas is a list of sagas that are executed before the wrapped saga is executed.
   */
   preWrapSagas: [],
   /*
-    preWrapFunctionsArgs: [ [], [], [] ]
-    preWrapFunctionsArgs is a list of list of arguments. Each list corresponds to a preWrapFunction.
+    preWrapFunctionArgs: [ [], [], [] ]
+    preWrapFunctionArgs is a list of list of arguments. Each list corresponds to a preWrapFunction.
 
     For example, if preWrapFunctions is [ doSomething, doSomethingElse ] and preWrapFunctionsArgs is [ 1, 2 ],
     doSomething will be called with 1 and doSomethingElse will be called with 2.
   */
-  preWrapFunctionsArgs: [],
+  preWrapFunctionArgs: [],
   /*
     preWrapSagaArgs: [ [], [], [] ]
     preWrapSagaArgs is a list of list of arguments. Each list corresponds to a preWrapSaga.
@@ -106,7 +112,7 @@ export const generalOptions = {
   */
   customErrorMessage: '',
   /* The following options follow the same rules as the preWrap ones, except for post wrap */
-  /* The result of the given saga is passed as well */
+  /* The result of the given saga or error is passed as well */
   performPostWrapFunctions: [],
   performPostWrapSagas: [],
   postWrapFunctions: [],
@@ -117,7 +123,7 @@ export const generalOptions = {
   putPostWrapSagaResults: [],
   /* The following options follow the same rules as the postWrap ones, except for success / fail */
   performSuccessFunctions: [],
-  performSuccessWrapSagas: [],
+  performSuccessSagas: [],
   successFunctions: [],
   successSagas: [],
   successFunctionArgs: [],
@@ -125,7 +131,7 @@ export const generalOptions = {
   putSuccessFunctionResults: [],
   putSuccessSagaResults: [],
   performFailFunctions: [],
-  performFailWrapSagas: [],
+  performFailSagas: [],
   failFunctions: [],
   failSagas: [],
   failFunctionArgs: [],
@@ -134,139 +140,144 @@ export const generalOptions = {
   putFailSagaResults: []
 }
 
-export const defaultOptions = {
-  performPreWrapFunctions: () => true,
-  preWrapFunctions: action => setLoading({ taget: action.payload.saga.name, value: true }),
-  putPreWrapFunctionResults: () => true,
-  performErrorFunctions: () => true,
-  errorFunctions: (...args) => setGlobalError(args[3]),
-  putErrorFunctionResults: () => true,
-  logError: () => false,
-  performPostWrapFunctions: () => true,
-  postWrapFunctions: action => setLoading({ taget: action.payload.saga.name, value: false }),
-  putPostWrapFunctionResults: () => true,
-  performFailFunctions: 
-}
+export const sagaWrapper = () => {}
 
-export function* sagaWrapper(action) {
-  let result
-  let encounteredError = false
+export function* _sagaWrapper(action) {
+  let sagaResult
 
   const { saga, options } = action.payload
+  const baseOptions = options.useDefaultOptions ? Object.assign({}, generalOptions, options.defaultOptions) : generalOptions
   const {
-    loading, error, logError, throwError, onError, onSuccess, customErrorMessage,
-    LOADING_ACTION_START, LOADING_ACTION_STOP, ERROR_ACTION
-  } = Object.assign({}, generalOptions, defaultOptions, options)
-  const _args = (args && Array.isArray(args)) || []
+    performPreWrapFunctions, performPreWrapSagas,
+    preWrapFunctions, preWrapSagas,
+    preWrapFunctionArgs, preWrapSagaArgs,
+    putPreWrapFunctionResults, putPreWrapSagaResults,
+    performErrorFunctions, performErrorSagas,
+    errorFunctions, errorSagas,
+    errorFunctionArgs, errorSagaArgs,
+    putErrorFunctionResults, putErrorSagaResults,
+    performPostWrapFunctions, performPostWrapSagas,
+    postWrapFunctions, postWrapSagas,
+    postWrapFunctionArgs, postWrapSagaArgs,
+    putPostWrapFunctionResults, putPostWrapSagaResults,
+    performSuccessFunctions, performSuccessSagas,
+    successFunctions, successSagas,
+    successFunctionArgs, successSagaArgs,
+    putSuccessFunctionResults, putSuccessSagaResults,
+    performFailFunctions, performFailSagas,
+    failFunctions, failSagas,
+    failFunctionArgs, failSagaArgs,
+    putFailFunctionResults, putFailSagaResults,
+    logError, logParsedError, parseError, customErrorMessage
+  } = Object.assign({}, baseOptions, options)
 
-  if (loading(_args)) {
-    yield put({
-      type: LOADING_ACTION_START
-    })
-  }
+  /* ToDo: Add length check */
 
-  try {
-    result = yield call(saga, ..._args)
-    if (throwError(result)) {
-      throw Error(`Saga result failed acceptance test: ${throwError}`)
-    }
-  } catch (caughtError) {
-    let tokenError = false
-    if (caughtError.response && caughtError.response.data) {
-      const errors = caughtError.response.data.errors
-      if (error && error.length > 0) {
-        tokenError = errors[0].code.includes('token')
-      }
-    }
-    if (tokenError) {
-      yield put({
-        type: ERROR_ACTION,
-        payload: caughtError.response.data.errors[0].detail
-      })
-      const emailAddress = yield select(state => state.auth.emailAddress)
-      yield call(delay, 500)
-      yield put(changeUser())
-      yield call(delay, 100)
-      yield put(login({ emailAddress: emailAddress ? emailAddress.toLocaleLowerCase() : '', requestLoginEmail: true }))
-    } else {
-      encounteredError = caughtError
-      if (logError(caughtError)) {
-        console.error(caughtError)
-      }
-      if (error(caughtError)) {
-        if (customErrorMessage) {
-          yield put({
-            type: ERROR_ACTION,
-            payload: customErrorMessage
-          })
-        } else {
-          let errorMessage
-          let errorDetail = getErrorDetail(caughtError)
-          let errorMeta = getErrorMeta(caughtError)
-          let errorTitle = ''
-          const errorParsed = getErrorParsed(caughtError)
+  /* Pre Wrap Functions */
+  const _performPreWrapFunctions = Array.isArray(performPreWrapFunctions) ? performPreWrapFunctions : [ performPreWrapFunctions ]
+  const _preWrapFunctions = Array.isArray(preWrapFunctions) ? preWrapFunctions : [ preWrapFunctions ]
+  const _preWrapFunctionArgs = Array.isArray(preWrapFunctionArgs) ? preWrapFunctionArgs : [ preWrapFunctionArgs ]
+  const _putPreWrapFunctionResults = Array.isArray(putPreWrapFunctionResults) ? putPreWrapFunctionResults : [ putPreWrapFunctionResults ]
 
-          if (errorDetail === '') {
-            if (errorParsed.errors && errorParsed.errors.length > 0) {
-              errorDetail = errorParsed.errors[0].detail
-            }
-          }
-          if (errorMeta === '') {
-            if (
-              errorMeta.errors && errorMeta.errors.length > 0 &&
-              errorParsed.errors[0].meta && errorParsed.errors[0].meta.length > 0
-            ) {
-              errorMeta = errorParsed.errors[0].meta[0].message
-            }
-          }
-          if (errorParsed.errors && errorParsed.errors.length > 0) {
-            errorTitle = errorParsed.errors[0].title
-          }
-
-          errorMessage = `${errorTitle} ${errorDetail} ${errorMeta}`
-          if (errorMessage.replace(/ /g, '') === '') {
-            errorMessage = caughtError.toString()
-          }
-
-          yield put({
-            type: ERROR_ACTION,
-            payload: errorMessage
-          })
+  for (let index = 0; index < _preWrapFunctions.length; index++) {
+    const correspondingPerformCheck = _performPreWrapFunctions[index]
+    const preWrapFunction = _preWrapFunctions[index]
+    const correspondingArgument = _preWrapFunctionArgs[index]
+    const correspondingPutCheck = _putPreWrapFunctionResults[index]
+    if (correspondingPerformCheck(action, correspondingArgument)) {
+      const result = preWrapFunction(action, correspondingArgument)
+      if (correspondingPutCheck(action, correspondingArgument, result)) {
+        if (result && result.type) {
+          yield put(result)
+        } else if (correspondingArgument.PUT_TYPE) {
+          yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
         }
       }
     }
   }
 
-  if (loading(_args)) {
-    yield put({
-      type: LOADING_ACTION_STOP
-    })
-  }
+  /* Pre Wrap Sagas */
+  const _performPreWrapSagas = Array.isArray(performPreWrapSagas) ? performPreWrapSagas : [ performPreWrapSagas ]
+  const _preWrapSagas = Array.isArray(preWrapSagas) ? preWrapSagas : [ preWrapSagas ]
+  const _preWrapSagaArgs = Array.isArray(preWrapSagaArgs) ? preWrapSagaArgs : [ preWrapSagaArgs ]
+  const _putPreWrapSagaResults = Array.isArray(putPreWrapSagaResults) ? putPreWrapSagaResults : [ putPreWrapSagaResults ]
 
-  if (encounteredError) {
-    if (onError) {
-      try {
-        onError(result, encounteredError)
-      } catch (onErrorError) {
-        console.error(onErrorError)
+  for (let index = 0; index < _preWrapSagas.length; index++) {
+    const correspondingPerformCheck = _performPreWrapSagas[index]
+    const preWrapSaga = _preWrapSagas[index]
+    const correspondingArgument = _preWrapSagaArgs[index]
+    const correspondingPutCheck = _putPreWrapSagaResults[index]
+    if (correspondingPerformCheck(action, correspondingArgument)) {
+      const result = yield call(preWrapSaga, action, correspondingArgument)
+      if (correspondingPutCheck(action, correspondingArgument, result)) {
+        if (result && result.type) {
+          yield put(result)
+        } else if (correspondingArgument.PUT_TYPE) {
+          yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+        }
       }
     }
-    if (failAction) {
-      yield put({
-        type: failAction,
-        payload: failPayload || encounteredError
-      })
-    }
-  } else if (successAction) {
-    yield put({
-      type: successAction,
-      payload: successPayload || result
-    })
   }
 
-  if (onSuccess && !encounteredError) {
-    onSuccess(result)
+  try {
+    // Attempot to run the saga
+    sagaResult = yield call(saga)
+  } catch (error) {
+    // Handle error logging
+    if (logError(action, error)) {
+      console.error(error)
+    }
+    const parsedError = parseError(error)
+    if (logParsedError(action, parsedError)) {
+      console.error(parsedError)
+    }
+    // Handle error actions
+    const _performErrorFunctions = Array.isArray(performErrorFunctions) ? performErrorFunctions : [ performErrorFunctions ]
+    const _errorFunctions = Array.isArray(errorFunctions) ? errorFunctions : [ errorFunctions ]
+    const _errorFunctionArgs = Array.isArray(errorFunctionArgs) ? errorFunctionArgs : [ errorFunctionArgs ]
+    const _putErrorFunctionResults = Array.isArray(putErrorFunctionResults) ? putErrorFunctionResults : [ putErrorFunctionResults ]
+
+    for (let index = 0; index < _errorFunctions.length; index++) {
+      const correspondingPerformCheck = _performErrorFunctions[index]
+      const errroFunction = _errorFunctions[index]
+      const correspondingArgument = _errorFunctionArgs[index]
+      const correspondingPutCheck = _putErrorFunctionResults[index]
+      if (correspondingPerformCheck(action, correspondingArgument, { error, parsedError })) {
+        const result = errroFunction(action, correspondingArgument, { error, parsedError })
+        if (correspondingPutCheck(action, correspondingArgument, result, { error, parsedError })) {
+          if (result && result.type) {
+            yield put(result)
+          } else if (correspondingArgument.PUT_TYPE) {
+            yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+          }
+        }
+      }
+    }
+
+    const _performErrorSagas = Array.isArray(performErrorSagas) ? performErrorSagas : [ performErrorSagas ]
+    const _errorSagas = Array.isArray(errorSagas) ? errorSagas : [ errorSagas ]
+    const _errorSagaArgs = Array.isArray(errorSagaArgs) ? errorSagaArgs : [ errorSagaArgs ]
+    const _putErrorSagaResults = Array.isArray(putErrorSagaResults) ? putErrorSagaResults : [ putErrorSagaResults ]
+
+    for (let index = 0; index < _errorSagas.length; index++) {
+      const correspondingPerformCheck = _performErrorSagas[index]
+      const errorSaga = _errorSagas[index]
+      const correspondingArgument = _errorSagaArgs[index]
+      const correspondingPutCheck = _putErrorSagaResults[index]
+      if (correspondingPerformCheck(action, correspondingArgument, { error, parsedError })) {
+        const result = yield call(errorSaga, action, correspondingArgument, { error, parsedError })
+        if (correspondingPutCheck(action, correspondingArgument, result, { error, parsedError })) {
+          if (result && result.type) {
+            yield put(result)
+          } else if (correspondingArgument.PUT_TYPE) {
+            yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+          }
+        }
+      }
+    }
   }
+
+  
 }
 
 function* watchSagaWrapper() {
