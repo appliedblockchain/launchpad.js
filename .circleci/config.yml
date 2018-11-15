@@ -59,7 +59,7 @@ jobs:
             cd contracts
             npm test
       - save_cache:
-          key: v1-contracts-{{ checksum "build_space/git_repo/contracts/package.json" }}
+          key: v1-contracts-{{ checksum "contracts/package.json" }}
           paths:
             - contracts/node_modules
 
