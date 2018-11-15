@@ -1,7 +1,7 @@
 /* ToBe imported */
-const setLoading = () => {}
-const setGlobalError = () => {}
-const notifyGlobalError = () => {}
+const setLoading = args => { console.log('setLoading args: ', args); return {} }
+const setGlobalError = args => { console.log('setGlobalError args: ', args); return {} }
+const notifyGlobalError = args => { console.log('notifyGlobalError args: ', args); return {} }
 
 export default {
   performPreWrapFunctions: () => true,
