@@ -1,6 +1,8 @@
 {
     "name": "base-app-mantle-contracts",
     "scripts": {
+        "test": "truffle test",
+        "lint": "eslint .",
         "compile": "truffle compile",
         "deploy": "node ./bin/deploy && rm -fr ../api/contracts/*.json && cp -f ./build/contracts/*.json ../api/contracts",
         "export-addresses": "source ./exportAddresses.sh",

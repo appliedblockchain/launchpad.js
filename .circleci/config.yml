@@ -1,0 +1,76 @@
+version: 2.1
+
+defaults:
+  - &attach_workspace
+      attach_workspace:
+        at: build_space
+  - &docker_login
+      run: docker login -u abbuilder -p "$DOCKER_PASSWORD"
+  - &job
+      docker:
+        - image: circleci/node:10
+      working_directory: /tmp/build_space/git_repo
+  - &workflow
+      context: org-global
+  - &workflow-master-only
+      context: org-global
+      filters:
+        branches:
+          only:
+            - dev
+
+jobs:
+  pre-build:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run: mkdir build_space
+      - add_ssh_keys
+      - checkout:
+          path: /tmp/build_space/git_repo
+      - persist_to_workspace:
+          root: /tmp/build_space
+          paths:
+            - git_repo
+
+  test-contracts:
+    <<: *job
+    steps:
+      - *attach_workspace
+      - restore_cache:
+          keys:
+            - v1-contracts-{{ checksum "contracts/package.json" }}
+      - run:
+          name: Install solidity
+          command: wget https://github.com/ethereum/solidity/releases/download/v0.4.24/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
+      - run:
+          name: install dependencies
+          command: |-
+            cd contracts
+            echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
+      - run:
+          name: lint
+          command: |-
+            cd contracts
+            npm run lint
+      - run:
+          name: Test Contracts
+          command: |-
+            cd contracts
+            npm test
+      - save_cache:
+          key: v1-contracts-{{ checksum "build_space/git_repo/contracts/package.json" }}
+          paths:
+            - contracts/node_modules
+
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - pre-build:
+          <<: *workflow
+      - test-contracts:
+          <<: *workflow
+          requires:
+            - pre-build
