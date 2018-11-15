@@ -51,7 +51,7 @@ class NotesSearch extends Component {
         className={styles.search}
         onChange={this.handleSearch}
         onRequestSearch={() => searchNotes({ query, offset: null })}
-        value = {query}
+        value={query}
       />
     )
   }

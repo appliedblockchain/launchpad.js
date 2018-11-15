@@ -21,7 +21,7 @@ const setAdditionalValue = (existingValue, additionalValue, defaultType) => {
 }
 
 /* This will not work. It will work for now, but it needs to iterate over all additionals simoultaniusly to group them */
-export default (saga, options) => {
+export default (saga, options = {}) => {
   const usedOptions = { ...defaultOptions }
   Object.entries(options).forEach(
     ([ key, value ]) => {

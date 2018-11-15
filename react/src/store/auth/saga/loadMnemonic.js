@@ -21,9 +21,7 @@ export function* _loadMnemonic(action) {
         yield put(loadMnemonicSuccess(authData))
         yield put(loadMnemonicPersist())
       }
-    }, {
-      additionalFailFunctions: loadMnemonicFail
-    }
+    }, { additionalFailFunctions: loadMnemonicFail }
   ))
 }
 

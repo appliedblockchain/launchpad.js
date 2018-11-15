@@ -7,7 +7,7 @@ export const ACTIONS = {
   SAGA_WRAPPER: fullName('sagaWrapper', 'SAGA_WRAPPER')
 }
 
-export const sagaWrapper = (saga, options) => ({
+export const sagaWrapper = (saga, options = {}) => ({
   type: ACTIONS.SAGA_WRAPPER,
   payload: { saga, options }
 })
@@ -149,8 +149,7 @@ export function* _sagaWrapper(action) {
   let caughtErrorParsed
 
   const { saga, options } = action.payload
-  const usedOptions = Object.assign({}, generalOptions, options || {})
-  console.log('usedOptions in wrapper: ', usedOptions)
+  const usedOptions = Object.assign({}, generalOptions, options)
   const {
     performPreWrapFunctions, performPreWrapSagas,
     preWrapFunctions, preWrapSagas,
