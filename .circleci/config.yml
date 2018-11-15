@@ -101,3 +101,7 @@ workflows:
           <<: *workflow
           requires:
             - pre-build
+      - react:
+          <<: *workflow
+          requires:
+            - pre-build
