@@ -14,6 +14,9 @@ defaults:
       docker:
         - image: circleci/node:10
         - image: appliedblockchain/parity-solo-instant:latest
+          auth:
+            username: abbuilder  # can specify string literal values
+            password: $DOCKER_PASSWORD
       working_directory: /tmp/build_space/git_repo
   - &workflow
       context: org-global
