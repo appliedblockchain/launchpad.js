@@ -165,7 +165,6 @@ export function* _sagaWrapper(action) {
     postWrapFunctionArgs, postWrapSagaArgs,
     putPostWrapFunctionResults, putPostWrapSagaResults,
     performSuccessFunctions, performSuccessSagas,
-    // Maybe add perform for success / fail?
     successFunctions, successSagas,
     successFunctionArgs, successSagaArgs,
     putSuccessFunctionResults, putSuccessSagaResults,
@@ -343,53 +342,116 @@ export function* _sagaWrapper(action) {
 
   if (caughtError) {
     /* Fail Functions */
+    const _performFailFunctions = Array.isArray(performFailFunctions) ? performFailFunctions : [ performFailFunctions ]
     const _failFunctions = Array.isArray(failFunctions) ? failFunctions : [ failFunctions ]
     const _failFunctionArgs = Array.isArray(failFunctionArgs) ? failFunctionArgs : [ failFunctionArgs ]
     const _putFailFunctionResults = Array.isArray(putFailFunctionResults) ? putFailFunctionResults : [ putFailFunctionResults ]
 
     for (let index = 0; index < _failFunctions.length; index++) {
+      const correspondingPerformCheck = _performFailFunctions[index]
       const failFunction = _failFunctions[index]
       const correspondingArgument = _failFunctionArgs[index]
       const correspondingPutCheck = _putFailFunctionResults[index]
 
-      const result = failFunction(action, correspondingArgument,
-        { error: caughtError, parsedError: caughtErrorParsed }
-      )
-      if (correspondingPutCheck(action, correspondingArgument,
+      if (correspondingPerformCheck(action, correspondingArgument,
         { error: caughtError, parsedError: caughtErrorParsed }
       )) {
-        if (result && result.type) {
-          yield put(result)
-        } else if (correspondingArgument.PUT_TYPE) {
-          yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+        const result = failFunction(action, correspondingArgument,
+          { error: caughtError, parsedError: caughtErrorParsed }
+        )
+        if (correspondingPutCheck(action, correspondingArgument,
+          { error: caughtError, parsedError: caughtErrorParsed }
+        )) {
+          if (result && result.type) {
+            yield put(result)
+          } else if (correspondingArgument.PUT_TYPE) {
+            yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+          }
         }
       }
     }
 
     /* Fail Sagas */
+    const _performFailSagas = Array.isArray(performFailSagas) ? performFailSagas : [ performFailSagas ]
     const _failSagas = Array.isArray(failSagas) ? failSagas : [ failSagas ]
     const _failSagaArgs = Array.isArray(failSagaArgs) ? failSagaArgs : [ failSagaArgs ]
     const _putFailSagaResults = Array.isArray(putFailSagaResults) ? putFailSagaResults : [ putFailSagaResults ]
 
     for (let index = 0; index < _failSagas.length; index++) {
+      const correspondingPerformCheck = _performFailSagas[index]
       const failSaga = _failSagas[index]
       const correspondingArgument = _failSagaArgs[index]
       const correspondingPutCheck = _putFailSagaResults[index]
-      const result = yield call(failSaga, action, correspondingArgument,
-        { error: caughtError, parsedError: caughtErrorParsed }
-      )
-      if (correspondingPutCheck(action, correspondingArgument, result,
+
+      if (correspondingPerformCheck(action, correspondingArgument,
         { error: caughtError, parsedError: caughtErrorParsed }
       )) {
-        if (result && result.type) {
-          yield put(result)
-        } else if (correspondingArgument.PUT_TYPE) {
-          yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+        const result = yield call(failSaga, action, correspondingArgument,
+          { error: caughtError, parsedError: caughtErrorParsed }
+        )
+        if (correspondingPutCheck(action, correspondingArgument, result,
+          { error: caughtError, parsedError: caughtErrorParsed }
+        )) {
+          if (result && result.type) {
+            yield put(result)
+          } else if (correspondingArgument.PUT_TYPE) {
+            yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+          }
         }
       }
     }
   } else {
+    /* Success Functions */
+    const _performSuccessFunctions = Array.isArray(performSuccessFunctions) ? performSuccessFunctions : [ performSuccessFunctions ]
+    const _successFunctions = Array.isArray(successFunctions) ? successFunctions : [ successFunctions ]
+    const _successFunctionArgs = Array.isArray(successFunctionArgs) ? successFunctionArgs : [ successFunctionArgs ]
+    const _putSuccessFunctionResults = Array.isArray(putSuccessFunctionResults) ? putSuccessFunctionResults : [ putSuccessFunctionResults ]
 
+    for (let index = 0; index < _successFunctions.length; index++) {
+      const correspondingPerformCheck = _performSuccessFunctions[index]
+      const successFunction = _successFunctions[index]
+      const correspondingArgument = _successFunctionArgs[index]
+      const correspondingPutCheck = _putSuccessFunctionResults[index]
+
+      if (correspondingPerformCheck(action, correspondingArgument, { result: sagaResult })) {
+        const result = successFunction(action, correspondingArgument, { result: sagaResult })
+        if (correspondingPutCheck(action, correspondingArgument, { result: sagaResult })) {
+          if (result && result.type) {
+            yield put(result)
+          } else if (correspondingArgument.PUT_TYPE) {
+            yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+          }
+        }
+      }
+    }
+
+    /* Success Sagas */
+    const _performSuccessSagas = Array.isArray(performSuccessSagas) ? performSuccessSagas : [ performSuccessSagas ]
+    const _successSagas = Array.isArray(successSagas) ? successSagas : [ successSagas ]
+    const _successSagaArgs = Array.isArray(successSagaArgs) ? successSagaArgs : [ successSagaArgs ]
+    const _putSuccessSagaResults = Array.isArray(putSuccessSagaResults) ? putSuccessSagaResults : [ putSuccessSagaResults ]
+
+    for (let index = 0; index < _successSagas.length; index++) {
+      const correspondingPerformCheck = _performSuccessSagas[index]
+      const successSaga = _successSagas[index]
+      const correspondingArgument = _successSagaArgs[index]
+      const correspondingPutCheck = _putSuccessSagaResults[index]
+
+      if (correspondingPerformCheck(action, correspondingArgument, { result: sagaResult })) {
+        const result = yield call(successSaga, action, correspondingArgument,
+          { error: caughtError, parsedError: caughtErrorParsed }
+        )
+        if (correspondingPutCheck(action, correspondingArgument, result,
+          { error: caughtError, parsedError: caughtErrorParsed }
+        )) {
+          if (result && result.type) {
+            yield put(result)
+          } else if (correspondingArgument.PUT_TYPE) {
+            yield put({ type: correspondingArgument.PUT_TYPE, payload: result })
+          }
+        }
+      }
+    }
   }
 }
 
