@@ -1,5 +1,7 @@
 import _fromPairs from 'lodash/fromPairs'
 
+const isTest = process.env.NODE_ENV === 'test'
+
 const keys = {
   auth: 'persist:auth',
   tempMnemonic: 'temp_mnemonic'
@@ -69,7 +71,7 @@ export const setAuth = authObject => {
     const _persist = getItem('persist:auth', true)._persist
     setItem('persist:auth', JSON.stringify({ ...authObject, _persist }))
   } catch (error) {
-    console.error(error)
+    !isTest && console.error(error)
   }
 }
 
@@ -85,7 +87,7 @@ export const getAuth = (key, parsed = false) => {
         return JSON.stringify(parsedAuthKey)
       }
     } catch (error) {
-      console.error(error)
+      !isTest && console.error(error)
     }
   }
 }
@@ -94,7 +96,7 @@ export const clearAuth = () => {
   try {
     window.localStorage.removeItem(keys.auth)
   } catch (error) {
-    console.error(error)
+    !isTest && console.error(error)
   }
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SearchBar from 'material-ui-search-bar'
+import styles from './style.module.css'
 
 class NotesSearch extends Component {
   static getDerivedStateFromProps(props) {
@@ -47,12 +48,9 @@ class NotesSearch extends Component {
 
     return (
       <SearchBar
+        className={styles.search}
         onChange={this.handleSearch}
         onRequestSearch={() => searchNotes({ query, offset: null })}
-        style={{
-          margin: '0 auto',
-          maxWidth: 600
-        }}
         value = {query}
       />
     )

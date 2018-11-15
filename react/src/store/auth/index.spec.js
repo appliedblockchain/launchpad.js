@@ -1,15 +1,32 @@
-import reducer, { ACTIONS, register } from './index'
+import reducer, { ACTIONS, generateMnemonic, loadMnemonic, logout } from './index'
 
 describe('reducer: store/auth', () => {
-  const { REGISTER, REGISTER_SUCCESS } = ACTIONS
+  const {
+    GENERATE_MNEMONIC, LOAD_MNEMONIC, LOGOUT,
+    GENERATE_MNEMONIC_SUCCESS, LOAD_MNEMONIC_SUCCESS,
+    LOGOUT_SUCCESS
+  } = ACTIONS
 
   describe('Action Creators', () => {
-    describe('register', () => {
+    describe('generateMnemonic', () => {
+      it('returns the correct type', () => {
+        const produces = { type: GENERATE_MNEMONIC }
+        expect(generateMnemonic()).toEqual(produces)
+      })
+    })
+
+    describe('loadMnemonic', () => {
       it('returns the correct type and payload', () => {
-        expect(register({ expected: true })).toEqual({
-          type: REGISTER,
-          payload: { expected: true }
-        })
+        const given = 'mnemonic'
+        const produces = { type: LOAD_MNEMONIC, payload: given }
+        expect(loadMnemonic(given)).toEqual(produces)
+      })
+    })
+
+    describe('logout', () => {
+      it('returns the correct type', () => {
+        const produces = { type: LOGOUT }
+        expect(logout()).toEqual(produces)
       })
     })
   })
@@ -20,18 +37,40 @@ describe('reducer: store/auth', () => {
       expect(reducer({ initial: true }, {})).toEqual({ initial: true })
     })
 
-    describe('REGISTER_SUCCESS', () => {
-      it('returns the auth object', () => {
-        expect(
-          reducer(
-            {},
-            { type: REGISTER_SUCCESS, payload: { mnemonic: 'mnemonic' } }
-          )
-        ).toEqual({
-          mnemonic: 'mnemonic',
-          requestPassword: false,
-          derivationError: false
-        })
+    describe('GENERATE_MNEMONIC_SUCCESS', () => {
+      it('sets the mnemonic', () => {
+        const previousState = { previous: true }
+        const payload = 'mnemonic'
+        const action = { type: GENERATE_MNEMONIC_SUCCESS, payload }
+        const produces = { ...previousState, mnemonic: payload }
+        expect(reducer(previousState, action)).toEqual(produces)
+      })
+    })
+
+    describe('LOAD_MNEMONIC_SUCCESS', () => {
+      it('sets the mantle object and temporary mnemonic', () => {
+        const previousState = { authenticated: false, mantle: {}, mnemonic: 'mnemonic' }
+        const payload = { mnemonic: 'mnemonic', mantle: { isBuilt: true } }
+        const action = { type: LOAD_MNEMONIC_SUCCESS, payload }
+        const produces = { ...previousState, authenticated: true, mnemonic: 'temp', mantle: { isBuilt: true } }
+        expect(reducer(previousState, action)).toEqual(produces)
+      })
+    })
+
+    describe('LOGOUT_SUCCESS', () => {
+      it('sets the logout state', () => {
+        const previousState = {
+          authenticated: true, mantle: { isBuilt: true }, mnemonic: 'mnemonic', address: '0x123', publicKey: '0x456'
+        }
+        const action = { type: LOGOUT_SUCCESS }
+        const produces = {
+          authenticated: false,
+          mantle: {},
+          mnemonic: '',
+          address: '',
+          publicKey: ''
+        }
+        expect(reducer(previousState, action)).toEqual(produces)
       })
     })
   })
