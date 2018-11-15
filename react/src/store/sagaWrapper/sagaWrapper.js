@@ -18,12 +18,6 @@ export const generalOptions = {
     one
   */
   /*
-    useDefaultOptions: bool
-    useDefaultOptions is a boolean that decides if the default options, specific to each application, should be used. If set to
-    true, general defaults will be overridden
-  */
-  useDefaultOptions: true,
-  /*
     performPreWrapFunctions: [ (action, preWrapFunctionsArg) -> boolean ]
     performPreWrapFunctions is a list of functions called with the action and the corresponding preWrapFunctionsArg and decides if
     the pre wrap function is executed.
@@ -56,7 +50,7 @@ export const generalOptions = {
     For example, if preWrapFunctions is [ doSomething, doSomethingElse ] and preWrapFunctionsArgs is [ 1, 2 ],
     doSomething will be called with 1 and doSomethingElse will be called with 2.
   */
-  preWrapFunctionArgs: [ {} ],
+  preWrapFunctionsArgs: [ {} ],
   /*
     preWrapSagaArgs: [ [], [], [] ]
     preWrapSagaArgs is a list of list of arguments. Each list corresponds to a preWrapSaga.
@@ -64,7 +58,7 @@ export const generalOptions = {
     For example, if preWrapSagas is [ *doSomething, *doSomethingElse ] and preWrapSagaArgs is [ 1, 2 ],
     internally, something like yield call(doSomething,1) and yield call(doSomethingElse, 2) will take place.
   */
-  preWrapSagaArgs: [ {} ],
+  preWrapSagasArgs: [ {} ],
   /*
     putPreWrapFunctionResults: [ (action, preWrapFunctionArg, result) => true ]
 
@@ -80,23 +74,23 @@ export const generalOptions = {
     { type: SOME_TYPE, payload: 0 }, then that is put. Otherwise, if preWrapFunctionArg.PUT_TYPE exists,
     { type: preWrapFunctionArg.PUT_TYPE, payload: result } is put.
   */
-  putPreWrapFunctionResults: [ () => false ],
+  putPreWrapFunctionsResults: [ () => false ],
   /*
     putPreWrapFunctionResults: [ (action, putPreWrapSagaArg, result) => true ]
 
     Similar to putPreWrapFunctionResults, but for sagas.
   */
-  putPreWrapSagaResults: [ () => false ],
+  putPreWrapSagasResults: [ () => false ],
   /* The following options follow the same rules as the preWrap ones, except for errors */
   /* The error and parsed error is passed as well */
   performErrorFunctions: [ () => false ],
   performErrorSagas: [ () => false ],
   errorFunctions: [ () => false ],
   errorSagas: [ () => false ],
-  errorFunctionArgs: [ {} ],
-  errorSagaArgs: [ {} ],
-  putErrorFunctionResults: [ () => false ],
-  putErrorSagaResults: [ () => false ],
+  errorFunctionsArgs: [ {} ],
+  errorSagasArgs: [ {} ],
+  putErrorFunctionsResults: [ () => false ],
+  putErrorSagasResults: [ () => false ],
   /*
     logError: (action, error) => bool
     logError is called with the action and the error and decides if the error is logged or not.
@@ -121,31 +115,31 @@ export const generalOptions = {
   performPostWrapSagas: [ () => false ],
   postWrapFunctions: [ () => false ],
   postWrapSagas: [ () => false ],
-  postWrapFunctionArgs: [ {} ],
-  postWrapSagaArgs: [ {} ],
-  putPostWrapFunctionResults: [ () => false ],
-  putPostWrapSagaResults: [ () => false ],
+  postWrapFunctionsArgs: [ {} ],
+  postWrapSagasArgs: [ {} ],
+  putPostWrapFunctionsResults: [ () => false ],
+  putPostWrapSagasResults: [ () => false ],
   /* The following options follow the same rules as the postWrap ones, except for success / fail */
   performSuccessFunctions: [ () => false ],
   performSuccessSagas: [ () => false ],
   successFunctions: [ () => false ],
   successSagas: [ () => false ],
-  successFunctionArgs: [ {} ],
-  successSagaArgs: [ {} ],
-  putSuccessFunctionResults: [ () => false ],
-  putSuccessSagaResults: [ () => false ],
+  successFunctionsArgs: [ {} ],
+  successSagasArgs: [ {} ],
+  putSuccessFunctionsResults: [ () => false ],
+  putSuccessSagasResults: [ () => false ],
   performFailFunctions: [ () => false ],
   performFailSagas: [ () => false ],
   failFunctions: [ () => false ],
   failSagas: [ () => false ],
-  failFunctionArgs: [ {} ],
-  failSagaArgs: [ {} ],
-  putFailFunctionResults: [ () => false ],
-  putFailSagaResults: [ () => false ]
+  failFunctionsArgs: [ {} ],
+  failSagasArgs: [ {} ],
+  putFailFunctionsResults: [ () => false ],
+  putFailSagasResults: [ () => false ]
 }
 
 const generalOptionsKeys = Object.keys(generalOptions)
-const generalOptionsKeysNotArray = [ 'useDefaultOptions', 'logError', 'parseError', 'logParsedError', 'customErrorMessage' ]
+const generalOptionsKeysNotArray = [ 'logError', 'parseError', 'logParsedError', 'customErrorMessage' ]
 
 export const arrayKeys = _differenceWith(generalOptionsKeys, generalOptionsKeysNotArray, _isEqual)
 
@@ -155,44 +149,45 @@ export function* _sagaWrapper(action) {
   let caughtErrorParsed
 
   const { saga, options } = action.payload
-  const baseOptions = options.useDefaultOptions ? Object.assign({}, generalOptions, options.defaultOptions) : generalOptions
+  const usedOptions = Object.assign({}, generalOptions, options || {})
+  console.log('usedOptions in wrapper: ', usedOptions)
   const {
     performPreWrapFunctions, performPreWrapSagas,
     preWrapFunctions, preWrapSagas,
-    preWrapFunctionArgs, preWrapSagaArgs,
-    putPreWrapFunctionResults, putPreWrapSagaResults,
+    preWrapFunctionsArgs, preWrapSagasArgs,
+    putPreWrapFunctionsResults, putPreWrapSagasResults,
     performErrorFunctions, performErrorSagas,
     errorFunctions, errorSagas,
-    errorFunctionArgs, errorSagaArgs,
-    putErrorFunctionResults, putErrorSagaResults,
+    errorFunctionsArgs, errorSagasArgs,
+    putErrorFunctionsResults, putErrorSagasResults,
     performPostWrapFunctions, performPostWrapSagas,
     postWrapFunctions, postWrapSagas,
-    postWrapFunctionArgs, postWrapSagaArgs,
-    putPostWrapFunctionResults, putPostWrapSagaResults,
+    postWrapFunctionsArgs, postWrapSagasArgs,
+    putPostWrapFunctionsResults, putPostWrapSagasResults,
     performSuccessFunctions, performSuccessSagas,
     successFunctions, successSagas,
-    successFunctionArgs, successSagaArgs,
-    putSuccessFunctionResults, putSuccessSagaResults,
+    successFunctionsArgs, successSagasArgs,
+    putSuccessFunctionsResults, putSuccessSagasResults,
     performFailFunctions, performFailSagas,
     failFunctions, failSagas,
-    failFunctionArgs, failSagaArgs,
-    putFailFunctionResults, putFailSagaResults,
+    failFunctionsArgs, failSagasArgs,
+    putFailFunctionsResults, putFailSagasResults,
     logError, logParsedError, parseError, customErrorMessage
-  } = Object.assign({}, baseOptions, options)
+  } = usedOptions
 
   /* ToDo: Add length check - For example successFunctions length must equal successFunctionArgs length  */
 
   /* Pre Wrap Functions */
   const _performPreWrapFunctions = Array.isArray(performPreWrapFunctions) ? performPreWrapFunctions : [ performPreWrapFunctions ]
   const _preWrapFunctions = Array.isArray(preWrapFunctions) ? preWrapFunctions : [ preWrapFunctions ]
-  const _preWrapFunctionArgs = Array.isArray(preWrapFunctionArgs) ? preWrapFunctionArgs : [ preWrapFunctionArgs ]
-  const _putPreWrapFunctionResults = Array.isArray(putPreWrapFunctionResults) ? putPreWrapFunctionResults : [ putPreWrapFunctionResults ]
+  const _preWrapFunctionsArgs = Array.isArray(preWrapFunctionsArgs) ? preWrapFunctionsArgs : [ preWrapFunctionsArgs ]
+  const _putPreWrapFunctionsResults = Array.isArray(putPreWrapFunctionsResults) ? putPreWrapFunctionsResults : [ putPreWrapFunctionsResults ]
 
   for (let index = 0; index < _preWrapFunctions.length; index++) {
     const correspondingPerformCheck = _performPreWrapFunctions[index]
     const preWrapFunction = _preWrapFunctions[index]
-    const correspondingArgument = _preWrapFunctionArgs[index]
-    const correspondingPutCheck = _putPreWrapFunctionResults[index]
+    const correspondingArgument = _preWrapFunctionsArgs[index]
+    const correspondingPutCheck = _putPreWrapFunctionsResults[index]
 
     if (correspondingPerformCheck(action, correspondingArgument)) {
       const result = preWrapFunction(action, correspondingArgument)
@@ -209,14 +204,14 @@ export function* _sagaWrapper(action) {
   /* Pre Wrap Sagas */
   const _performPreWrapSagas = Array.isArray(performPreWrapSagas) ? performPreWrapSagas : [ performPreWrapSagas ]
   const _preWrapSagas = Array.isArray(preWrapSagas) ? preWrapSagas : [ preWrapSagas ]
-  const _preWrapSagaArgs = Array.isArray(preWrapSagaArgs) ? preWrapSagaArgs : [ preWrapSagaArgs ]
-  const _putPreWrapSagaResults = Array.isArray(putPreWrapSagaResults) ? putPreWrapSagaResults : [ putPreWrapSagaResults ]
+  const _preWrapSagasArgs = Array.isArray(preWrapSagasArgs) ? preWrapSagasArgs : [ preWrapSagasArgs ]
+  const _putPreWrapSagasResults = Array.isArray(putPreWrapSagasResults) ? putPreWrapSagasResults : [ putPreWrapSagasResults ]
 
   for (let index = 0; index < _preWrapSagas.length; index++) {
     const correspondingPerformCheck = _performPreWrapSagas[index]
     const preWrapSaga = _preWrapSagas[index]
-    const correspondingArgument = _preWrapSagaArgs[index]
-    const correspondingPutCheck = _putPreWrapSagaResults[index]
+    const correspondingArgument = _preWrapSagasArgs[index]
+    const correspondingPutCheck = _putPreWrapSagasResults[index]
 
     if (correspondingPerformCheck(action, correspondingArgument)) {
       const result = yield call(preWrapSaga, action, correspondingArgument)
@@ -247,14 +242,14 @@ export function* _sagaWrapper(action) {
     // Handle error actions
     const _performErrorFunctions = Array.isArray(performErrorFunctions) ? performErrorFunctions : [ performErrorFunctions ]
     const _errorFunctions = Array.isArray(errorFunctions) ? errorFunctions : [ errorFunctions ]
-    const _errorFunctionArgs = Array.isArray(errorFunctionArgs) ? errorFunctionArgs : [ errorFunctionArgs ]
-    const _putErrorFunctionResults = Array.isArray(putErrorFunctionResults) ? putErrorFunctionResults : [ putErrorFunctionResults ]
+    const _errorFunctionsArgs = Array.isArray(errorFunctionsArgs) ? errorFunctionsArgs : [ errorFunctionsArgs ]
+    const _putErrorFunctionsResults = Array.isArray(putErrorFunctionsResults) ? putErrorFunctionsResults : [ putErrorFunctionsResults ]
 
     for (let index = 0; index < _errorFunctions.length; index++) {
       const correspondingPerformCheck = _performErrorFunctions[index]
       const errroFunction = _errorFunctions[index]
-      const correspondingArgument = _errorFunctionArgs[index]
-      const correspondingPutCheck = _putErrorFunctionResults[index]
+      const correspondingArgument = _errorFunctionsArgs[index]
+      const correspondingPutCheck = _putErrorFunctionsResults[index]
 
       if (correspondingPerformCheck(action, correspondingArgument, { error, parsedError })) {
         const result = errroFunction(action, correspondingArgument, { error, parsedError })
@@ -270,14 +265,14 @@ export function* _sagaWrapper(action) {
 
     const _performErrorSagas = Array.isArray(performErrorSagas) ? performErrorSagas : [ performErrorSagas ]
     const _errorSagas = Array.isArray(errorSagas) ? errorSagas : [ errorSagas ]
-    const _errorSagaArgs = Array.isArray(errorSagaArgs) ? errorSagaArgs : [ errorSagaArgs ]
-    const _putErrorSagaResults = Array.isArray(putErrorSagaResults) ? putErrorSagaResults : [ putErrorSagaResults ]
+    const _errorSagasArgs = Array.isArray(errorSagasArgs) ? errorSagasArgs : [ errorSagasArgs ]
+    const _putErrorSagasResults = Array.isArray(putErrorSagasResults) ? putErrorSagasResults : [ putErrorSagasResults ]
 
     for (let index = 0; index < _errorSagas.length; index++) {
       const correspondingPerformCheck = _performErrorSagas[index]
       const errorSaga = _errorSagas[index]
-      const correspondingArgument = _errorSagaArgs[index]
-      const correspondingPutCheck = _putErrorSagaResults[index]
+      const correspondingArgument = _errorSagasArgs[index]
+      const correspondingPutCheck = _putErrorSagasResults[index]
 
       if (correspondingPerformCheck(action, correspondingArgument, { error, parsedError })) {
         const result = yield call(errorSaga, action, correspondingArgument, { error, parsedError })
@@ -294,14 +289,14 @@ export function* _sagaWrapper(action) {
   /* Post Wrap Functions */
   const _performPostWrapFunctions = Array.isArray(performPostWrapFunctions) ? performPostWrapFunctions : [ performPostWrapFunctions ]
   const _postWrapFunctions = Array.isArray(postWrapFunctions) ? postWrapFunctions : [ postWrapFunctions ]
-  const _postWrapFunctionArgs = Array.isArray(postWrapFunctionArgs) ? postWrapFunctionArgs : [ postWrapFunctionArgs ]
-  const _putPostWrapFunctionResults = Array.isArray(putPostWrapFunctionResults) ? putPostWrapFunctionResults : [ putPostWrapFunctionResults ]
+  const _postWrapFunctionsArgs = Array.isArray(postWrapFunctionsArgs) ? postWrapFunctionsArgs : [ postWrapFunctionsArgs ]
+  const _putPostWrapFunctionsResults = Array.isArray(putPostWrapFunctionsResults) ? putPostWrapFunctionsResults : [ putPostWrapFunctionsResults ]
 
   for (let index = 0; index < _postWrapFunctions.length; index++) {
     const correspondingPerformCheck = _performPostWrapFunctions[index]
     const postWrapFunction = _postWrapFunctions[index]
-    const correspondingArgument = _postWrapFunctionArgs[index]
-    const correspondingPutCheck = _putPostWrapFunctionResults[index]
+    const correspondingArgument = _postWrapFunctionsArgs[index]
+    const correspondingPutCheck = _putPostWrapFunctionsResults[index]
 
     if (correspondingPerformCheck(action, correspondingArgument,
       { result: sagaResult, error: caughtError, parsedError: caughtErrorParsed }
@@ -324,14 +319,14 @@ export function* _sagaWrapper(action) {
   /* Post Wrap Sagas */
   const _performPostWrapSagas = Array.isArray(performPostWrapSagas) ? performPostWrapSagas : [ performPostWrapSagas ]
   const _postWrapSagas = Array.isArray(postWrapSagas) ? postWrapSagas : [ postWrapSagas ]
-  const _postWrapSagaArgs = Array.isArray(postWrapSagaArgs) ? postWrapSagaArgs : [ postWrapSagaArgs ]
-  const _putPostWrapSagaResults = Array.isArray(putPostWrapSagaResults) ? putPostWrapSagaResults : [ putPostWrapSagaResults ]
+  const _postWrapSagasArgs = Array.isArray(postWrapSagasArgs) ? postWrapSagasArgs : [ postWrapSagasArgs ]
+  const _putPostWrapSagasResults = Array.isArray(putPostWrapSagasResults) ? putPostWrapSagasResults : [ putPostWrapSagasResults ]
 
   for (let index = 0; index < _preWrapSagas.length; index++) {
     const correspondingPerformCheck = _performPostWrapSagas[index]
     const postWrapSaga = _postWrapSagas[index]
-    const correspondingArgument = _postWrapSagaArgs[index]
-    const correspondingPutCheck = _putPostWrapSagaResults[index]
+    const correspondingArgument = _postWrapSagasArgs[index]
+    const correspondingPutCheck = _putPostWrapSagasResults[index]
     if (correspondingPerformCheck(action, correspondingArgument,
       { result: sagaResult, error: caughtError, parsedError: caughtErrorParsed }
     )) {
@@ -354,14 +349,14 @@ export function* _sagaWrapper(action) {
     /* Fail Functions */
     const _performFailFunctions = Array.isArray(performFailFunctions) ? performFailFunctions : [ performFailFunctions ]
     const _failFunctions = Array.isArray(failFunctions) ? failFunctions : [ failFunctions ]
-    const _failFunctionArgs = Array.isArray(failFunctionArgs) ? failFunctionArgs : [ failFunctionArgs ]
-    const _putFailFunctionResults = Array.isArray(putFailFunctionResults) ? putFailFunctionResults : [ putFailFunctionResults ]
+    const _failFunctionsArgs = Array.isArray(failFunctionsArgs) ? failFunctionsArgs : [ failFunctionsArgs ]
+    const _putFailFunctionsResults = Array.isArray(putFailFunctionsResults) ? putFailFunctionsResults : [ putFailFunctionsResults ]
 
     for (let index = 0; index < _failFunctions.length; index++) {
       const correspondingPerformCheck = _performFailFunctions[index]
       const failFunction = _failFunctions[index]
-      const correspondingArgument = _failFunctionArgs[index]
-      const correspondingPutCheck = _putFailFunctionResults[index]
+      const correspondingArgument = _failFunctionsArgs[index]
+      const correspondingPutCheck = _putFailFunctionsResults[index]
 
       if (correspondingPerformCheck(action, correspondingArgument,
         { error: caughtError, parsedError: caughtErrorParsed }
@@ -384,14 +379,14 @@ export function* _sagaWrapper(action) {
     /* Fail Sagas */
     const _performFailSagas = Array.isArray(performFailSagas) ? performFailSagas : [ performFailSagas ]
     const _failSagas = Array.isArray(failSagas) ? failSagas : [ failSagas ]
-    const _failSagaArgs = Array.isArray(failSagaArgs) ? failSagaArgs : [ failSagaArgs ]
-    const _putFailSagaResults = Array.isArray(putFailSagaResults) ? putFailSagaResults : [ putFailSagaResults ]
+    const _failSagasArgs = Array.isArray(failSagasArgs) ? failSagasArgs : [ failSagasArgs ]
+    const _putFailSagasResults = Array.isArray(putFailSagasResults) ? putFailSagasResults : [ putFailSagasResults ]
 
     for (let index = 0; index < _failSagas.length; index++) {
       const correspondingPerformCheck = _performFailSagas[index]
       const failSaga = _failSagas[index]
-      const correspondingArgument = _failSagaArgs[index]
-      const correspondingPutCheck = _putFailSagaResults[index]
+      const correspondingArgument = _failSagasArgs[index]
+      const correspondingPutCheck = _putFailSagasResults[index]
 
       if (correspondingPerformCheck(action, correspondingArgument,
         { error: caughtError, parsedError: caughtErrorParsed }
@@ -414,14 +409,14 @@ export function* _sagaWrapper(action) {
     /* Success Functions */
     const _performSuccessFunctions = Array.isArray(performSuccessFunctions) ? performSuccessFunctions : [ performSuccessFunctions ]
     const _successFunctions = Array.isArray(successFunctions) ? successFunctions : [ successFunctions ]
-    const _successFunctionArgs = Array.isArray(successFunctionArgs) ? successFunctionArgs : [ successFunctionArgs ]
-    const _putSuccessFunctionResults = Array.isArray(putSuccessFunctionResults) ? putSuccessFunctionResults : [ putSuccessFunctionResults ]
+    const _successFunctionsArgs = Array.isArray(successFunctionsArgs) ? successFunctionsArgs : [ successFunctionsArgs ]
+    const _putSuccessFunctionsResults = Array.isArray(putSuccessFunctionsResults) ? putSuccessFunctionsResults : [ putSuccessFunctionsResults ]
 
     for (let index = 0; index < _successFunctions.length; index++) {
       const correspondingPerformCheck = _performSuccessFunctions[index]
       const successFunction = _successFunctions[index]
-      const correspondingArgument = _successFunctionArgs[index]
-      const correspondingPutCheck = _putSuccessFunctionResults[index]
+      const correspondingArgument = _successFunctionsArgs[index]
+      const correspondingPutCheck = _putSuccessFunctionsResults[index]
 
       if (correspondingPerformCheck(action, correspondingArgument, { result: sagaResult })) {
         const result = successFunction(action, correspondingArgument, { result: sagaResult })
@@ -438,14 +433,14 @@ export function* _sagaWrapper(action) {
     /* Success Sagas */
     const _performSuccessSagas = Array.isArray(performSuccessSagas) ? performSuccessSagas : [ performSuccessSagas ]
     const _successSagas = Array.isArray(successSagas) ? successSagas : [ successSagas ]
-    const _successSagaArgs = Array.isArray(successSagaArgs) ? successSagaArgs : [ successSagaArgs ]
-    const _putSuccessSagaResults = Array.isArray(putSuccessSagaResults) ? putSuccessSagaResults : [ putSuccessSagaResults ]
+    const _successSagasArgs = Array.isArray(successSagasArgs) ? successSagasArgs : [ successSagasArgs ]
+    const _putSuccessSagasResults = Array.isArray(putSuccessSagasResults) ? putSuccessSagasResults : [ putSuccessSagasResults ]
 
     for (let index = 0; index < _successSagas.length; index++) {
       const correspondingPerformCheck = _performSuccessSagas[index]
       const successSaga = _successSagas[index]
-      const correspondingArgument = _successSagaArgs[index]
-      const correspondingPutCheck = _putSuccessSagaResults[index]
+      const correspondingArgument = _successSagasArgs[index]
+      const correspondingPutCheck = _putSuccessSagasResults[index]
 
       if (correspondingPerformCheck(action, correspondingArgument, { result: sagaResult })) {
         const result = yield call(successSaga, action, correspondingArgument,
