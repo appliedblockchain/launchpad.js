@@ -36,13 +36,18 @@ class NotesSearch extends Component {
     this.setState({ previousScroll: currentScroll })
   }
 
+  handleSearch = newQuery => {
+    const { searchNotes } = this.props
+    this.setState({ query: newQuery }, () => searchNotes({ query: newQuery }))
+  }
+
   render () {
     const { query } = this.state
     const { searchNotes } = this.props
 
     return (
       <SearchBar
-        onChange={newQuery => searchNotes({ query: newQuery })}
+        onChange={this.handleSearch}
         onRequestSearch={() => searchNotes({ query, offset: null })}
         style={{
           margin: '0 auto',

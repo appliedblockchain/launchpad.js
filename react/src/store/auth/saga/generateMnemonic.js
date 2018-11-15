@@ -1,27 +1,15 @@
 import { all, takeLatest, put, call } from 'redux-saga/effects'
-import Mantle from '@appliedblockchain/mantle'
 import { performGenerateMnemonic } from './perform'
-import { ACTIONS } from '../index'
+import { ACTIONS, generateMnemonicSuccess } from '../index'
 
-const {
-  GENERATE_MNEMONIC,
-  GENERATE_MNEMONIC_FAIL,
-  GENERATE_MNEMONIC_SUCCESS
-} = ACTIONS
+const { GENERATE_MNEMONIC } = ACTIONS
 
 export function* generateMnemonic() {
   try {
-    const mantle = new Mantle()
     const mnemonic = yield call(performGenerateMnemonic)
-    yield put({
-      type: GENERATE_MNEMONIC_SUCCESS,
-      payload: {
-        mantle,
-        mnemonic
-      }
-    })
-  } catch (err) {
-    yield put({ type: GENERATE_MNEMONIC_FAIL })
+    yield put(generateMnemonicSuccess(mnemonic))
+  } catch (error) {
+    console.error(error)
   }
 }
 
