@@ -1,4 +1,6 @@
 import { all, takeEvery, put, call } from 'redux-saga/effects'
+import _differenceWith from 'lodash/differenceWith'
+import _isEqual from 'lodash/isEqual'
 import fullName from 'utils/fullName'
 
 export const ACTIONS = {
@@ -141,6 +143,11 @@ export const generalOptions = {
   putFailFunctionResults: [ () => false ],
   putFailSagaResults: [ () => false ]
 }
+
+const generalOptionsKeys = Object.keys(generalOptions)
+const generalOptionsKeysNotArray = [ 'useDefaultOptions', 'logError', 'parseError', 'logParsedError', 'customErrorMessage' ]
+
+export const arrayKeys = _differenceWith(generalOptionsKeys, generalOptionsKeysNotArray, _isEqual)
 
 export function* _sagaWrapper(action) {
   let sagaResult
