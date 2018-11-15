@@ -2,10 +2,10 @@ const Notes = artifacts.require('Notes')
 
 contract('Notes', function(accounts) {
   let notes
+  let from
 
   beforeEach(async () => {
     from = accounts[0]
-    user1 = accounts[1]
     notes = await Notes.new({ gas: 5000000, from })
   })
 
