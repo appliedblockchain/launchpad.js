@@ -3,7 +3,7 @@ version: 2.1
 defaults:
   - &attach_workspace
       attach_workspace:
-        at: build_space
+        at: /tmp/build_space/git_repo
   - &docker_login
       run: docker login -u abbuilder -p "$DOCKER_PASSWORD"
   - &job
