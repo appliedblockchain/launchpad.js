@@ -26,7 +26,7 @@ const healthcheck = (contractAddress, web3) => {
     const healthCheckMethod = abHealthcheck({
       custom: {
         storeContractAddress: contractAddress,
-        lastestBlockNumber: lastBlockNumber,
+        latestBlockNumber: lastBlockNumber,
         parityStatus: status,
         commit: process.env.GIT_COMMIT_SHA || GIT_COMMIT_SHA_DEFAULT,
         tag: process.env.GIT_TAG || GIT_TAG_DEFAULT

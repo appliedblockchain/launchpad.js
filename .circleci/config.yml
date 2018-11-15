@@ -10,6 +10,11 @@ defaults:
       docker:
         - image: circleci/node:10
       working_directory: /tmp/build_space/git_repo
+  - &job-with-parity
+      docker:
+        - image: circleci/node:10
+        - image: appliedblockchain/parity-solo-instant:latest
+      working_directory: /tmp/build_space/git_repo
   - &workflow
       context: org-global
   - &workflow-master-only
@@ -33,7 +38,7 @@ jobs:
           paths:
             - git_repo
 
-  test-contracts:
+  contracts:
     <<: *job
     steps:
       - *attach_workspace
@@ -90,6 +95,28 @@ jobs:
           paths:
             - react/node_modules
 
+  api:
+    <<: *job-with-parity
+    steps:
+      - *attach_workspace
+      - restore_cache:
+          keys:
+            - v1-contracts-{{ checksum "contracts/package.json" }}
+            - v1-api-{{ checksum "api/package.json" }}
+      - run:
+          name: install dependencies
+          command: |-
+            cd api && echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
+      - run:
+          name: lint
+          command: |-
+            cd api
+            npm run lint
+      - save_cache:
+          key: v1-api-{{ checksum "api/package.json" }}
+          paths:
+            - api/node_modules
+
 
 workflows:
   version: 2
@@ -97,7 +124,7 @@ workflows:
     jobs:
       - pre-build:
           <<: *workflow
-      - test-contracts:
+      - contracts:
           <<: *workflow
           requires:
             - pre-build
