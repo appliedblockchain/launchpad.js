@@ -131,6 +131,10 @@ workflows:
           <<: *workflow
           requires:
             - pre-build
+      - api:
+          <<: *workflow
+          requires:
+            - contracts
       - react:
           <<: *workflow
           requires:
