@@ -110,8 +110,10 @@ jobs:
       - *attach_workspace
       - restore_cache:
           keys:
-            - v1-contracts-{{ checksum "contracts/package.json" }}
             - v1-api-{{ checksum "api/package.json" }}
+      - restore_cache:
+          keys:
+            - v1-contracts-{{ checksum "contracts/package.json" }}
       - run:
           name: install dependencies
           command: |-
