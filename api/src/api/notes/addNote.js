@@ -5,7 +5,6 @@ const Joi = router.Joi
 const Mantle = require('@appliedblockchain/mantle')
 const config = require('config')
 
-const ETHEREUM_JSONRPC_ENDPOINT = config.get('ETHEREUM_JSONRPC_ENDPOINT')
 const abiDecoder = require('abi-decoder')
 
 const elasticsearch = require('../../helpers/elasticsearch.js')

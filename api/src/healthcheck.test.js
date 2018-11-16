@@ -24,10 +24,10 @@ describe(`GET ${URL}`, () => {
       .expect('Content-Type', /json/)
 
     expect(status).toEqual(200)
-    expect(body).toEqual({
-      storeContractAddress: process.env.CONTRACT_ADDRESS,
-      commit: GIT_COMMIT_SHA_DEFAULT,
-      tag: GIT_TAG_DEFAULT
-    })
+    expect(body.parityStatus).toEqual('Running')
+    expect(body.storeContractAddress).toEqual(process.env.CONTRACT_ADDRESS)
+    expect(body.commit).toEqual(GIT_COMMIT_SHA_DEFAULT)
+    expect(body.tag).toEqual(GIT_TAG_DEFAULT)
+    expect(body.latestBlockNumber).toBeGreaterThan(0)
   })
 })

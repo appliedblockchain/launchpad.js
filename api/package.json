@@ -9,9 +9,9 @@
   },
   "scripts": {
     "start": "source ./contracts/exportAddresses.sh && nodemon ./run",
-    "test": "source ./contracts/exportAddresses.sh && jest",
+    "test": "bash -c 'source ./contracts/exportAddresses.sh && jest'",
     "test:watch": "source ./contracts/exportAddresses.sh && jest --watch",
-    "test:ci": "source ./contracts/exportAddresses.sh && jest --ci --forceExit",
+    "test:ci": "bash -c 'source ./contracts/exportAddresses.sh && jest --ci --forceExit'",
     "lint": "eslint . --ignore-path .gitignore",
     "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo",
     "contract-compile": "npm run --prefix ../contracts compile",

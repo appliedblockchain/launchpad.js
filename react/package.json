@@ -72,7 +72,7 @@
     "babel-eslint": "^9.0.0",
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
-    "eslint-plugin-react": "^7.6.1",
+    "eslint-plugin-react": "^7.11.1",
     "html-jest-reporter": "^1.0.0",
     "jest-junit": "^5.2.0",
     "jest-multi-test-result-processor": "^1.0.0",
