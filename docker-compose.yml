@@ -17,13 +17,13 @@ services:
       - NODE_ENV=staging
       - PROVIDER=http://parity1:8545
       - SENTRY_DSN=http://6f20a6d7d8154e1f93593c634f943f7d@sentry-web:9000/3
+      - CONTRACT_ADDRESS=$CONTRACT_ADDRESS
     networks:
       - main
     ports:
       - 3000:3000
     depends_on:
       - parity1
-      - redis
     deploy: &deploy_defaults
       mode: global
       update_config:
@@ -33,7 +33,6 @@ services:
         condition: on-failure
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
-    container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
@@ -53,6 +52,7 @@ services:
       args:
         - NPM_TOKEN
         - BASIC_AUTH_HTPASSWD=admin:$$apr1$$6SESoef2$$haXLi9RTR.MOe76pJGH8r.
+        - TEST_MODE # if set, the react app will be built to use localhost as a backend
     ports:
       - 80:80
     depends_on:
@@ -62,14 +62,6 @@ services:
     deploy:
       <<: *deploy_defaults
     restart: unless-stopped
-
-  redis:
-    image: redis
-    networks:
-      - main
-    deploy:
-      <<: *deploy_defaults
-
   parity1:
     build:
       context: ./stack

@@ -1,0 +1,159 @@
+version: 2.1
+
+defaults:
+  - &attach_workspace
+      attach_workspace:
+        at: /tmp/build_space/
+  - &docker_login
+      run: docker login -u abbuilder -p "$DOCKER_PASSWORD"
+  - &job
+      docker:
+        - image: circleci/node:10
+      working_directory: /tmp/build_space/git_repo
+  - &job-with-parity
+      docker:
+        - image: circleci/node:10
+        - image: appliedblockchain/parity-solo-instant:latest
+          auth:
+            username: abbuilder
+            password: $DOCKER_PASSWORD
+      working_directory: /tmp/build_space/git_repo
+  - &workflow
+      context: org-global
+  - &workflow-master-only
+      context: org-global
+      filters:
+        branches:
+          only:
+            - master
+
+parity-image: &parity-image
+  image: appliedblockchain/parity-solo
+  auth:
+    username: $DOCKER_USER
+    password: $DOCKER_PASSWORD
+
+jobs:
+  pre-build:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run: mkdir build_space
+      - add_ssh_keys
+      - checkout:
+          path: /tmp/build_space/git_repo
+      - persist_to_workspace:
+          root: /tmp/build_space
+          paths:
+            - git_repo
+
+  contracts:
+    <<: *job
+    steps:
+      - *attach_workspace
+      - restore_cache:
+          keys:
+            - v1-contracts-{{ checksum "contracts/package.json" }}
+      - run:
+          name: Install solidity
+          command: wget https://github.com/ethereum/solidity/releases/download/v0.4.24/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
+      - run:
+          name: install dependencies
+          command: |-
+            cd contracts
+            echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
+      - run:
+          name: lint
+          command: |-
+            cd contracts
+            npm run lint
+      - run:
+          name: Test
+          command: |-
+            cd contracts
+            npm test
+      - save_cache:
+          key: v1-contracts-{{ checksum "contracts/package.json" }}
+          paths:
+            - contracts/node_modules
+
+  react:
+    <<: *job
+    steps:
+      - *attach_workspace
+      - restore_cache:
+          keys:
+            - v1-react-{{ checksum "react/package.json" }}
+      - run:
+          name: install dependencies
+          command: |-
+            cd react
+            echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
+      - run:
+          name: lint
+          command: |-
+            cd react
+            npm run lint
+      - run:
+          name: Test
+          command: |-
+            cd react
+            npm run test:ci
+      - save_cache:
+          key: v1-react-{{ checksum "react/package.json" }}
+          paths:
+            - react/node_modules
+
+  api:
+    <<: *job-with-parity
+    steps:
+      - *attach_workspace
+      - restore_cache:
+          keys:
+            - v1-api-{{ checksum "api/package.json" }}
+      - restore_cache:
+          keys:
+            - v1-contracts-{{ checksum "contracts/package.json" }}
+      - run:
+          name: install dependencies
+          command: |-
+            cd api && echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
+      - run:
+          name: lint
+          command: |-
+            cd api
+            npm run lint
+      - run:
+          name: compile & deploy contracts
+          command: |-
+            cd contracts
+            npm run compile && npm run deploy
+      - run:
+          name: test api
+          command: |-
+            cd api
+            npm run test:ci
+      - save_cache:
+          key: v1-api-{{ checksum "api/package.json" }}
+          paths:
+            - api/node_modules
+
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - pre-build:
+          <<: *workflow
+      - contracts:
+          <<: *workflow
+          requires:
+            - pre-build
+      - api:
+          <<: *workflow
+          requires:
+            - contracts
+      - react:
+          <<: *workflow
+          requires:
+            - pre-build
