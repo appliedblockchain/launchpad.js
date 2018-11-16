@@ -122,10 +122,10 @@ jobs:
             cd api
             npm run lint
       - run:
-          name: deploy contracts
+          name: compile & deploy contracts
           command: |-
             cd contracts
-            npm run deploy
+            npm run compile && npm run deploy
       - run:
           name: test api
           command: |-
