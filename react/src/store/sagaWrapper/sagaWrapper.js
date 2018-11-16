@@ -174,8 +174,6 @@ export function* _sagaWrapper(action) {
     logError, logParsedError, parseError, customErrorMessage
   } = usedOptions
 
-  /* ToDo: Add length check - For example successFunctions length must equal successFunctionArgs length  */
-
   /* Pre Wrap Functions */
   const _performPreWrapFunctions = Array.isArray(performPreWrapFunctions) ? performPreWrapFunctions : [ performPreWrapFunctions ]
   const _preWrapFunctions = Array.isArray(preWrapFunctions) ? preWrapFunctions : [ preWrapFunctions ]

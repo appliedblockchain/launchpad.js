@@ -12,14 +12,14 @@ const notifyGlobalError = args => {
 export default {
   performPreWrapFunctions: () => true,
   preWrapFunctions: action => setLoading({ taget: action.payload.saga.name, value: true }),
-  putPreWrapFunctionResults: () => true,
+  putPreWrapFunctionsResults: () => true,
   performErrorFunctions: () => true,
   errorFunctions: (...args) => setGlobalError(args[2], false),
-  putErrorFunctionResults: () => true,
+  putErrorFunctionsResults: () => true,
   logError: () => false,
   performPostWrapFunctions: () => true,
   postWrapFunctions: action => setLoading({ taget: action.payload.saga.name, value: false }),
-  putPostWrapFunctionResults: () => true,
+  putPostWrapFunctionsResults: () => true,
   performFailFunctions: () => true,
   failFunctions: (...args) => notifyGlobalError(
     `Failed to complete ${args[0].payload.saga.name} due to this error: ${args[2].parsedError}`
