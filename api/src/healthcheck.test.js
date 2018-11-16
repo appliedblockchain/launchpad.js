@@ -28,6 +28,6 @@ describe(`GET ${URL}`, () => {
     expect(body.storeContractAddress).toEqual(process.env.CONTRACT_ADDRESS)
     expect(body.commit).toEqual(GIT_COMMIT_SHA_DEFAULT)
     expect(body.tag).toEqual(GIT_TAG_DEFAULT)
-    expect(body.latestBlockNumber).toBeGreaterThan(1)
+    expect(body.latestBlockNumber).toBeGreaterThan(0)
   })
 })

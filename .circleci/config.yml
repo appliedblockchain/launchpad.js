@@ -130,7 +130,7 @@ jobs:
           name: test api
           command: |-
             cd api
-            npm test
+            npm run test:ci
       - save_cache:
           key: v1-api-{{ checksum "api/package.json" }}
           paths:
