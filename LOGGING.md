@@ -84,12 +84,13 @@ Bunyan supports custom streams too. A custom stream is a function, which can be 
 
 Find more third party stream [here](https://github.com/trentm/node-bunyan/wiki/Awesome-Bunyan#streams).
 
-Example to send error to Sentry
+Example to send error to Sentry.  
+Also [refer](https://stackoverflow.com/questions/53310580/sentry-node-integration-to-wrap-bunyan-log-calls-as-breadcrumbs)
+
 ```javascript
 import * as Sentry from '@sentry/node'
 Sentry.init({
-  dsn: 'https://<key>@sentry.io/<project>',
-  integrations: [new MyAwesomeIntegration()]
+  dsn: 'https://<key>@sentry.io/<project>'
 })
 var bunyan = require('bunyan')
 var bsyslog = require('bunyan-syslog')
@@ -101,15 +102,21 @@ var log = bunyan.createLogger({
       stream: process.stdout
     },
     {
-    level: 'error',
-    type: 'raw',  // raw object is send instead of stringified one
-    stream:
-    }]
+      level: 'error',
+      stream: () = ({
+        write: (err) => {
+          Sentry.captureException(err, (sentryError, eventId) => {
+            console.log(`Reported error ${eventId}`)
+          })
+        }
+      })
+    }
+  ]
 })
 ```
 
 Example to send error to Papertrail.  
-[Detail](https://blog.papertrailapp.com/best-practices-for-logging-in-nodejs/)
+Also [refer](https://blog.papertrailapp.com/best-practices-for-logging-in-nodejs/)
 
 ```javascript
 var bunyan = require('bunyan')
