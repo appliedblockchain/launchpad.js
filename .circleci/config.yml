@@ -15,7 +15,7 @@ defaults:
         - image: circleci/node:10
         - image: appliedblockchain/parity-solo-instant:latest
           auth:
-            username: abbuilder  # can specify string literal values
+            username: abbuilder
             password: $DOCKER_PASSWORD
       working_directory: /tmp/build_space/git_repo
   - &workflow
@@ -25,7 +25,13 @@ defaults:
       filters:
         branches:
           only:
-            - dev
+            - master
+
+parity-image: &parity-image
+  image: appliedblockchain/parity-solo
+  auth:
+    username: $DOCKER_USER
+    password: $DOCKER_PASSWORD
 
 jobs:
   pre-build:
@@ -115,6 +121,16 @@ jobs:
           command: |-
             cd api
             npm run lint
+      - run:
+          name: deploy contracts
+          command: |-
+            cd contracts
+            npm run deploy
+      - run:
+          name: test api
+          command: |-
+            cd api
+            npm test
       - save_cache:
           key: v1-api-{{ checksum "api/package.json" }}
           paths:
