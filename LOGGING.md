@@ -48,25 +48,87 @@ Depending on severity or every log can be pushed to monitoring and alerting syst
 * **Analysis**  
 Logs can be pushed to third party service to get detail analysis. Bunyan logs are JSON string which can be bulk pushed to NoSQL database (mongodb) to manual analysis.
 
-## API
-Bunyan for application logging
 
-* Papertrail
-* HoneyBadger
-
-## Multi streams
+## Multiple streams
 Bunyan logging support multiple streams meaning that different logs can be handles in different way.
+[More](https://github.com/trentm/node-bunyan#streams)
 
-Example for multistream
+Following example logs information depending on log level.
+Debug are printed on standard output (console). Information into a file and error and above into separate file.
+
+Example:
+
 ```javascript
-Example
+var log = bunyan.createLogger({
+  name: 'base-app-mantle',
+  streams: [
+    {
+      level: 'debug',
+      stream: process.stdout
+    },
+    {
+      level: 'info',
+      path: '/var/tmp/mantle-info.log'
+    }
+    {
+      level: 'error',
+      path: '/var/tmp/mantle-error.log'  // log ERROR and above to a file
+    }
+  ]
+});
 ```
 
 ### Third-party Bunyan Streams
+
+Bunyan supports custom streams too. A custom stream is a function, which can be written to push data into other services and cloud services like `Papertrail` and `Sentry`.
 
 Find more third party stream [here](https://github.com/trentm/node-bunyan/wiki/Awesome-Bunyan#streams).
 
 Example to send error to Sentry
 ```javascript
-Example to send to sentry
+import * as Sentry from '@sentry/node'
+Sentry.init({
+  dsn: 'https://<key>@sentry.io/<project>',
+  integrations: [new MyAwesomeIntegration()]
+})
+var bunyan = require('bunyan')
+var bsyslog = require('bunyan-syslog')
+var log = bunyan.createLogger({
+  name: 'base-app-mantle',
+  streams: [
+    {
+      level: 'debug',
+      stream: process.stdout
+    },
+    {
+    level: 'error',
+    type: 'raw',  // raw object is send instead of stringified one
+    stream:
+    }]
+})
+```
+
+Example to send error to Papertrail.  
+[Detail](https://blog.papertrailapp.com/best-practices-for-logging-in-nodejs/)
+
+```javascript
+var bunyan = require('bunyan')
+var bsyslog = require('bunyan-syslog')
+var log = bunyan.createLogger({
+  name: 'base-app-mantle',
+  streams: [
+    {
+      level: 'debug',
+      stream: process.stdout
+    },
+    {
+    level: 'error',
+    type: 'raw',  // raw object is send instead of stringified one
+    stream: bsyslog.createBunyanStream({
+      type: 'sys',
+      host: 'logs5.papertrailapp.com', // papertrail url
+      port: 59738 // papertrail port
+    })
+  }]
+})
 ```
