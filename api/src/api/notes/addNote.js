@@ -67,6 +67,7 @@ const handler = async ctx => {
 module.exports = {
   method: 'post',
   validate: {
+    type: 'json',
     output: {
       200: {
         body: {
