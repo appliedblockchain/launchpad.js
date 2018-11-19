@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 // import crypto from 'crypto'
 import { Formik } from 'formik'
@@ -18,7 +18,10 @@ const addNoteValidation = Yup.object().shape({
   text: Yup.string().required('Required')
 })
 
-const displayError = (errors, touched, field) => errors[field] && touched[field]
+const displayError = (errors, touched, field) => {
+  console.log('[DE] Returning: ', errors[field] && touched[field])
+  return errors[field] && touched[field]
+}
 
 class NotesAdd extends Component {
   onSubmit = (values, hooks) => {
@@ -26,25 +29,49 @@ class NotesAdd extends Component {
     console.log('this.onSubmit hooks: ', hooks)
   }
 
-  renderForm = formProps => {
-    const {
-      handleSubmit, handleChange, handleBlur,
-      values, errors, touched
-    } = formProps
+  renderTag = ({ handleChange, handleBlur, values, errors, touched }) => (
+    <Fragment>
+      <FormLabel component="h3">Note Tag</FormLabel>
+      <Input
+        id="tag"
+        type="text"
+        placeholder="Note tag, visible for all users"
+        value={values.tag}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+      {displayError(errors, touched, 'tag') && <div className={styles.fieldErrors}>{errors.tag}</div>}
+    </Fragment>
+  )
 
+  // className={styles.field}
+  renderText = ({ handleChange, handleBlur, values, errors, touched }) => (
+    <Fragment>
+      <FormLabel component="h3">Secret Note</FormLabel>
+      <Input
+        multiline
+        rows={2}
+        rowsMax={8}
+        id="text"
+        type="text"
+        placeholder="Leave a secrete note here"
+        value={values.text}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
+      {displayError(errors, touched, 'text') && <div className={styles.fieldErrors}>{errors.text}</div>}
+    </Fragment>
+  )
+
+  renderPublicKeys = () => <div>Here be Public Keys</div>
+
+  renderForm = formProps => {
+    const { handleSubmit } = formProps
     return (
       <form className={styles.container} onSubmit={handleSubmit}>
-        <FormLabel component="h3">Note Tag</FormLabel>
-        <Input
-          id="tag"
-          type="text"
-          label="Note Tag"
-          placeholder="Note tag, visible for all users"
-          value={values.tag}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        {displayError(errors, touched, 'tag') && <div className={styles.fieldErrors}>{errors.email}</div>}
+        { this.renderTag(formProps) }
+        { this.renderText(formProps) }
+        { this.renderPublicKeys(formProps) }
       </form>
     )
   }
