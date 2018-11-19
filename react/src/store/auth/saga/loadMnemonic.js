@@ -1,20 +1,25 @@
-import { all, takeLatest, put } from 'redux-saga/effects'
+import { all, takeLatest, put, select } from 'redux-saga/effects'
 import { performLoadMnemonic } from './perform'
-import { ACTIONS } from '../index'
-const { LOAD_MNEMONIC, LOAD_MNEMONIC_SUCCESS, LOAD_MNEMONIC_FAIL } = ACTIONS
+import { ACTIONS, loadMnemonicSuccess, loadMnemonicFail, loadMnemonicPersist } from '../index'
+
+const { LOAD_MNEMONIC } = ACTIONS
 
 export function* loadMnemonic(action) {
-  try {
-    const authData = performLoadMnemonic(action.payload)
-    yield put({
-      type: LOAD_MNEMONIC_SUCCESS,
-      payload: authData
-    })
-  } catch (err) {
-    yield put({
-      type: LOAD_MNEMONIC_FAIL,
-      payload: action.payload
-    })
+  let mnemonic
+  if (action.payload === 'from_store') {
+    mnemonic = yield select(state => state.auth.mnemonic)
+  } else {
+    mnemonic = action.payload
+  }
+  if (mnemonic) {
+    try {
+      const authData = performLoadMnemonic(mnemonic)
+      yield put(loadMnemonicSuccess(authData))
+      yield put(loadMnemonicPersist())
+    } catch (error) {
+      console.error(error)
+      yield put(loadMnemonicFail())
+    }
   }
 }
 

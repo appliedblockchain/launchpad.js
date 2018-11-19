@@ -29,13 +29,14 @@ services:
       NODE_ENV: development
       ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545
       CONTRACT_ADDRESS: "$CONTRACT_ADDRESS"
+      ELASTICSEARCH: elasticsearch
     networks:
       - main
     ports:
       - 3000:3000
     depends_on:
       - parity
-      - redis
+      - elasticsearch
   parity:
     image: appliedblockchain/parity-solo-instant:latest
     entrypoint: ["/parity/parity", "--config", "/solo/node.toml", "--unsafe-expose", "--gasprice", "1"]
@@ -47,14 +48,24 @@ services:
       - 8546:8546
     networks:
       - main
-  redis:
-    image: redis
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
-      - redis:/data
+      - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
     networks:
       - main
 volumes:
   parity:
-  redis:
+  elasticsearch:
 networks:
   main:

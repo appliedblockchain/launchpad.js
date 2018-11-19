@@ -1,5 +1,7 @@
 {
   "LOG_LEVEL": "debug",
   "NODE_ENV": "development",
-  "ETHEREUM_JSONRPC_ENDPOINT": "http://localhost:8545"
+  "ETHEREUM_JSONRPC_ENDPOINT": "http://localhost:8545",
+  "ELASTICSEARCH": "localhost",
+  "API_MNEMONIC": "lemon cabbage sketch fringe box eagle arrow close belt damage response tornado"
 }

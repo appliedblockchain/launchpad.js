@@ -7,8 +7,7 @@ const mapState = ({ users: { users } }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  addNote: (tag, message, publicKeys) =>
-    dispatch(addNote(tag, message, publicKeys))
+  addNote: (tag, message, publicKeys) => dispatch(addNote(tag, message, publicKeys))
 })
 
 export default connect(

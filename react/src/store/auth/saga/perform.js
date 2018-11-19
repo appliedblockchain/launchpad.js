@@ -15,5 +15,5 @@ export const performLoadMnemonic = mnemonicString => {
   mantle.loadMnemonic(mnemonicString)
   const { mnemonic, address } = mantle
   const publicKey = mantle.getPublicKey('hex0x')
-  return { mnemonic, address, publicKey }
+  return { mantle, mnemonic, address, publicKey }
 }

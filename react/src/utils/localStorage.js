@@ -1,9 +1,10 @@
 import _fromPairs from 'lodash/fromPairs'
 
+const isTest = process.env.NODE_ENV === 'test'
+
 const keys = {
   auth: 'persist:auth',
-  registrationData: 'registrationData',
-  sharedComputer: 'sharedComputer'
+  tempMnemonic: 'temp_mnemonic'
 }
 
 const getItem = (key, parsed = false) => {
@@ -65,11 +66,37 @@ const removeItem = key => {
   }
 }
 
-const getJWT = () => {
+export const setAuth = authObject => {
   try {
-    return getItem(keys.auth, true).jwt
-  } catch (_) {
-    return null
+    const _persist = getItem('persist:auth', true)._persist
+    setItem('persist:auth', JSON.stringify({ ...authObject, _persist }))
+  } catch (error) {
+    !isTest && console.error(error)
+  }
+}
+
+export const getAuth = (key, parsed = false) => {
+  if (key === undefined) {
+    return getItem('persist:auth', parsed)
+  } else {
+    try {
+      if (parsed) {
+        return getItem('persist:auth', true)[key]
+      } else {
+        const parsedAuthKey = getItem('persist:auth', true)[key]
+        return JSON.stringify(parsedAuthKey)
+      }
+    } catch (error) {
+      !isTest && console.error(error)
+    }
+  }
+}
+
+export const clearAuth = () => {
+  try {
+    window.localStorage.removeItem(keys.auth)
+  } catch (error) {
+    !isTest && console.error(error)
   }
 }
 
@@ -77,6 +104,8 @@ export default {
   getItem,
   setItem,
   removeItem,
-  getJWT,
+  setAuth,
+  getAuth,
+  clearAuth,
   keys
 }
