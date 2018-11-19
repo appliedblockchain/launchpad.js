@@ -4,14 +4,14 @@ import PropTypes from 'prop-types'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { Button, FormLabel, Input, IconButton } from '@material-ui/core'
-// import { AddBox as AddBoxIcon, IndeterminateCheckBox as IndeterminateCheckBoxIcon  } from '@material-ui/icons'
+import { AddBox as AddBoxIcon, IndeterminateCheckBox as IndeterminateCheckBoxIcon  } from '@material-ui/icons'
 // import { API_PUBLIC_KEY } from 'config'
 import styles from './style.module.css'
 
 const initialFormValues = {
   tag: '',
   text: '',
-  publicKeys: [ '0x123456' ]
+  publicKeys: [ '' ]
 }
 
 const addNoteValidation = Yup.object().shape({
@@ -19,15 +19,21 @@ const addNoteValidation = Yup.object().shape({
   text: Yup.string().required('Required')
 })
 
-const displayError = (errors, touched, field) => {
-  console.log('[DE] Returning: ', errors[field] && touched[field])
-  return errors[field] && touched[field]
-}
+const displayError = (errors, touched, field) =>
+  errors[field] && touched[field]
+
+const displayErrorList = (errors, touched, field, index) =>
+  errors[field] && errors[field][index] && touched[field] && touched[field][index]
 
 class NotesAdd extends Component {
   onSubmit = (values, hooks) => {
     console.log('this.onSubmit value: ', values)
     console.log('this.onSubmit hooks: ', hooks)
+  }
+
+  _addPublicKey = setFieldValue => () => {
+    console.log('addPublicKey')
+    console.log('setFieldValue: ', setFieldValue)
   }
 
   renderTag = ({ handleChange, handleBlur, values, errors, touched }) => (
@@ -45,7 +51,6 @@ class NotesAdd extends Component {
     </Fragment>
   )
 
-  // className={styles.field}
   renderText = ({ handleChange, handleBlur, values, errors, touched }) => (
     <Fragment>
       <FormLabel component="h3">Secret Note</FormLabel>
@@ -64,8 +69,7 @@ class NotesAdd extends Component {
     </Fragment>
   )
 
-  renderPublicKeys = ({ handleChange, handleBlur, values, errors, touched }) => {
-    console.log('renderPublicKeys values, errors, touched: ', values, errors, touched)
+  renderPublicKeys = ({ handleChange, handleBlur, values, errors, touched, setFieldValue }) => {
     return (
       <Fragment>
         <FormLabel component="h3">Public Keys</FormLabel>
@@ -79,9 +83,15 @@ class NotesAdd extends Component {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            { displayError(errors, touched, 'text') && <div className={styles.fieldErrors}>{errors.publicKey[index]}</div> }
+            { displayErrorList(errors, touched, 'publicKey', index) &&
+            <div className={styles.fieldErrors}>{errors.publicKey[index]}</div> }
           </Fragment>
         )) }
+        <div className={styles.addContainer}>
+          <IconButton onClick={this._addPublicKey(setFieldValue)}>
+            <AddBoxIcon color="primary" className={styles.checkboxIcon} />
+          </IconButton>
+        </div>
       </Fragment>
     )
   }
@@ -117,15 +127,15 @@ NotesAdd.propTypes = {
 export default (NotesAdd)
 
 // class NotesAdd extends Component {
-//   addPublicKey = () => {
-//     const { form } = this.props
-//     const publicKeyIds = form.getFieldValue('publicKeyIds')
-//     const uuid = crypto.randomBytes(16).toString('hex')
-//     publicKeyIds[uuid] = uuid
-//     form.setFieldsValue({
-//       publicKeyIds
-//     })
-//   }
+  // addPublicKey = () => {
+  //   const { form } = this.props
+  //   const publicKeyIds = form.getFieldValue('publicKeyIds')
+  //   const uuid = crypto.randomBytes(16).toString('hex')
+  //   publicKeyIds[uuid] = uuid
+  //   form.setFieldsValue({
+  //     publicKeyIds
+  //   })
+  // }
 
 //   removePublicKey = uuid => {
 //     const { form } = this.props
@@ -231,11 +241,11 @@ export default (NotesAdd)
 //           Provide public keys of users which you want to share note with
 //         </FormLabel>
 //         {this.renderPublicKeysFields()}
-//         <div className={styles.addContainer}>
-//           <IconButton onClick={this.addPublicKey}>
-//             <AddBoxIcon color="primary" className={styles.checkboxIcon} />
-//           </IconButton>
-//         </div>
+        // <div className={styles.addContainer}>
+        //   <IconButton onClick={this.addPublicKey}>
+        //     <AddBoxIcon color="primary" className={styles.checkboxIcon} />
+        //   </IconButton>
+        // </div>
 
 //         <Button
 //           type="submit"
