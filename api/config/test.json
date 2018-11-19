@@ -1,3 +1,4 @@
 {
-  "LOG_LEVEL": "fatal"
+  "LOG_LEVEL": "fatal",
+  "PORT": 1337
 }
