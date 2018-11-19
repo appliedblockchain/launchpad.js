@@ -2,13 +2,13 @@
 
 set -ex
 
-sleep 5
+sleep 15
 PARITY_KEY="mantle-development/parity-nodes"
 PARITY_INSTANCES="parity1 parity2 parity3"
 
 for PARITY in $PARITY_INSTANCES
 do
-  ENODE_REQ=$(curl --data '{"method":"parity_enode","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST "$PARITY:8545")  
+  ENODE_REQ=$(curl --data '{"method":"parity_enode","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST "$PARITY:8545")
   ENODE=$(echo "$ENODE_REQ" | grep -o "enode.*30303" | sed -e "s/\@.*/\@$PARITY:30303\"/" | sed -e "s/\"//g")
   npx @appliedblockchain/consul set-kv "mantle-development/$PARITY" "$ENODE"
 done
