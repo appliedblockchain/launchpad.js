@@ -2,12 +2,10 @@
 
 const { version, name } = require('../../package.json')
 
-module.exports = (routes) => ({
+module.exports = (...groups) => ({
   title: name,
   version,
   theme: 'darkly',
   routeHandlers: 'disabled',
-  groups: [
-    { groupName: '/api', routes }
-  ]
+  groups
 })
