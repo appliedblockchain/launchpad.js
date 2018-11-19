@@ -10,7 +10,8 @@ import styles from './style.module.css'
 
 const initialFormValues = {
   tag: '',
-  text: ''
+  text: '',
+  publicKeys: [ '0x123456' ]
 }
 
 const addNoteValidation = Yup.object().shape({
@@ -63,7 +64,27 @@ class NotesAdd extends Component {
     </Fragment>
   )
 
-  renderPublicKeys = () => <div>Here be Public Keys</div>
+  renderPublicKeys = ({ handleChange, handleBlur, values, errors, touched }) => {
+    console.log('renderPublicKeys values, errors, touched: ', values, errors, touched)
+    return (
+      <Fragment>
+        <FormLabel component="h3">Public Keys</FormLabel>
+        { values.publicKeys.map((publicKey, index) => (
+          <Fragment key={publicKey}>
+            <Input
+              name={`publicKeys[${index}]`}
+              type="text"
+              placeholder="Enter the public key"
+              value={publicKey}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            { displayError(errors, touched, 'text') && <div className={styles.fieldErrors}>{errors.publicKey[index]}</div> }
+          </Fragment>
+        )) }
+      </Fragment>
+    )
+  }
 
   renderForm = formProps => {
     const { handleSubmit } = formProps
