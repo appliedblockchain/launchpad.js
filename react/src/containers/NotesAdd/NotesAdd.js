@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 // import crypto from 'crypto'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
-// import { Button, FormLabel, Input, IconButton } from '@material-ui/core'
+import { Button, FormLabel, Input, IconButton } from '@material-ui/core'
 // import { AddBox as AddBoxIcon, IndeterminateCheckBox as IndeterminateCheckBoxIcon  } from '@material-ui/icons'
 // import { API_PUBLIC_KEY } from 'config'
-// import styles from './style.module.css'
+import styles from './style.module.css'
 
 const initialFormValues = {
   tag: '',
@@ -33,20 +33,18 @@ class NotesAdd extends Component {
     } = formProps
 
     return (
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="tag">
-          Tag
-        </label>
-        <input
+      <form className={styles.container} onSubmit={handleSubmit}>
+        <FormLabel component="h3">Note Tag</FormLabel>
+        <Input
           id="tag"
-          placeholder="Enter the note tag"
           type="text"
+          label="Note Tag"
+          placeholder="Note tag, visible for all users"
           value={values.tag}
           onChange={handleChange}
           onBlur={handleBlur}
-          className={errors.email && touched.email ? 'text-input error' : 'text-input'}
         />
-        {displayError(errors, touched, 'tag') && <div className="input-feedback">{errors.email}</div>}
+        {displayError(errors, touched, 'tag') && <div className={styles.fieldErrors}>{errors.email}</div>}
       </form>
     )
   }
