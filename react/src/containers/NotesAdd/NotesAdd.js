@@ -16,7 +16,8 @@ const initialFormValues = {
 
 const addNoteValidation = Yup.object().shape({
   tag: Yup.string().required('Required'),
-  text: Yup.string().required('Required')
+  text: Yup.string().required('Required'),
+  publicKeys: Yup.array().of(Yup.string().required('Required'))
 })
 
 const displayError = (errors, touched, field) =>
@@ -31,10 +32,10 @@ class NotesAdd extends Component {
     console.log('this.onSubmit hooks: ', hooks)
   }
 
-  _addPublicKey = setFieldValue => () => {
-    console.log('addPublicKey')
-    console.log('setFieldValue: ', setFieldValue)
-  }
+  _addPublicKey = (setFieldValue, values) => () => setFieldValue(
+    'publicKeys',
+    [ ...values.publicKeys, '' ]
+  )
 
   renderTag = ({ handleChange, handleBlur, values, errors, touched }) => (
     <Fragment>
@@ -82,12 +83,12 @@ class NotesAdd extends Component {
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          { displayErrorList(errors, touched, 'publicKey', index) &&
-          <div className={styles.fieldErrors}>{errors.publicKey[index]}</div> }
+          { displayErrorList(errors, touched, 'publicKeys', index) &&
+          <div className={styles.fieldErrors}>{errors.publicKeys[index]}</div> }
         </Fragment>
       )) }
       <div className={styles.addContainer}>
-        <IconButton onClick={this._addPublicKey(setFieldValue)}>
+        <IconButton onClick={this._addPublicKey(setFieldValue, values)}>
           <AddBoxIcon color="primary" className={styles.checkboxIcon} />
         </IconButton>
       </div>
@@ -172,8 +173,8 @@ export default (NotesAdd)
 //     const keys = getFieldValue('publicKeyIds')
 //     return Object.values(keys).map(publicKeyId => {
 //       return (
-//         <div key={publicKeyId} className={styles.flex}>
-//           <div className={styles.flex1}>
+        // <div key={publicKeyId} className={styles.flex}>
+        //   <div className={styles.flex1}>
 //             {getFieldDecorator(`publicKeys[${publicKeyId}]`, {
 //               rules: [
 //                 {
@@ -189,12 +190,12 @@ export default (NotesAdd)
 //                 : null}
 //             </div>
 //           </div>
-//           <IconButton onClick={() => this.removePublicKey(publicKeyId)}>
-//             <IndeterminateCheckBoxIcon
-//               color="primary"
-//               className={styles.checkboxIcon}
-//             />
-//           </IconButton>
+          // <IconButton onClick={() => this.removePublicKey(publicKeyId)}>
+          //   <IndeterminateCheckBoxIcon
+          //     color="primary"
+          //     className={styles.checkboxIcon}
+          //   />
+          // </IconButton>
 //         </div>
 //       )
 //     })
