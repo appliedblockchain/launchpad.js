@@ -69,32 +69,30 @@ class NotesAdd extends Component {
     </Fragment>
   )
 
-  renderPublicKeys = ({ handleChange, handleBlur, values, errors, touched, setFieldValue }) => {
-    return (
-      <Fragment>
-        <FormLabel component="h3">Public Keys</FormLabel>
-        { values.publicKeys.map((publicKey, index) => (
-          <Fragment key={publicKey}>
-            <Input
-              name={`publicKeys[${index}]`}
-              type="text"
-              placeholder="Enter the public key"
-              value={publicKey}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            { displayErrorList(errors, touched, 'publicKey', index) &&
-            <div className={styles.fieldErrors}>{errors.publicKey[index]}</div> }
-          </Fragment>
-        )) }
-        <div className={styles.addContainer}>
-          <IconButton onClick={this._addPublicKey(setFieldValue)}>
-            <AddBoxIcon color="primary" className={styles.checkboxIcon} />
-          </IconButton>
-        </div>
-      </Fragment>
-    )
-  }
+  renderPublicKeys = ({ handleChange, handleBlur, values, errors, touched, setFieldValue }) => (
+    <Fragment>
+      <FormLabel component="h3">Public Keys</FormLabel>
+      { values.publicKeys.map((publicKey, index) => (
+        <Fragment key={`publicKeys[${index}]`}>
+          <Input
+            name={`publicKeys[${index}]`}
+            type="text"
+            placeholder="Enter the public key"
+            value={publicKey}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          { displayErrorList(errors, touched, 'publicKey', index) &&
+          <div className={styles.fieldErrors}>{errors.publicKey[index]}</div> }
+        </Fragment>
+      )) }
+      <div className={styles.addContainer}>
+        <IconButton onClick={this._addPublicKey(setFieldValue)}>
+          <AddBoxIcon color="primary" className={styles.checkboxIcon} />
+        </IconButton>
+      </div>
+    </Fragment>
+  )
 
   renderForm = formProps => {
     const { handleSubmit } = formProps
