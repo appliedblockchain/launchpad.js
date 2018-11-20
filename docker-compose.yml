@@ -3,7 +3,6 @@ version: "3.6"
 networks:
   main:
     attachable: true
-  static:
 
 services:
   api:
@@ -58,7 +57,7 @@ services:
     depends_on:
       - api
     networks:
-      - static
+      - main
     deploy:
       <<: *deploy_defaults
     restart: unless-stopped
@@ -70,6 +69,7 @@ services:
         - PARITY_ID=1
         - AWS_ACCESS_KEY_ID
         - AWS_SECRET_ACCESS_KEY
+        - NPM_TOKEN
     environment:
       - PARITY_ID=1
     networks:
@@ -90,6 +90,7 @@ services:
         - PARITY_ID=2
         - AWS_ACCESS_KEY_ID
         - AWS_SECRET_ACCESS_KEY
+        - NPM_TOKEN
     environment:
       - PARITY_ID=2
     networks:
@@ -105,6 +106,7 @@ services:
         - PARITY_ID=3
         - AWS_ACCESS_KEY_ID
         - AWS_SECRET_ACCESS_KEY
+        - NPM_TOKEN
     environment:
       - PARITY_ID=3
     networks:
