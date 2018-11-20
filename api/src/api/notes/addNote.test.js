@@ -16,7 +16,8 @@ let symmetricKey
 const PORT = config.get('PORT')
 const URL = `${API_PREFIX}/store`
 
-describe(`POST ${URL}`, () => {
+// requires local IPFS to be running and listening on port 5001 to work
+describe.skip(`POST ${URL}`, () => {
   beforeAll(async () => {
     app = await setupAppForTest()
     app.listen(PORT)
