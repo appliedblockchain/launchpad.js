@@ -13,6 +13,7 @@ COPY ./parity/chain/reserved_peers reserved_peers
 ARG PARITY_ID
 ARG AWS_ACCESS_KEY_ID
 ARG AWS_SECRET_ACCESS_KEY
+ARG RESTORE_FILE
 
 RUN echo "Building parity${PARITY_ID}..."
 
@@ -34,7 +35,7 @@ COPY ./package* /parity/
 COPY ./docker/entrypoint.sh entrypoint.sh
 COPY ./docker/cron-job.js /parity/
 COPY ./docker/cron-job.sh /parity/
+COPY ./docker/download.js /parity/
 RUN npm install
 
 ENTRYPOINT [ "sh", "./entrypoint.sh" ]
-
