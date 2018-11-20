@@ -7,5 +7,6 @@
   font-size: 9px;
   margin: 0 auto !important;
   word-break: break-all;
+  max-width: 600px;
 }
 

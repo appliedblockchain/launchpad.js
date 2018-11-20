@@ -77,7 +77,6 @@ if (mnemonic) {
     publicKey = mantle.getPublicKey('hex0x')
     authenticated = true
   } catch (error) {
-    console.log(error)
     mnemonic = ''
     address = ''
     publicKey = ''

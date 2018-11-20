@@ -1,12 +1,13 @@
 import { all, takeLatest, put, select, call } from 'redux-saga/effects'
 import { performEncryptNote } from './perform'
 import { REST_API_LOCATION } from '../../../config'
-import { ACTIONS, fetchNotes, addNoteSuccess, addNoteFail } from '../index'
+import { ACTIONS, fetchNotes, addNoteSuccess } from '../index'
+import sagaWrapper from 'store/sagaWrapper'
 
 const { ADD_NOTE } = ACTIONS
 
-export function* addNote(action) {
-  try {
+export function* _addNote(action) {
+  yield put(sagaWrapper(function* addNote() {
     const mantle = yield select(state => state.auth.mantle)
 
     const { tag, text, publicKeys } = action.payload
@@ -32,22 +33,17 @@ export function* addNote(action) {
 
     yield call(fetch, `${REST_API_LOCATION}/notes`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ rawTransaction })
     })
 
     yield put(addNoteSuccess({ note: { ...encryptedNote, plainText: text }, contract }))
     yield put(fetchNotes())
-  } catch (err) {
-    console.error(err)
-    yield put(addNoteFail(action.payload))
-  }
+  }))
 }
 
 function* watchAddNote() {
-  yield takeLatest(ADD_NOTE, addNote)
+  yield takeLatest(ADD_NOTE, _addNote)
 }
 
 export default function* rootSaga() {

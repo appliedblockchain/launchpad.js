@@ -47,12 +47,13 @@ class NotesSearch extends Component {
     const { searchNotes } = this.props
 
     return (
-      <SearchBar
-        className={styles.search}
-        onChange={this.handleSearch}
-        onRequestSearch={() => searchNotes({ query, offset: null })}
-        value = {query}
-      />
+      <div className={styles.search}>
+        <SearchBar
+          onChange={this.handleSearch}
+          onRequestSearch={() => searchNotes({ query, offset: null })}
+          value={query}
+        />
+      </div>
     )
   }
 }
