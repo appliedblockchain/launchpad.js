@@ -6,6 +6,11 @@ import sagaWrapper from 'store/sagaWrapper'
 
 const { FETCH_NOTES } = ACTIONS
 
+const actOnError = expectedType =>
+  expectedType === 'log'
+    ? (_, error) => !error.toString().includes('No resource of type')
+    : (_, __, { parsedError }) => !parsedError.includes('No resource of type')
+
 const parseResponse = async response => {
   const jsonClone = response.clone()
   const textClone = response.clone()
@@ -31,6 +36,10 @@ export function* _fetchNotes() {
       const notes = parsedResponse.result
       const decryptedNotes = performDecryptNotes(mantle, notes)
       yield put(fetchNotesSuccess(decryptedNotes))
+    }, {
+      logError: actOnError('log'),
+      performErrorFunctions: actOnError('perform'),
+      performFailFunctions: actOnError('perform')
     }
   ))
 }

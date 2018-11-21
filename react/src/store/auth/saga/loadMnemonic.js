@@ -21,6 +21,16 @@ export function* _loadMnemonic(action) {
         yield put(loadMnemonicSuccess(authData))
         yield put(loadMnemonicPersist())
       }
+    // Here, we use additionalFailFunctions to give additional behaviour to this wrapper in case of failure.
+    // Default behaviour comes from sagaWrapper/defaultOptions. It is this:
+    // failFunctions: (...args) => notifyGlobalError(...)
+    // This reads as: In case of failure, notify the user of the failure.
+    // Besides notifying the user about the failure, we also want to perform the loadMnemonicFail action.
+    // loadMnemonicFail will log the user out.
+    // The same effect can be achieved by copying sagaWrapper/default options, replacing failFunctions with an array,
+    // letting the default fail function be the first element of that array, adding loadMnemonicFail as the second
+    // element of that array and then adding () => true for the perform and put checks.
+    // In fact, this is how additionalFailFunctions is parsed.
     }, { additionalFailFunctions: loadMnemonicFail }
   ))
 }
