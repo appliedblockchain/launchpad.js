@@ -10,11 +10,7 @@ services:
     volumes:
       - ../react/src/:/home/node/react/src
     ports:
-      - 80:80
-    depends_on:
-      - api
-    networks:
-      - main
+      - 3000:3000
   api:
     build:
       context: ../api
@@ -33,7 +29,7 @@ services:
     networks:
       - main
     ports:
-      - 3000:3000
+      - 8080:8080
     depends_on:
       - parity
       - elasticsearch
@@ -50,6 +46,7 @@ services:
       - main
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    container_name: elasticsearch
     environment:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
