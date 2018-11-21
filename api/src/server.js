@@ -39,7 +39,6 @@ const createServer = async contractAddress => {
 
   const app = new Koa()
 
-  console.log('corsHandler: ', corsHandler)
   app
     .use(assignToContext({ contracts, web3 }))
     .use(corsHandler)
