@@ -11,6 +11,7 @@ const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
 const {
   notFoundHandler,
+  corsHandler,
   errorHandler,
   assignToContext
 } = require('./middleware')
@@ -38,8 +39,10 @@ const createServer = async contractAddress => {
 
   const app = new Koa()
 
+  console.log('corsHandler: ', corsHandler)
   app
     .use(assignToContext({ contracts, web3 }))
+    .use(corsHandler)
     .use(errorHandler)
     .use(healthcheck(contractAddress, web3))
     .use(docs.get('/docs', configureDocs(routes)))
