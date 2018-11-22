@@ -32,7 +32,7 @@ const healthcheck = (contractAddress, web3) => {
         tag: process.env.GIT_TAG || GIT_TAG_DEFAULT
       }
     })
-    healthCheckMethod(ctx, next)
+    return healthCheckMethod(ctx, next)
   }
 }
 
