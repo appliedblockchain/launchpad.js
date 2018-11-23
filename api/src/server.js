@@ -45,13 +45,13 @@ const createServer = async contractAddress => {
 
   app
     .use(assignToContext({ contracts, web3 }))
+    .use(cors(corsSettings))
     .use(errorHandler)
     .use(healthcheck(contractAddress, web3))
     .use(docs.get('/docs', configureDocs(routes)))
     .use(compress())
     .use(respond())
     .use(bodyParser())
-    .use(cors(corsSettings))
     .use(middleware)
     .use(notFoundHandler)
 
