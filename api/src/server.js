@@ -3,7 +3,6 @@
 const http = require('http')
 const Koa = require('koa')
 const cors = require('@koa/cors')
-const bodyParser = require('koa-bodyparser')
 const compress = require('koa-compress')
 const respond = require('koa-respond')
 const docs = require('@appliedblockchain/koa-docs')
@@ -48,7 +47,13 @@ const createServer = async contractAddress => {
     .use(cors(corsSettings))
     .use(errorHandler)
     .use(healthcheck(contractAddress, web3))
-    .use(docs.get('/docs', configureDocs(routes)))
+    .use(docs.get('/docs', configureDocs(
+      { groupName: 'error', routes: routes.error, prefix: '/api' },
+      { groupName: 'notes', routes: routes.notes, prefix: '/api' },
+      { groupName: 'ipfs', routes: routes.ipfs, prefix: '/api/ipfs' },
+      { groupName: 'transactions', routes: routes.transactions, prefix: '/api' },
+      { groupName: 'default', routes: routes.default, prefix: '/api' }
+    )))
     .use(compress())
     .use(respond())
     .use(bodyParser())

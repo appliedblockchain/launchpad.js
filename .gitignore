@@ -7,6 +7,6 @@ contracts/exportAddresses\.sh
 
 **/exportAddresses\.sh
 
-!**/.gitkeep
+!*.gitkeep
 
 */node_modules
