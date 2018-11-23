@@ -1,7 +1,7 @@
 'use strict'
 
 const koaRouter = require('koa-joi-router')
-const { ipfs, transactions } = require('@appliedblockchain/mantle-api')
+const { ipfs, parityProxy } = require('@appliedblockchain/mantle-api')
 
 const configureDocs = require('./api/docs-config')
 const rootRoute = require('./api/root')
@@ -14,7 +14,7 @@ const router = koaRouter()
 router.route(notes)
 router.route(error)
 router.use(ipfs.createRouter().prefix('/ipfs').middleware())
-router.use(transactions.createRouter().middleware())
+router.use(parityProxy.createRouter().middleware())
 router.route(rootRoute)
 router.prefix(API_PREFIX)
 
@@ -26,6 +26,6 @@ module.exports = {
     notes,
     default: rootRoute,
     ipfs: ipfs.routes,
-    transactions: transactions.routes
+    transactions: parityProxy.routes
   }
 }
