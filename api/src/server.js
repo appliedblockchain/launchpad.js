@@ -11,7 +11,6 @@ const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
 const {
   notFoundHandler,
-  corsHandler,
   errorHandler,
   assignToContext
 } = require('./middleware')
@@ -22,6 +21,11 @@ const elastic = require('./helpers/elasticsearch')
 
 const contract = require('../contracts/Notes.json')
 const abi = contract.abi
+
+const frontend = 'http://localhost:3000' // ToDo: Compose this based on environemnt when moving to prod
+const corsSettings = {
+  'Access-Control-Allow-Origin': frontend
+}
 
 const createServer = async contractAddress => {
   if (!contractAddress) {
@@ -41,7 +45,7 @@ const createServer = async contractAddress => {
 
   app
     .use(assignToContext({ contracts, web3 }))
-    .use(corsHandler)
+    .use(cors(corsSettings))
     .use(errorHandler)
     .use(healthcheck(contractAddress, web3))
     .use(docs.get('/docs', configureDocs(routes)))
