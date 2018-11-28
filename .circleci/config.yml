@@ -63,6 +63,13 @@ jobs:
             cd contracts
             echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
       - run:
+          name: install solc
+          command: |-
+            sudo add-apt-repository ppa:ethereum/ethereum
+            sudo add-apt-repository ppa:ethereum/ethereum-dev
+            sudo apt-get update -y
+            sudo apt-get install -y solc
+      - run:
           name: lint
           command: |-
             cd contracts
