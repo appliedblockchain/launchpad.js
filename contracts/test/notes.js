@@ -13,7 +13,6 @@ contract('Notes', (accounts) => {
     const tx = await notes.addNote('test', 'context', from, [], '0x', { from })
 
     expect(tx.logs[0].event).to.equal('NoteAdded')
-    const { id } = tx.logs[0].args
 
     expect(Number(await notes.getNotesCount())).to.equal(1)
   })
