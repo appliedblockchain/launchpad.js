@@ -79,6 +79,7 @@ jobs:
           name: Test
           command: |-
             cd contracts
+            npm run version
             npm test
       - save_cache:
           key: v1-contracts-{{ checksum "contracts/package.json" }}
