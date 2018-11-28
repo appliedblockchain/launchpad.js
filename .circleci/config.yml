@@ -65,7 +65,8 @@ jobs:
       - run:
           name: install solc
           command: |-
-            sudo echo -e "deb http://ppa.launchpad.net/ethereum/ethereum/ubuntu bionic main\ndeb-src http://ppa.launchpad.net/ethereum/ethereum/ubuntu bionic main" > /etc/apt/sources.list.d/ethereum-bioinc.list
+            echo -e "deb http://ppa.launchpad.net/ethereum/ethereum/ubuntu bionic main\ndeb-src http://ppa.launchpad.net/ethereum/ethereum/ubuntu bionic main" > list
+            sudo mv list > /etc/apt/sources.list.d/ethereum-bioinc.list
             sudo apt-key -y adv --keyserver keyserver.ubuntu.com  --recv-keys 2A518C819BE37D2C2031944D1C52189C923F6CA9
             sudo apt-get update -y
             sudo apt-get install -y solc
