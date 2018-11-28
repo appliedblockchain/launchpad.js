@@ -43,7 +43,7 @@ class GenerateMnemonic extends Component {
 
     return (
       <form onSubmit={this.onProceed} className={styles.container}>
-        <div className={styles.mnemonic}>{mnemonic}</div>
+        <div className={styles.mnemonic} data-testid="mnemonicContainer">{mnemonic}</div>
         <FormControl required>
           <FormControlLabel
             labelPlacement="end"
@@ -69,6 +69,7 @@ class GenerateMnemonic extends Component {
           variant="outlined"
           color="primary"
           className={styles.regenerate}
+          data-testid="regenerateButton"
         >
           REGENERATE
         </Button>
@@ -77,6 +78,7 @@ class GenerateMnemonic extends Component {
           color="primary"
           type="submit"
           className={styles.proceed}
+          data-testid="proceedButton"
         >
           Proceed
         </Button>

@@ -6,6 +6,7 @@ import styles from './style.module.css'
 const GenerateLoadHeader = () => (
   <div className={styles.container}>
     <Button
+      id="btnGenerateMnemonic"
       to="/generate-mnemonic"
       component={Link}
       variant="outlined"
@@ -14,6 +15,7 @@ const GenerateLoadHeader = () => (
       GENERATE MNEMONIC
     </Button>
     <Button
+      id="btnLoadMnemonic"
       to="/load-mnemonic"
       component={Link}
       variant="outlined"
