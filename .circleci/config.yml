@@ -56,16 +56,15 @@ jobs:
             - v1-contracts-{{ checksum "contracts/package.json" }}
       - run:
           name: Install solc
-          command: wget https://github.com/ethereum/solidity/releases/download/v0.4.24/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
+          command: |-
+            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            chmod +x solc-static-linux
+            sudo mv solc-static-linux /usr/bin/solc
       - run:
           name: install dependencies
           command: |-
             cd contracts
             echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
-      - run:
-          name: install solc
-          command: |-
-            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
       - run:
           name: lint
           command: |-
@@ -130,7 +129,10 @@ jobs:
             npm run lint
       - run:
           name: Install solc
-          command: wget https://github.com/ethereum/solidity/releases/download/v0.4.24/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
+          command: |-
+            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            chmod +x solc-static-linux
+            sudo mv solc-static-linux /usr/bin/solc
       - run:
           name: compile & deploy contracts
           command: |-
