@@ -36,7 +36,7 @@ parity-image: &parity-image
 jobs:
   pre-build:
     docker:
-      - image: circleci/node:10-stretch
+      - image: circleci/node:10-jessie
     steps:
       - run: mkdir build_space
       - add_ssh_keys
@@ -67,7 +67,6 @@ jobs:
           command: |-
             sudo apt-get install -y software-properties-common
             sudo add-apt-repository -y ppa:ethereum/ethereum
-            sudo add-apt-repository -y ppa:ethereum/ethereum-dev
             sudo apt-get update -y
             sudo apt-get install -y solc
       - run:
