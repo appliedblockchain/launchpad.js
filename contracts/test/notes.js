@@ -1,6 +1,6 @@
 const Notes = artifacts.require('Notes')
 
-contract('Notes', function(accounts) {
+contract('Notes', (accounts) => {
   let notes
   let from
 

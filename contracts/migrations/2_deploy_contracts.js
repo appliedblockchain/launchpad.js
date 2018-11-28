@@ -1,4 +1,4 @@
-const Notes = artifacts.require('./Notes.sol')
+const Notes = artifacts.require('Notes')
 
 module.exports = function(deployer) {
   deployer.deploy(Notes)
