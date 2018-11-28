@@ -65,6 +65,7 @@ jobs:
       - run:
           name: install solc
           command: |-
+            sudo apt-get install -y software-properties-common
             sudo add-apt-repository -y 'deb http://ppa.launchpad.net/ethereum/ethereum/ubuntu bionic main'
             sudo apt-key -y adv --keyserver keyserver.ubuntu.com  --recv-keys 2A518C819BE37D2C2031944D1C52189C923F6CA9
             sudo apt-get update -y
