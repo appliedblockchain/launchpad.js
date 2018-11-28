@@ -8,7 +8,7 @@ defaults:
       run: docker login -u abbuilder -p "$DOCKER_PASSWORD"
   - &job
       docker:
-        - image: circleci/node:10
+        - image: circleci/node:10-jessie
       working_directory: /tmp/build_space/git_repo
   - &job-with-parity
       docker:
@@ -36,7 +36,7 @@ parity-image: &parity-image
 jobs:
   pre-build:
     docker:
-      - image: circleci/node:10-jessie
+      - image: circleci/node:10
     steps:
       - run: mkdir build_space
       - add_ssh_keys
