@@ -66,8 +66,7 @@ jobs:
           name: install solc
           command: |-
             sudo apt-get install -y software-properties-common
-            sudo add-apt-repository -y ppa:ethereum/ethereum
-            sudo add-apt-repository -y ppa:ethereum/ethereum-dev
+            sudo add-apt-repository -y ppa:ethereum/ethereum-unstable
             sudo apt-get update -y
             sudo apt-get install -y solc
       - run:
