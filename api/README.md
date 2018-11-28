@@ -2,7 +2,7 @@
 
 This is a simple node application which includes api [documentation](https://github.com/koajs/koa/tree/master/docs),
 [healthcheck](https://github.com/appliedblockchain/koa-healthcheck), basic [error handling](lib/middleware), a
-basic smart contract [setup](src/setupWeb3.js) and [API implementation example](src/api).
+basic smart contract [setup](src/setupWeb3.js) and an [API implementation example](src/api).
 
 For a detailed overview of setting up your smart contracts, [see here.](https://github.com/appliedblockchain/base-contracts)
 
@@ -30,6 +30,8 @@ Then for development, run:
 npm i
 npm run start
 ```
+
+### Extra info:
 
 For details of how the contract is auto-deployed, please check the npm scripts in package.json.
 
