@@ -6,7 +6,8 @@ const fs = require('fs')
 const { join } = require('path')
 const Web3 = require('web3')
 const contractsDirectory = join(__dirname, '../build/contracts')
-const contractsFilenames = fs.readdirSync(contractsDirectory)
+const contractsFilenames = fs.readdirSync(contractsDirectory).filter(f => /\.json$/.test(f))
+
 
 const contracts = {}
 contractsFilenames.forEach(file => {
