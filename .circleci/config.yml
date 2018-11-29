@@ -55,8 +55,11 @@ jobs:
           keys:
             - v1-contracts-{{ checksum "contracts/package.json" }}
       - run:
-          name: Install solidity
-          command: wget https://github.com/ethereum/solidity/releases/download/v0.4.24/solc-static-linux && chmod +x solc-static-linux && sudo mv solc-static-linux /usr/bin/solc
+          name: Install solc
+          command: |-
+            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            chmod +x solc-static-linux
+            sudo mv solc-static-linux /usr/bin/solc
       - run:
           name: install dependencies
           command: |-
@@ -71,6 +74,7 @@ jobs:
           name: Test
           command: |-
             cd contracts
+            npm run version
             npm test
       - save_cache:
           key: v1-contracts-{{ checksum "contracts/package.json" }}
@@ -123,6 +127,17 @@ jobs:
           command: |-
             cd api
             npm run lint
+      - run:
+          name: Install solc
+          command: |-
+            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            chmod +x solc-static-linux
+            sudo mv solc-static-linux /usr/bin/solc
+      - run:
+          name: npm install again (WTF?)
+          command: |-
+            cd contracts
+            npm i
       - run:
           name: compile & deploy contracts
           command: |-

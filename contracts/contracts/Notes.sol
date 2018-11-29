@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 
 contract Notes {
@@ -17,11 +17,11 @@ contract Notes {
 
     event NoteAdded(uint id);
 
-    constructor () public {
+    constructor() public {
         notesCount = 0;
     }
 
-    function addNote(string tag, string content, address author, address[] addresses, bytes encKeys) public {
+    function addNote(string memory tag, string memory content, address author, address[] memory addresses, bytes memory encKeys) public {
         uint keysNum = encKeys.length / 188;
         uint addressesLength = addresses.length;
 
@@ -35,11 +35,11 @@ contract Notes {
         notesCount++;
     }
 
-    function getNotesCount() public view returns (uint) {
+    function getNotesCount() public view returns (uint _notesCount) {
         return notesCount;
     }
 
-    function getNote(uint id) public view  returns (string tag, string encryptedText, address author, address[] addresses, bytes encKeys) {
+    function getNote(uint id) public view returns (string memory tag, string memory encryptedText, address author, address[] memory addresses, bytes memory encKeys) {
         Note memory note = notes[id];
         return (note.tag, note.encryptedText, note.author, note.addresses, note.encKeys);
     }

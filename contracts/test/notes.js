@@ -1,6 +1,6 @@
 const Notes = artifacts.require('Notes')
 
-contract('Notes', function(accounts) {
+contract('Notes', (accounts) => {
   let notes
   let from
 
@@ -13,9 +13,8 @@ contract('Notes', function(accounts) {
     const tx = await notes.addNote('test', 'context', from, [], '0x', { from })
 
     expect(tx.logs[0].event).to.equal('NoteAdded')
-    const { id } = tx.logs[0].args
 
-    expect(id.eq(0)).to.equal(true)
+    expect(Number(await notes.getNotesCount())).to.equal(1)
   })
 
 })

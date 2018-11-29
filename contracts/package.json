@@ -4,6 +4,7 @@
         "test": "truffle test",
         "lint": "eslint .",
         "compile": "truffle compile",
+        "version": "truffle version",
         "deploy": "node ./bin/deploy && rm -fr ../api/contracts/*.json && cp -f ./build/contracts/*.json ../api/contracts",
         "export-addresses": "source ./exportAddresses.sh",
         "install-contracts": "cp -f ./build/contracts/*.json ../api/contracts"
@@ -17,7 +18,7 @@
     "devDependencies": {
         "@appliedblockchain/eslint-config": "^2.3.0",
         "eslint": "^5.9.0",
-        "truffle": "^4.1.14"
+        "truffle": "5.0.0-beta.2"
     },
     "eslintConfig": {
         "extends": "@appliedblockchain/eslint-config"

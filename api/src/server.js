@@ -33,7 +33,9 @@ const createServer = async contractAddress => {
   const { contracts, web3 } = await setupWeb3({ abi, contractAddress })
   await checkContractDeployment(web3, contractAddress, contract.contractName)
 
-  elastic.init()
+  if (process.env.ELASTICSEARCH === '1') {
+    elastic.init()
+  }
 
   const app = new Koa()
 
