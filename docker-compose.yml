@@ -42,6 +42,8 @@ services:
         hard: -1
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
     networks:
       - main
   react:

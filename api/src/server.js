@@ -33,7 +33,7 @@ const createServer = async contractAddress => {
   const { contracts, web3 } = await setupWeb3({ abi, contractAddress })
   await checkContractDeployment(web3, contractAddress, contract.contractName)
 
-  if (process.env.ELASTICSEARCH === '1') {
+  if (process.env.ELASTICSEARCH_ENABLED === '1') {
     elastic.init()
   }
 
