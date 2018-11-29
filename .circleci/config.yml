@@ -134,6 +134,11 @@ jobs:
             chmod +x solc-static-linux
             sudo mv solc-static-linux /usr/bin/solc
       - run:
+          name: npm install again (WTF?)
+          command: |-
+            cd contracts
+            npm i
+      - run:
           name: compile & deploy contracts
           command: |-
             cd contracts
