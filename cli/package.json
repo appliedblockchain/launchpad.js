@@ -1,0 +1,13 @@
+{
+  "name": "base-app-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Applied Blockchain",
+  "license": "ISC",
+  "dependencies": {
+    "caporal": "^1.1.0",
+    "chalk": "^2.4.1",
+    "pkg": "^4.3.5"
+  }
+}
