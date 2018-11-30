@@ -16,7 +16,8 @@ const {
 const setupWeb3 = require('./setupWeb3')
 const checkContractDeployment = require('./checkContractDeployment')
 const { healthcheck } = require('./healthcheck')
-const elastic = require('./helpers/elasticsearch')
+// const elastic = require('./helpers/elasticsearch')
+const elastic = require('./clients/elasticsearch')
 
 const contract = require('../contracts/Notes.json')
 const abi = contract.abi
@@ -34,7 +35,7 @@ const createServer = async contractAddress => {
   await checkContractDeployment(web3, contractAddress, contract.contractName)
 
   if (process.env.ELASTICSEARCH_ENABLED === '1') {
-    elastic.init()
+    elastic.init([ 'notes', 'testsearch' ])
   }
 
   const app = new Koa()

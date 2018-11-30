@@ -108,33 +108,17 @@ const init = async (types) => {
     }
   }
 
+
   if (!Array.isArray(types)) {
     throw new Error('index types should be an array')
   }
 
   await Promise.all(
-    types.map(async TYPE => {
-      await client.indices.create({ index: TYPE }).catch(ignoreAlreadyExist).catch(console.error)
+    types.map(async type => {
+      await client.indices.create({ index: type }).catch(ignoreAlreadyExist).catch(console.error)
     })
   )
-
-  const body = {
-    index_patterns: [ '*' ],
-    settings: {
-      'index.mapping.ignore_malformed': true
-    },
-    mappings: {
-      notes: {
-        properties: {
-          id: { type: 'integer' },
-          createdTime: { type: 'text' }
-        }
-      }
-    }
-  }
-  await client.indices.putTemplate({ name: 'protect_mapping', body })
 }
-
 
 const upsertAsset = async (type, id, asset) => {
   await client.index({
@@ -158,10 +142,6 @@ const search = async (searchQueryString, offset) => {
 
   return internals.objectSearch(queryObject, offset)
 }
-
-
-
-
 module.exports = {
   health,
   init,

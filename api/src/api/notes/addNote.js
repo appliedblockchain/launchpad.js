@@ -7,14 +7,34 @@ const config = require('config')
 
 const abiDecoder = require('abi-decoder')
 
-const elasticsearch = require('../../helpers/elasticsearch.js')
+const elasticsearch = require('../../clients/elasticsearch')
 const { utils } = require('web3')
+const { ignoreNumberedKeys } = require('../../util/util')
 
 const mantleApi = new Mantle()
 mantleApi.loadMnemonic(config.API_MNEMONIC)
 
-async function addToElasticsearch(event, NotesContract) {
+const SEARCH_INDEX_TYPE = 'notes'
+
+/**
+ * @name getNote
+ * @desc Read note from the event emied by contract
+ * @param {object} event  Event object emitted fcontract
+ * @param {object} NotesContract instance of NotesContract
+ * @returns {object} Note
+ */
+const getNote = async (event, NotesContract) => {
   if (event.name === 'NoteAdded') {
+    const formatNote = (asset) => {
+      asset = ignoreNumberedKeys(asset)
+      asset.id = parseInt(asset.id)
+      delete asset.encryptedText
+      delete asset.encKeys
+      delete asset.author
+
+      return asset
+    }
+
     const id = event.events[0].value
     const note = await NotesContract.methods.getNote(id).call()
 
@@ -32,19 +52,25 @@ async function addToElasticsearch(event, NotesContract) {
     }
 
     if (credentials[mantleApi.address]) {
-
       const encSymKey = credentials[mantleApi.address]
       const decryptedKey = mantleApi.decrypt(encSymKey)
       note.plainText = Mantle.decryptSymmetric(note.encryptedText, decryptedKey)
-
-      elasticsearch.upsert(note)
+      return formatNote(note)
     } else {
-      console.error('Can\'t add note to elasticsearch, the note is not shared with the server')
+      throw new Error('Can\'t add note to elasticsearch, the note is not shared with the server')
     }
   } else {
-    console.error(`Event must be of type NoteAdded, type ${event.name}`)
+    throw new Error(`Event must be of type NoteAdded, type ${event.name}`)
   }
 }
+
+async function addToElasticsearch(event, NotesContract) {
+  try {
+    const note = await getNote(event, NotesContract)
+    elasticsearch.upsertAsset(SEARCH_INDEX_TYPE, note.id, note)
+  } catch (_) { } // eslint-disable-line
+}
+
 
 const handler = async ctx => {
   const { web3, contracts: { NotesContract } } = ctx

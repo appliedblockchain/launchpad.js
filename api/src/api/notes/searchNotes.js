@@ -4,7 +4,8 @@ const router = require('koa-joi-router')
 const Joi = router.Joi
 const Mantle = require('@appliedblockchain/mantle')
 
-const elastic = require('../../helpers/elasticsearch')
+// const elastic = require('../../helpers/elasticsearch')
+const elastic = require('../../clients/elasticsearch')
 const noteUtil = require('../../helpers/notes.js')
 
 const handler = async (ctx) => {
@@ -29,7 +30,7 @@ const handler = async (ctx) => {
 
   advanceQuery += ` $addresses: ${recoveredAddress}`
 
-  const results = await elastic.advanceSearch(advanceQuery, offset)
+  const results = await elastic.search(advanceQuery, offset)
 
   const result = await Promise.all(results.map(r => methods.getNote(r._id).call().then(noteUtil.addCredentials)))
 
