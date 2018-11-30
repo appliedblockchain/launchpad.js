@@ -1,6 +1,7 @@
 {
-  "name": "base-app-cli",
+  "name": "@appliedblockchain/base-app-cli",
   "version": "1.0.0",
+  "bin": "./bin/cli",
   "description": "",
   "main": "index.js",
   "author": "Applied Blockchain",
