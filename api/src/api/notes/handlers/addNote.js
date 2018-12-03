@@ -1,7 +1,5 @@
 'use strict'
 
-const router = require('koa-joi-router')
-const Joi = router.Joi
 const Mantle = require('@appliedblockchain/mantle')
 const config = require('config')
 
@@ -46,7 +44,7 @@ async function addToElasticsearch(event, NotesContract) {
   }
 }
 
-const handler = async ctx => {
+module.export = async ctx => {
   const { web3, contracts: { NotesContract } } = ctx
 
   try {
@@ -62,20 +60,4 @@ const handler = async ctx => {
   } catch (error) {
     ctx.badRequest({ error: `${error}` })
   }
-}
-
-module.exports = {
-  method: 'post',
-  validate: {
-    type: 'json',
-    output: {
-      200: {
-        body: {
-          message: Joi.string()
-        }
-      }
-    }
-  },
-  path: '/notes',
-  handler
 }
