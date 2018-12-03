@@ -2,8 +2,8 @@
 
 const Mantle = require('@appliedblockchain/mantle')
 
-const elastic = require('../../helpers/elasticsearch')
-const noteUtil = require('../../helpers/notes.js')
+const elastic = require('../../../helpers/elasticsearch')
+const noteUtil = require('../../../helpers/notes.js')
 
 module.exports = async (ctx) => {
   const { query, offset, sig } = ctx.request.query

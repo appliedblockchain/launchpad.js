@@ -1,6 +1,6 @@
 'use strict'
 
-const noteUtil = require('../../helpers/notes.js')
+const noteUtil = require('../../../helpers/notes.js')
 
 module.exports = async ctx => {
   const { NotesContract } = ctx.contracts

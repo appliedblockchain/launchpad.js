@@ -1,4 +1,4 @@
-// const noteRoutes = require('./routes')
+'use strict'
 
 module.exports = {
   routes: require('./routes')

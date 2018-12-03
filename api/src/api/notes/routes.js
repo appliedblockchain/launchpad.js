@@ -1,8 +1,7 @@
 'use strict'
 
 const koaRouter = require('koa-joi-router')
-const router = koaRouter()
-const Joi = koaRouter.joi
+const Joi = koaRouter.Joi
 
 const {
   addNote,
@@ -54,7 +53,7 @@ const routes = [
   },
   {
     method: 'get',
-    path: '/notesCountract',
+    path: '/notesContract',
     validate: {
       output: {}
     },
@@ -79,6 +78,4 @@ const routes = [
   }
 ]
 
-router.route(routes)
-
-module.exports = router
+module.exports = routes

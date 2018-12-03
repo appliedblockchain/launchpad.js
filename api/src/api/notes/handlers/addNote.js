@@ -5,7 +5,7 @@ const config = require('config')
 
 const abiDecoder = require('abi-decoder')
 
-const elasticsearch = require('../../helpers/elasticsearch.js')
+const elasticsearch = require('../../../helpers/elasticsearch.js')
 const { utils } = require('web3')
 
 const mantleApi = new Mantle()
@@ -44,7 +44,7 @@ async function addToElasticsearch(event, NotesContract) {
   }
 }
 
-module.export = async ctx => {
+module.exports = async ctx => {
   const { web3, contracts: { NotesContract } } = ctx
 
   try {
