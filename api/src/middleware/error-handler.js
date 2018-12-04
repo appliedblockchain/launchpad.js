@@ -16,7 +16,13 @@ module.exports = async (ctx, next) => {
       })
     }
     ctx.status = err.statusCode || 500
-    ctx.body = err.toJSON ? err.toJSON() : { message: err.message, ...err }
+    const error = {
+      error: {
+        name: err.constructor.name,
+        message: err.message
+      }, ...err }
+    }
+    ctx.body = err.toJSON ? err.toJSON() : error
     logger.error('Error in request', err)
   }
 }
