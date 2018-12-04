@@ -2,7 +2,7 @@
 
 const router = require('koa-joi-router')
 const Joi = router.Joi
-const Mantle = require('@appliedblockchain/mantle')
+const Mantle = require('@appliedblockchain/mantle-core')
 const config = require('config')
 
 const abiDecoder = require('abi-decoder')

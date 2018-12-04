@@ -1,4 +1,4 @@
-import Mantle from '@appliedblockchain/mantle'
+import Mantle from '@appliedblockchain/mantle-core'
 import fullName from 'utils/fullName'
 import localStorage from 'utils/localStorage'
 

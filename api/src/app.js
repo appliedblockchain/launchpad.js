@@ -23,3 +23,4 @@ const runApp = contractAddress => {
 }
 
 module.exports = runApp
+

@@ -1,4 +1,4 @@
-import Mantle from '@appliedblockchain/mantle'
+import Mantle from '@appliedblockchain/mantle-core'
 import { all, put, select, call, takeLatest, throttle } from 'redux-saga/effects'
 import { performDecryptNotes } from './perform'
 import { ACTIONS } from '../index'

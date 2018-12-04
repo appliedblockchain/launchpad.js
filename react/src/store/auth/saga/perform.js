@@ -1,4 +1,4 @@
-import Mantle from '@appliedblockchain/mantle'
+import Mantle from '@appliedblockchain/mantle-core'
 import cryptography from 'utils/cryptography'
 
 export const performEncryptMnemonic = userData => {
