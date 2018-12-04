@@ -4,11 +4,19 @@
   "description": "Mono-repo with Base App Example",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
     "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo-instant"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/appliedblockchain/base-app-mantle.git"
+  },
+  "eslintConfig": {
+    "extends": "@appliedblockchain/eslint-config"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "@appliedblockchain/eslint-config": "^2.3.0"
   },
   "author": "",
   "license": "GPL-3.0-or-later",
