@@ -20,7 +20,7 @@ module.exports = async (ctx, next) => {
       error: {
         name: err.constructor.name,
         message: err.message
-      }, ...err }
+      }
     }
     ctx.body = err.toJSON ? err.toJSON() : error
     logger.error('Error in request', err)
