@@ -1,6 +1,7 @@
 {
   "name": "base-app",
   "version": "1.0.0",
+  "private": true,
   "description": "Mono-repo with Base App Example",
   "main": "index.js",
   "scripts": {
