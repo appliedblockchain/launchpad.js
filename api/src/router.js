@@ -13,8 +13,8 @@ const router = koaRouter()
 
 router.route(notes)
 router.route(error)
-router.use(ipfs.createRouter().prefix('/ipfs').middleware())
-router.use(parityProxy.createRouter().middleware())
+router.use('', ipfs.createRouter().prefix('/ipfs').middleware())
+router.use('', parityProxy.createRouter().middleware())
 router.route(rootRoute)
 router.prefix(API_PREFIX)
 

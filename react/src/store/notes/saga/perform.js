@@ -1,4 +1,4 @@
-import Mantle from '@appliedblockchain/mantle'
+import Mantle from '@appliedblockchain/mantle-core'
 import { utils } from 'web3'
 
 const { bufferToHex0x, publicKeyToAddress } = Mantle.utils

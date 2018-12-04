@@ -1,4 +1,4 @@
-import Mantle from '@appliedblockchain/mantle'
+import Mantle from '@appliedblockchain/mantle-core'
 
 const keccak256 = new Mantle.Web3().utils.keccak256
 

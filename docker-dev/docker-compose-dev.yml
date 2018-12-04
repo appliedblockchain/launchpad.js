@@ -7,10 +7,12 @@ services:
       dockerfile: Dockerfile-dev
       args:
         - NPM_TOKEN
+    environment:
+      NODE_ENV: development
     volumes:
       - ../react/src/:/home/node/react/src
     ports:
-      - 3000:3000
+      - 3001:3001
   api:
     build:
       context: ../api

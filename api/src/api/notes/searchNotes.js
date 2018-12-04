@@ -2,7 +2,7 @@
 
 const router = require('koa-joi-router')
 const Joi = router.Joi
-const Mantle = require('@appliedblockchain/mantle')
+const Mantle = require('@appliedblockchain/mantle-core')
 
 const elastic = require('../../helpers/elasticsearch')
 const noteUtil = require('../../helpers/notes.js')
