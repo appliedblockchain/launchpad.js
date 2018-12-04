@@ -1,6 +1,6 @@
 # Base App
 
-Mono-repo with awith Base App Example
+Monorepo with a Base App, we need to use this app as starter for any projects as it provides a good default for API, F/E (soon), Mantle library usage for both wallet and encryption, and last but not least, CD (Circle) & depoloyment.  
 
 ## Directories
 
