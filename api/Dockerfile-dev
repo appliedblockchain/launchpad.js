@@ -21,6 +21,6 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc &&\
 
 COPY . /home/node/api
 
-EXPOSE 8080 
+EXPOSE 3000 
 
 CMD pm2 start run.js --watch . && pm2 logs
