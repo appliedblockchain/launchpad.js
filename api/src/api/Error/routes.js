@@ -1,5 +1,13 @@
 'use strict'
 
+const getError = require('./getError')
 
-const koaRouter = require('koa-joi-router')
-const router = koaRouter()
+const routes = [
+  {
+    method: 'get',
+    path: '/error',
+    handler: getError
+  }
+]
+
+module.exports = routes

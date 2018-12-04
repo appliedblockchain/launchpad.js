@@ -43,13 +43,13 @@ const createServer = async contractAddress => {
     .use(assignToContext({ contracts, web3 }))
     .use(errorHandler)
     .use(healthcheck(contractAddress, web3))
-    // .use(docs.get('/docs', configureDocs(
-    //   { groupName: 'error', routes: routes.error, prefix: '/api' },
-    //   { groupName: 'notes', routes: routes.notes, prefix: '/api' },
-    //   { groupName: 'ipfs', routes: routes.ipfs, prefix: '/api/ipfs' },
-    //   { groupName: 'transactions', routes: routes.transactions, prefix: '/api' },
-    //   { groupName: 'default', routes: routes.default, prefix: '/api' }
-    // )))
+    .use(docs.get('/docs', configureDocs(
+      { groupName: 'error', routes: routes.error, prefix: '/api' },
+      { groupName: 'notes', routes: routes.notes, prefix: '/api' },
+      { groupName: 'ipfs', routes: routes.ipfs, prefix: '/api/ipfs' },
+      { groupName: 'transactions', routes: routes.transactions, prefix: '/api' },
+      { groupName: 'default', routes: routes.default, prefix: '/api' }
+    )))
     .use(compress())
     .use(respond())
     .use(cors())
