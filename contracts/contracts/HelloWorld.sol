@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 pragma experimental ABIEncoderV2;
 
 contract HelloWorld {
-    bytes32 helloWorldText;
+    string helloWorldText;
 
     event helloWorldUpdated();
 
@@ -10,14 +10,14 @@ contract HelloWorld {
        helloWorldText = "Hello World";
     }
 
-    function updateHelloWorld(bytes32 _helloWorldText) public {
+    function updateHelloWorld(string memory _helloWorldText) public {
 
         helloWorldText = _helloWorldText;
 
         emit helloWorldUpdated();
     }
 
-    function getHelloWorld() public view returns (bytes32) {
-        return helloWorldText;
+    function getHelloWorld() public view returns (string memory _helloWorld) {
+      return helloWorldText;
     }
 }
