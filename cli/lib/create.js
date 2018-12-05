@@ -21,7 +21,7 @@ const create = (args, options, logger) => {
 
   logger.info(`Installing base-app into ${chalk.cyan(installPath)}`)
   spawnSync('git', [ 'clone', url, name ])
-
+  spawnSync('rm', [ '-rf', `${name}/.git` ])
 
   if (bootstrap) {
     logger.info(chalk.green('Installation complete'))
