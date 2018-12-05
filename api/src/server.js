@@ -18,7 +18,7 @@ const checkContractDeployment = require('./checkContractDeployment')
 const { healthcheck } = require('./healthcheck')
 const elastic = require('./helpers/elasticsearch')
 
-const contract = require('../contracts/Notes.json')
+const contract = require('../contracts/HelloWorld.json')
 const abi = contract.abi
 
 const createServer = async contractAddress => {

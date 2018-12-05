@@ -1,7 +1,10 @@
 'use strict'
 
 const handler = async (ctx) => {
-  ctx.ok({ message: 'hello world' })
+  const { HelloWorldContract } = ctx.contracts
+  const helloWorldString = await HelloWorldContract.methods.getHelloWorld().call()
+
+  ctx.ok(helloWorldString)
 }
 
 module.exports = [
