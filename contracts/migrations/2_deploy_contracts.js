@@ -1,5 +1,5 @@
-const Notes = artifacts.require('Notes')
+const helloWorld = artifacts.require('HelloWorld')
 
 module.exports = function(deployer) {
-  deployer.deploy(Notes)
+  deployer.deploy(helloWorld)
 }
