@@ -16,7 +16,6 @@ const {
 const setupWeb3 = require('./setupWeb3')
 const checkContractDeployment = require('./checkContractDeployment')
 const { healthcheck } = require('./healthcheck')
-const elastic = require('./helpers/elasticsearch')
 
 const contract = require('../contracts/HelloWorld.json')
 const abi = contract.abi
@@ -33,10 +32,6 @@ const createServer = async contractAddress => {
   const { contracts, web3 } = await setupWeb3({ abi, contractAddress })
   await checkContractDeployment(web3, contractAddress, contract.contractName)
 
-  if (process.env.ELASTICSEARCH === '1') {
-    elastic.init()
-  }
-
   const app = new Koa()
 
   app
@@ -44,10 +39,6 @@ const createServer = async contractAddress => {
     .use(errorHandler)
     .use(healthcheck(contractAddress, web3))
     .use(docs.get('/docs', configureDocs(
-      { groupName: 'error', routes: routes.error, prefix: '/api' },
-      { groupName: 'notes', routes: routes.notes, prefix: '/api' },
-      { groupName: 'ipfs', routes: routes.ipfs, prefix: '/api/ipfs' },
-      { groupName: 'transactions', routes: routes.transactions, prefix: '/api' },
       { groupName: 'default', routes: routes.default, prefix: '/api' }
     )))
     .use(compress())
