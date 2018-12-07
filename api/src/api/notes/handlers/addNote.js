@@ -1,6 +1,6 @@
 'use strict'
 
-const Mantle = require('@appliedblockchain/mantle')
+const Mantle = require('@appliedblockchain/mantle-core')
 const config = require('config')
 
 const abiDecoder = require('abi-decoder')
