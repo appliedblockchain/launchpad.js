@@ -81,32 +81,32 @@ jobs:
           paths:
             - contracts/node_modules
 
-  react:
-    <<: *job
-    steps:
-      - *attach_workspace
-      - restore_cache:
-          keys:
-            - v1-react-{{ checksum "react/package.json" }}
-      - run:
-          name: install dependencies
-          command: |-
-            cd react
-            echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
-      - run:
-          name: lint
-          command: |-
-            cd react
-            npm run lint
-      - run:
-          name: Test
-          command: |-
-            cd react
-            npm run test:ci
-      - save_cache:
-          key: v1-react-{{ checksum "react/package.json" }}
-          paths:
-            - react/node_modules
+  # react:
+  #   <<: *job
+  #   steps:
+  #     - *attach_workspace
+  #     - restore_cache:
+  #         keys:
+  #           - v1-react-{{ checksum "react/package.json" }}
+  #     - run:
+  #         name: install dependencies
+  #         command: |-
+  #           cd react
+  #           echo "//registry.npmjs.org/:_authToken=$PRIVATE_NPM_TOKEN" > .npmrc && npm i
+  #     - run:
+  #         name: lint
+  #         command: |-
+  #           cd react
+  #           npm run lint
+  #     - run:
+  #         name: Test
+  #         command: |-
+  #           cd react
+  #           npm run test:ci
+  #     - save_cache:
+  #         key: v1-react-{{ checksum "react/package.json" }}
+  #         paths:
+  #           - react/node_modules
 
   api:
     <<: *job-with-parity
@@ -167,7 +167,7 @@ workflows:
           <<: *workflow
           requires:
             - contracts
-      - react:
-          <<: *workflow
-          requires:
-            - pre-build
+      # - react:
+      #     <<: *workflow
+      #     requires:
+      #       - pre-build
