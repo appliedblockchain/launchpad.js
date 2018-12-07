@@ -11,3 +11,5 @@ contracts/exportAddresses\.sh
 
 node_modules
 */node_modules
+
+*.swp

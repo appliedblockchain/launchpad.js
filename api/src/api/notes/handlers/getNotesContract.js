@@ -1,6 +1,6 @@
 'use strict'
 
-const handler = async ctx => {
+module.exports = async ctx => {
   const { contracts: { NotesContract } } = ctx
 
   const contract = {
@@ -10,13 +10,4 @@ const handler = async ctx => {
   }
 
   ctx.ok(contract)
-}
-
-module.exports = {
-  method: 'get',
-  validate: {
-    output: {}
-  },
-  path: '/notesContract',
-  handler
 }

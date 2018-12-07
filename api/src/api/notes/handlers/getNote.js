@@ -1,10 +1,8 @@
 'use strict'
 
-const router = require('koa-joi-router')
 const { utils } = require('web3')
-const Joi = router.Joi
 
-const handler = async ctx => {
+module.exports = async ctx => {
   const { NotesContract } = ctx.contracts
   const { methods } = NotesContract
 
@@ -48,17 +46,4 @@ const handler = async ctx => {
   } catch (error) {
     ctx.badRequest({ error: `${error}` })
   }
-}
-
-module.exports = {
-  method: 'get',
-  path: '/notes/:id',
-  validate: {
-    output: {
-      200: {
-        body: Joi.object()
-      }
-    }
-  },
-  handler
 }

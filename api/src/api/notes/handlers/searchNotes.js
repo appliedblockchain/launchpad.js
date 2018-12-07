@@ -1,13 +1,11 @@
 'use strict'
 
-const router = require('koa-joi-router')
-const Joi = router.Joi
 const Mantle = require('@appliedblockchain/mantle-core')
 
-const elastic = require('../../helpers/elasticsearch')
-const noteUtil = require('../../helpers/notes.js')
+const elastic = require('../../../helpers/elasticsearch')
+const noteUtil = require('../../../helpers/notes.js')
 
-const handler = async (ctx) => {
+module.exports = async (ctx) => {
   const { query, offset, sig } = ctx.request.query
   const { NotesContract } = ctx.contracts
   const { methods } = NotesContract
@@ -37,22 +35,4 @@ const handler = async (ctx) => {
     next: result.length === elastic.LIMIT ? (+offset) + elastic.LIMIT : null,
     result
   }
-}
-
-module.exports = {
-  method: 'get',
-  path: '/notes/search',
-  validate: {
-    query: {
-      query: Joi.string().required(),
-      sig: Joi.string().required(),
-      offset: Joi.number().default(0)
-    },
-    output: {
-      200: {
-        body: Joi.object()
-      }
-    }
-  },
-  handler
 }
