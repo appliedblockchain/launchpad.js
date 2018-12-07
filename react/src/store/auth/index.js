@@ -1,6 +1,7 @@
-import Mantle from '@appliedblockchain/mantle'
+import Mantle from '@appliedblockchain/mantle-core'
 import fullName from 'utils/fullName'
 import localStorage from 'utils/localStorage'
+import { REST_API_LOCATION } from '../../config'
 
 const moduleName = 'auth'
 // Action Names
@@ -71,7 +72,8 @@ let mnemonic = localStorage.getAuth('mnemonic', true) || ''
 let authenticated = false
 if (mnemonic) {
   try {
-    mantle = new Mantle()
+    mantle = new Mantle({ proxyURL: REST_API_LOCATION })
+
     mantle.loadMnemonic(mnemonic)
     address = mantle.address
     publicKey = mantle.getPublicKey('hex0x')

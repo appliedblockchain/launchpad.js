@@ -9,6 +9,7 @@ contracts/exportAddresses\.sh
 
 !*.gitkeep
 
+node_modules
 */node_modules
 
 *.swp

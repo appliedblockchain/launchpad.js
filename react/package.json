@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@appliedblockchain/mantle": "^1.0.10",
+    "@appliedblockchain/mantle-core": "^1.11.0",
     "@material-ui/core": "^3.1.2",
     "@material-ui/icons": "^3.0.1",
     "classnames": "^2.2.5",

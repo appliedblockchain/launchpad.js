@@ -2,7 +2,7 @@ const request = require('supertest')
 const setupAppForTest = require('../../../test/utils.js')
 const notesDef = require('../../../contracts/Notes.json')
 const { API_PREFIX } = require('../../constants.js')
-const Mantle = require('@appliedblockchain/mantle')
+const Mantle = require('@appliedblockchain/mantle-core')
 const config = require('config')
 
 let app

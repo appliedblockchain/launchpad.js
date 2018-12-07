@@ -8,6 +8,9 @@ const Web3 = require('web3')
 const contractsDirectory = join(__dirname, '../build/contracts')
 const contractsFilenames = fs.readdirSync(contractsDirectory).filter(f => /\.json$/.test(f))
 
+if (contractsFilenames.length === 0) {
+  throw new Error('Contracts not found, you should run \'npm run compile\'')
+}
 
 const contracts = {}
 contractsFilenames.forEach(file => {
