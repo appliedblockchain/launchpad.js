@@ -114,6 +114,15 @@ services:
     image: appliedblockchain/mantle-parity3:latest
     volumes:
     - parity3_data:/parity/data
+  logspout:
+    image: gliderlabs/logspout
+    deploy:
+      mode: global
+    command: syslog+tls://logs7.papertrailapp.com:43764
+    volumes:
+      - type: bind
+        target: /var/run/docker.sock
+        source: /var/run/docker.sock
 
 volumes:
   parity1_data:
