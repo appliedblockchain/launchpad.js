@@ -54,9 +54,22 @@ npm test:watch
 In order for us to monitor API services downtime, we choose to integrate with Pingdom's monitoring system
 to report and notify whenever services are unavailable.
 
-#### Setting up
+#### Setting up on Slack
+
+Visit [Slack's app manager](https://appliedblockchain.slack.com/apps/manage) for Applied Blockchain.
+
+1. Search for **Pingdom** on the list of apps then click on it.
+2. Click on **Add Configuration**.
+3. Choose the channel to be notified (use either the project's channel or *projectname-notifications*).
+4. Click on **Add Pingdom Integration**.
+
+You'll be redirected to a page with more configuration's to add onto Pingdom but for now, all we'll need is the **Webhook URL**.
+
+
+#### Setting up on Pingdom
 
 Visit [Pingdom's Official Website](https://www.pingdom.com/) and login. We should have a shared account on [1Password](https://1password.com/).
 
-1. Go to **Experience Monitoring** and click on the **Uptime** tab. You should see something like teh following -
-![alt text](https://photos.google.com/share/AF1QipPO6lQM5Mz5ZJ1ZQK2BcLG54s_62bwk-FdYC_7Jv7t-nLWlHuOU08s2LY5DBkS6Fw/photo/AF1QipOOhmd9Lt79j5uUNXbOnMwZTqCKR9ip0H53R1Xc?key=WG9vNWFqd2h2Vi1tQWhRdThJc3ZLU1FjLXJTQ0Vn "Uptime tab")
+1.
+
+2. Go to **Experience Monitoring** and click on the **Uptime** tab. You should see something like [this](https://photos.google.com/share/AF1QipPO6lQM5Mz5ZJ1ZQK2BcLG54s_62bwk-FdYC_7Jv7t-nLWlHuOU08s2LY5DBkS6Fw/photo/AF1QipOOhmd9Lt79j5uUNXbOnMwZTqCKR9ip0H53R1Xc?key=WG9vNWFqd2h2Vi1tQWhRdThJc3ZLU1FjLXJTQ0Vn).
