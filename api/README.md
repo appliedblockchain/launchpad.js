@@ -58,10 +58,10 @@ to report and notify whenever services are unavailable.
 
 Visit [Slack's app manager](https://appliedblockchain.slack.com/apps/manage) for Applied Blockchain.
 
-1. Search for **Pingdom** on the list of apps then click on it.
-2. Click on **Add Configuration**.
-3. Choose the channel to be notified (use either the project's channel or *projectname-notifications*).
-4. Click on **Add Pingdom Integration**.
+* Search for **Pingdom** on the list of apps then click on it.
+* Click on **Add Configuration**.
+* Choose the channel to be notified (use either the project's channel or *projectname-notifications*).
+* Click on **Add Pingdom Integration**.
 
 You'll be redirected to a page with more configuration's to add onto Pingdom but for now, all we'll need is the **Webhook URL**.
 
@@ -75,11 +75,10 @@ There are a couple of checks you should do before actually integrating the monit
 
 #### Integrating Pingdom
 
-1. Go to **Integration** and click on **Integrations** tab.
-2. Click on **Add new**. Put an appropriate name to the webhook as well as the **Webhook URL** we've just got from Slack. Click **Save Integration**.
-3. Go to **Experience Monitoring** and click on the **Uptime** tab.
-4. Click on **Add new**. A window will popup and you should set the appropriate fields for the API healthcheck route:
-
+* Go to **Integration** and click on **Integrations** tab.
+* Click on **Add new**. Put an appropriate name to the webhook as well as the **Webhook URL** we've just got from Slack. Click **Save Integration**.
+* Go to **Experience Monitoring** and click on the **Uptime** tab.
+* Click on **Add new**. A window will popup and you should set the appropriate fields for the API healthcheck route:
   * Name: should be compatible to the project API to be monitored;
   * Web: HTTP(s);
   * URL/IP: *https://* *example.io/api/health*;
