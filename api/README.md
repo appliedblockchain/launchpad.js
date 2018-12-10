@@ -79,12 +79,13 @@ There are a couple of checks you should do before actually integrating the monit
 2. Click on **Add new**. Put an appropriate name to the webhook as well as the **Webhook URL** we've just got from Slack. Click **Save Integration**.
 3. Go to **Experience Monitoring** and click on the **Uptime** tab.
 4. Click on **Add new**. A window will popup and you should set the appropriate fields for the API healthcheck route:
-  - Name: should be compatible to the project API to be monitored;
-  - Web: HTTP(s);
-  - URL/IP: *https://* *example.io/api/health*;
-    - Optional tab: insert port if needed
-  - Who to alert: check your team or individuals;
-  - Scroll down the window and check *your webhook* you've inserted on the integration's tab.
-  - **Add** the new check you've configured.
+
+  * Name: should be compatible to the project API to be monitored;
+  * Web: HTTP(s);
+  * URL/IP: *https://* *example.io/api/health*;
+    * Optional tab: insert port if needed
+  * Who to alert: check your team or individuals;
+  * Scroll down the window and check *your webhook* you've inserted on the integration's tab.
+  * **Add** the new check you've configured.
 
 You can then try to test the monitoring service by clicking on **Test** within the Uptime window.
