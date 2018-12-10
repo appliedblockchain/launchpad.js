@@ -49,5 +49,13 @@ npm run lint
 npm test:watch
 ```
 
-### Setting up Pingdom Integration
+### Pingdom Integration
 
+In order for us to monitor API services downtime, we choose to integrate with Pingdom's monitoring system
+to report and notify whenever services are unavailable.
+
+#### Setting up
+
+Visit [Pingdom's Official Website](https://www.pingdom.com/) and login. We should have a shared account on [1Password](https://1password.com/).
+
+1. Go to **Experience Monitoring** and click on the **Uptime** tab. You should see something like [this](https://photos.google.com/share/AF1QipPO6lQM5Mz5ZJ1ZQK2BcLG54s_62bwk-FdYC_7Jv7t-nLWlHuOU08s2LY5DBkS6Fw/photo/AF1QipOOhmd9Lt79j5uUNXbOnMwZTqCKR9ip0H53R1Xc?key=WG9vNWFqd2h2Vi1tQWhRdThJc3ZLU1FjLXJTQ0Vn).
