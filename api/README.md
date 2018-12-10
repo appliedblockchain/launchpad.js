@@ -48,3 +48,6 @@ npm run start
 npm run lint
 npm test:watch
 ```
+
+### Setting up Pingdom Integration
+
