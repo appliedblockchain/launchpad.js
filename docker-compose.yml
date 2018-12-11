@@ -44,23 +44,23 @@ services:
       - elasticsearch:/usr/share/elasticsearch/data
     networks:
       - main
-  # react:
-  #   image: appliedblockchain/mantle-react:latest
-  #   build:
-  #     context: ./react
-  #     args:
-  #       - NPM_TOKEN
-  #       - BASIC_AUTH_HTPASSWD=admin:$$apr1$$6SESoef2$$haXLi9RTR.MOe76pJGH8r.
-  #       - TEST_MODE # if set, the react app will be built to use localhost as a backend
-  #   ports:
-  #     - 80:80
-  #   depends_on:
-  #     - api
-  #   networks:
-  #     - main
-  #   deploy:
-  #     <<: *deploy_defaults
-  #   restart: unless-stopped
+  react:
+    image: appliedblockchain/mantle-react:latest
+    build:
+      context: ./react
+      args:
+        - NPM_TOKEN
+        - BASIC_AUTH_HTPASSWD=admin:$$apr1$$6SESoef2$$haXLi9RTR.MOe76pJGH8r.
+        - TEST_MODE # if set, the react app will be built to use localhost as a backend
+    ports:
+      - 80:80
+    depends_on:
+      - api
+    networks:
+      - main
+    deploy:
+      <<: *deploy_defaults
+    restart: unless-stopped
   parity1:
     build:
       context: ./stack
