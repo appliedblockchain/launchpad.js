@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+<testsuite package="org.eslint" time="0" tests="1" errors="0" name="/Users/sabin/ab.projects/base-app/react/src/App.js">
+<testcase time="0" name="/Users/sabin/ab.projects/base-app/react/src/App.js" />
+</testsuite>
+<testsuite package="org.eslint" time="0" tests="1" errors="0" name="/Users/sabin/ab.projects/base-app/react/src/App.test.js">
+<testcase time="0" name="/Users/sabin/ab.projects/base-app/react/src/App.test.js" />
+</testsuite>
+<testsuite package="org.eslint" time="0" tests="1" errors="0" name="/Users/sabin/ab.projects/base-app/react/src/index.js">
+<testcase time="0" name="/Users/sabin/ab.projects/base-app/react/src/index.js" />
+</testsuite>
+<testsuite package="org.eslint" time="0" tests="1" errors="0" name="/Users/sabin/ab.projects/base-app/react/src/serviceWorker.js">
+<testcase time="0" name="/Users/sabin/ab.projects/base-app/react/src/serviceWorker.js" />
+</testsuite>
+</testsuites>
