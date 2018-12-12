@@ -1,15 +1,31 @@
-# Base App
+# Launchpad 
 
-Monorepo with a Base App, we need to use this app as starter for any projects as it provides a good default for API, F/E (soon), Mantle library usage for both wallet and encryption, and last but not least, CD (Circle) & deployment.  
+What is Launchpad?  
+Base app to start new project. The repository is monorepo with api, contract and placeholder for react (frontend) application.
+We are required to use this app as starter for any projects as it provides a good default for API, writing Contracts,
+CI/CD (CircleCI) & deployment.
+
+## Features:
+- Contracts and contract deployment
+- Basic api structure to start from
+- A place holder for react app to be added on
+- Continious Integration (Full CircleCI configuration to check contract, api and react)
+- Parity backup and restore *(uses Amazon S3)*
+- Sentry integration for Error Monitoring (Optional)
+- Elasticsearch integration (Optional)
+- CLI to create project
+- Docker for development
+- Docker swarm deployment 
 
 ## Directories
 
-- [Webapp](./react) - Front-end React application
+- [Webapp](./react) - Placeholder for Front-end React application
 - [API](./api) - Node.js API
 - [Contracts](./contracts) - Ethereum Solidity contracts
 - [Docs](./docs) - Documentation, guides, notes, etc
 - [docker-dev](./docker-dev) - Docker development environment with hot reload for the api and react
-
+- [sentry](./sentry) - Readme on how to integrate sentry
+- [CLI](./cli) - Launchpad CLI to create base app quickly
 
 ## How to develop
 
@@ -24,7 +40,7 @@ Please follow detail instruction [here](https://github.com/appliedblockchain/bas
 
 1. [Running **Ethereum Blockchain** node locally](https://github.com/appliedblockchain/base-app-mantle/tree/master/api#run-blockchain-network-and-contract-deployment)
 
-  ** Options**
+  **Options**  
   * [Ganache](https://truffleframework.com/ganache)
   * [Parity](https://wiki.parity.io/Setup)
   * [Geth](https://ethereum.gitbooks.io/frontier-guide/content/getting_a_client.html)
