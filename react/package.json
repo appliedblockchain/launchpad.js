@@ -1,99 +1,28 @@
 {
-  "name": "base-react-app-mantle",
+  "name": "react-placeholder",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@appliedblockchain/mantle-core": "^1.11.0",
-    "@material-ui/core": "^3.1.2",
-    "@material-ui/icons": "^3.0.1",
-    "classnames": "^2.2.5",
-    "formik": "^1.3.2",
-    "lodash": "^4.17.11",
-    "material-ui": "^0.20.2",
-    "material-ui-search-bar": "^0.4.2",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-redux": "^5.0.7",
-    "react-router": "^4.1.2",
-    "react-router-dom": "^4.2.2",
-    "react-router-redux": "^5.0.0-alpha.9",
-    "react-scripts": "^2.0.1",
-    "redux": "^4.0.0",
-    "redux-persist": "^5.10.0",
-    "redux-saga": "^0.16.0",
-    "sass-loader": "^7.1.0",
-    "yup": "^0.26.6"
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-scripts": "2.1.1"
   },
   "scripts": {
-    "start": "NODE_PATH=./src react-app-rewired start",
-    "start:staging": "NODE_PATH=./src sh -ac '. .env.staging; react-app-rewired start'",
-    "build": "NODE_PATH=./src react-app-rewired build",
-    "build:test-mode": "NODE_PATH=./src sh -ac '. .env.test-mode; react-app-rewired build'",
-    "build:staging": "NODE_PATH=./src sh -ac '. .env.staging; react-app-rewired build'",
-    "test": "NODE_PATH=./src react-scripts test --env=jsdom",
-    "test:ci": "CI=true NODE_PATH=./src react-app-rewired test --env=jsdom --testResultsProcessor='jest-multi-test-result-processor' --coverage",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:ci": "react-scripts test",
+    "eject": "react-scripts eject",
     "lint": "eslint ./src --cache --ignore-path .gitignore",
-    "lint:ci": "npm run lint -- --format junit --output-file reports/junit/eslint-results.xml",
-    "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
-  },
-  "pre-commit": [
-    "precommit-msg",
-    "lint"
-  ],
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/store/index.js",
-      "!src/index.js",
-      "!src/registerServiceWorker.js",
-      "!src/setupTests.js",
-      "!src/**/*.spec.js.snap"
-    ],
-    "coverageReporters": [
-      "json",
-      "lcov",
-      "text-summary",
-      "html"
-    ]
-  },
-  "jest-multi-test-result-processor": {
-    "processors": [
-      "jest-junit",
-      "html-jest-reporter"
-    ]
-  },
-  "html-jest-reporter": {
-    "outputPath": "reports/junit/index.html"
+    "lint:ci": "npm run lint -- --format junit --output-file reports/junit/eslint-results.xml"
   },
   "eslintConfig": {
-    "extends": "@appliedblockchain/eslint-config/react"
+    "extends": "react-app"
   },
-  "devDependencies": {
-    "@appliedblockchain/eslint-config": "^2.2.0",
-    "babel-eslint": "^9.0.0",
-    "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16": "^1.5.0",
-    "eslint-plugin-react": "^7.11.1",
-    "html-jest-reporter": "^1.0.0",
-    "jest-junit": "^5.2.0",
-    "jest-multi-test-result-processor": "^1.0.0",
-    "pre-commit": "^1.2.2",
-    "react-app-rewire-css-modules": "github:codebandits/react-app-rewire-css-modules",
-    "react-app-rewired": "^1.6.2",
-    "react-test-renderer": "^16.5.2",
-    "redux-logger": "^3.0.6"
-  },
-  "browserslist": {
-    "development": [
-      "last 2 chrome versions",
-      "last 2 firefox versions",
-      "last 2 edge versions"
-    ],
-    "production": [
-      ">1%",
-      "last 4 versions",
-      "Firefox ESR",
-      "not ie < 11"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

@@ -41,11 +41,11 @@ contractsFilenames.forEach(file => {
       gas: 50000000
     }
 
-    const { abi, bytecode } = contracts.Notes
-    let Notes = new web3.eth.Contract(abi, { from, data: bytecode })
-    Notes = await Notes.deploy({ arguments: [] }).send(sendParams)
+    const { abi, bytecode } = contracts.HelloWorld
+    let HelloWorld = new web3.eth.Contract(abi, { from, data: bytecode })
+    HelloWorld = await HelloWorld.deploy({ arguments: [] }).send(sendParams)
 
-    const addresses = `export CONTRACT_ADDRESS="${Notes.options.address}"`
+    const addresses = `export CONTRACT_ADDRESS="${HelloWorld.options.address}"`
     const path = join(__dirname, '../../api/contracts/exportAddresses.sh')
     fs.writeFileSync(path, addresses)
     console.log('done:\n', addresses)

@@ -1,5 +1,5 @@
 module.exports = {
-  errorHandler: require('./error-handler'),
-  notFoundHandler: require('./not-found'),
+  errorHandler: require('./errorHandler'),
+  notFoundHandler: require('./notFound'),
   assignToContext: require('./assignToContext')
 }

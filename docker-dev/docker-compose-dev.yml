@@ -1,18 +1,18 @@
 version: '3'
 
 services:
-  react:
-    build:
-      context: ../react
-      dockerfile: Dockerfile-dev
-      args:
-        - NPM_TOKEN
-    environment:
-      NODE_ENV: development
-    volumes:
-      - ../react/src/:/home/node/react/src
-    ports:
-      - 3001:3001
+  # react:
+  #   build:
+  #     context: ../react
+  #     dockerfile: Dockerfile-dev
+  #     args:
+  #       - NPM_TOKEN
+  #   environment:
+  #     NODE_ENV: development
+  #   volumes:
+  #     - ../react/src/:/home/node/react/src
+  #   ports:
+  #     - 3001:3001
   api:
     build:
       context: ../api
