@@ -16,5 +16,5 @@ const setHelloWorld = async ctx => {
 
 module.exports = {
   getHelloWorld,
-  setHelloWorld 
+  setHelloWorld
 }
