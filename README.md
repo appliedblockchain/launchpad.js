@@ -9,7 +9,7 @@ CI/CD (CircleCI) & deployment.
 - Contracts and contract deployment
 - Basic api structure to start from
 - A place holder for react app to be added on
-- Continious Integration (Full CircleCI configuration to check contract, api and react)
+- Continuous Integration (Full CircleCI configuration to check contract, api and react)
 - Parity backup and restore *(uses Amazon S3)*
 - Sentry integration for Error Monitoring (Optional)
 - Elasticsearch integration (Optional)
