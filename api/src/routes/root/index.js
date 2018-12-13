@@ -1,12 +1,6 @@
 'use strict'
 const Joi = require('koa-joi-router').Joi
-
-const handler = async (ctx) => {
-  const { HelloWorldContract } = ctx.contracts
-  const helloWorldString = await HelloWorldContract.methods.getHelloWorld().call()
-
-  ctx.ok({ message: helloWorldString })
-}
+const { getHelloWorld, setHelloWorld } = require('./handlers/rootHandler')
 
 module.exports = [
   {
@@ -21,7 +15,7 @@ module.exports = [
         }
       }
     },
-    handler
+    handler: getHelloWorld
   },
   {
     method: 'post',
@@ -32,11 +26,6 @@ module.exports = [
         message: Joi.string().required()
       }
     },
-    handler: async (ctx) => {
-      const { message } = ctx.request.body
-      const { HelloWorldContract } = ctx.contracts
-      await HelloWorldContract.methods.updateHelloWorld(message).send()
-      ctx.ok(message)
-    }
+    handler: setHelloWorld
   }
 ]
