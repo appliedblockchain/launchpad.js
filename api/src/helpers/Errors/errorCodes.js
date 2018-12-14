@@ -10,6 +10,11 @@ module.exports = {
     message: 'Contract method failure',
     description: 'Contract method failed.'
   },
+  unauthorized: {
+    status: 401,
+    message: 'Unauthorized',
+    description: 'Requested is unauthorized'
+  },
   user_not_admin: {
     status: 401,
     message: 'Admin only',
