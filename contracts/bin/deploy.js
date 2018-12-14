@@ -40,12 +40,17 @@ contractsFilenames.forEach(file => {
     }
 
     const contractNames = Object.keys(contracts)
+
     const deployedContracts = await Promise.all(
       contractNames.map(async (contractName) => {
+
+        console.log(`Deploying contract: ${contractName}....\n\n\n`)
 
         const { abi, bytecode } = contracts[contractName]
         const contract = new web3.eth.Contract(abi, { from, data: bytecode })
         const deployedContract = await contract.deploy({ arguments: [] }).send(sendParams)
+
+        console.log(`>>> Contract: ${contractName} deployed.\n\n\n`)
 
         return {
           contractName,
@@ -55,14 +60,20 @@ contractsFilenames.forEach(file => {
     )
 
     const deployedContractObject = deployedContracts.reduce((output, contract) => {
-      output[contract.contractName] = {
-        address: contract.options.address,
-        abi: contract._jsonInterface
+      const { contractName, options, _jsonInterface } = contract
+
+      console.log(`Preparing JSON for contract: ${contractName}...\n\n\n`)
+
+      output[contractName] = {
+        address: options.address,
+        abi: _jsonInterface
       }
       return output
     }, {})
 
     const contractsJSON = `module.exports = ${JSON.stringify(deployedContractObject, {}, 2).replace(/"/g, '\'')}\n`
+
+    console.log('Writing contract contract information....\n\n\n')
 
     const path = join(__dirname, '../../api/contracts/index.js')
     fs.writeFileSync(path, contractsJSON)
