@@ -1,12 +1,14 @@
 'use strict'
 
-const dotenv = require('dotenv')
-dotenv.config()
 const fs = require('fs')
 const { join } = require('path')
 const Web3 = require('web3')
+
 const contractsDirectory = join(__dirname, '../build/contracts')
 const contractsFilenames = fs.readdirSync(contractsDirectory).filter(f => /\.json$/.test(f))
+
+const config = require('config')
+const PROVIDER = config.get('provider')
 
 if (contractsFilenames.length === 0) {
   throw new Error('Contracts not found, you should run \'npm run compile\'')
@@ -26,11 +28,7 @@ contractsFilenames.forEach(file => {
 });
 
 (async () => {
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider(
-      process.env.PROVIDER || 'http://localhost:8545'
-    )
-  )
+  const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
 
   try {
     const coinbase = await web3.eth.getCoinbase()
@@ -41,15 +39,35 @@ contractsFilenames.forEach(file => {
       gas: 50000000
     }
 
-    const { abi, bytecode } = contracts.HelloWorld
-    let HelloWorld = new web3.eth.Contract(abi, { from, data: bytecode })
-    HelloWorld = await HelloWorld.deploy({ arguments: [] }).send(sendParams)
+    const contractNames = Object.keys(contracts)
+    const deployedContracts = await Promise.all(
+      contractNames.map(async (contractName) => {
 
-    const addresses = `export CONTRACT_ADDRESS="${HelloWorld.options.address}"`
-    const path = join(__dirname, '../../api/contracts/exportAddresses.sh')
-    fs.writeFileSync(path, addresses)
-    console.log('done:\n', addresses)
-    console.log(`addresses saved at ${path}`)
+        const { abi, bytecode } = contracts[contractName]
+        const contract = new web3.eth.Contract(abi, { from, data: bytecode })
+        const deployedContract = await contract.deploy({ arguments: [] }).send(sendParams)
+
+        return {
+          contractName,
+          ...deployedContract
+        }
+      })
+    )
+
+    const deployedContractObject = deployedContracts.reduce((output, contract) => {
+      output[contract.contractName] = {
+        address: contract.options.address,
+        abi: contract._jsonInterface
+      }
+      return output
+    }, {})
+
+    const contractsJSON = `module.exports = ${JSON.stringify(deployedContractObject, {}, 2).replace(/"/g, '\'')}\n`
+
+    const path = join(__dirname, '../../api/contracts/index.js')
+    fs.writeFileSync(path, contractsJSON)
+    console.log(`Contract information saved at ${path}`)
+
   } catch (err) {
     if (err.message === 'Invalid JSON RPC response: ""') {
       console.error('Error: Unable to connect to network, is parity running?')
