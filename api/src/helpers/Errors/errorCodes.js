@@ -15,6 +15,11 @@ module.exports = {
     message: 'Unauthorized',
     description: 'Requested is unauthorized'
   },
+  forbidden: {
+    status: 403,
+    message: 'Forbidden',
+    description: 'Request is forbidden'
+  },
   user_not_admin: {
     status: 401,
     message: 'Admin only',
