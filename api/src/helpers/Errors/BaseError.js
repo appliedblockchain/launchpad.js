@@ -23,8 +23,21 @@ class BaseError extends Error {
    * @ctx {object} Context object from koa
    * @err {object} Error object */
   static handleErrorResponse(ctx, err) {
-    // TOOD: handle error respones
-    console.log('Error', err)
+
+    // if instanceof error is not Base Error
+    if (!(err instanceof this)) {
+      err = new BaseError('internal')
+    }
+
+    ctx.status = err.status
+
+    // if error does not have toJSON function
+    ctx.body = err.toJson ? err.toJson() : {
+      error: {
+        name: err.constructor.name,
+        message: err.message
+      }
+    }
   }
 
   /* @name toJson

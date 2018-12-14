@@ -13,7 +13,7 @@ module.exports = {
   unauthorized: {
     status: 401,
     message: 'Unauthorized',
-    description: 'Requested is unauthorized'
+    description: 'Request is unauthorized'
   },
   forbidden: {
     status: 403,
