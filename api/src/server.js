@@ -17,27 +17,29 @@ const setupWeb3 = require('./setupWeb3')
 const checkContractDeployment = require('./checkContractDeployment')
 const { healthcheck } = require('./healthcheck')
 
-const contract = require('../contracts/HelloWorld.json')
-const abi = contract.abi
-
-const createServer = async contractAddress => {
-  if (!contractAddress) {
+const createServer = async contractAddresses => {
+  if (!contractAddresses) {
     throw new Error(
       'You must run start the server with a valid ' +
-        `contract. Address received: ${contractAddress}`
+        `contract. Address received: ${contractAddresses}`
     )
   }
   logger.debug('Creating server...')
 
-  const { contracts, web3 } = await setupWeb3({ abi, contractAddress })
-  await checkContractDeployment(web3, contractAddress, contract.contractName)
+  const { contracts, web3 } = await setupWeb3()
+
+  await Promise.all(
+    Object.keys(contracts).map(async contractName => {
+      const contractAddress = contracts[contractName].options.address
+      await checkContractDeployment(web3, contractAddress, contractName)
+    })
+  )
 
   const app = new Koa()
-
   app
     .use(assignToContext({ contracts, web3 }))
     .use(errorHandler)
-    .use(healthcheck(contractAddress, web3))
+    .use(healthcheck(contractAddresses, web3))
     .use(docs.get('/docs', configureDocs(
       { groupName: 'default', routes: routes.default, prefix: '/api' }
     )))
