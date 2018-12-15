@@ -5,13 +5,19 @@ const {
   GIT_TAG_DEFAULT
 } = require('./healthcheck')
 
+const contracts = require('../contracts')
+
 let app
+let contractAddresses
 
 const URL = '/health'
 
 describe(`GET ${URL}`, () => {
   beforeAll(async () => {
     app = await setupAppForTest()
+    contractAddresses = Object.keys(contracts).map(
+      contractName => contracts[contractName].address)
+
   })
 
   afterAll(async () => {
@@ -25,7 +31,7 @@ describe(`GET ${URL}`, () => {
 
     expect(status).toEqual(200)
     expect(body.parityStatus).toEqual('Running')
-    expect(body.storeContractAddress).toEqual(process.env.CONTRACT_ADDRESS)
+    expect(body.storeContractAddress).toEqual(contractAddresses)
     expect(body.commit).toEqual(GIT_COMMIT_SHA_DEFAULT)
     expect(body.tag).toEqual(GIT_TAG_DEFAULT)
     expect(body.latestBlockNumber).toBeGreaterThan(0)
