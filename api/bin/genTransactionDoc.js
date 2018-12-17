@@ -51,5 +51,5 @@ const generateTransactionDocs = async () => {
 generateTransactionDocs().then(() => {
   console.log('Documentation is generated')
 }).catch(e => {
-  console.log(`Error generating documenation\n${e}`)
+  console.log(`Error generating documentation\n${e}`)
 })
