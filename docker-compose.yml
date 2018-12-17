@@ -9,7 +9,7 @@ services:
     image: appliedblockchain/mantle-api:latest
     build:
       context: .
-      dockerfile: Dockerfile-api
+      dockerfile: ./api/Dockerfile
       args:
         - NPM_TOKEN
     environment:
