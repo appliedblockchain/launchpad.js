@@ -1,6 +1,6 @@
 'use strict'
 
-const { contracts } = require('src/util/web3')
+const { contracts } = require('../../../util/web3')
 
 const getHelloWorld = async ctx => {
   const { HelloWorld } = contracts

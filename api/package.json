@@ -8,7 +8,7 @@
     "node": ">=9.0.0"
   },
   "scripts": {
-    "start": "NODE_PATH=. nodemon run.js",
+    "start": "nodemon run.js",
     "start:prod": "npm run run:prod",
     "run:prod": "node run.js",
     "test": "jest",

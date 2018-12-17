@@ -12,7 +12,7 @@ const {
   notFoundHandler,
   errorHandler
 } = require('./middleware')
-const { web3, contracts, checkDeployment } = require('src/util/web3')
+const { web3, contracts, checkDeployment } = require('./util/web3')
 const { healthcheck } = require('./healthcheck')
 
 const createServer = async contractAddresses => {
