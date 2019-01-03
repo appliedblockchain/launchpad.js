@@ -63,6 +63,9 @@
     "koa-joi-router": "^5.1.0",
     "koa-respond": "^1.0.1",
     "lodash": "^4.17.11",
+    "prom-client": "^11.2.1",
+    "prometheus-api-metrics": "^2.1.8",
+    "response-time": "^2.3.2",
     "web3": "1.0.0-beta.33"
   }
 }
