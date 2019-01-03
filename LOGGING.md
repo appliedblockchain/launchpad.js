@@ -19,7 +19,8 @@ General information on regular operations.
 > Use for audit purpose but depends on application
 
 ### Warning  
-Informations that is worth to be looked in.
+Information that is worth looking into.
+
 > Example:  
 > *Bad request when adding notes.*   
 > Useful to check there was error but again depends on application.
@@ -28,33 +29,33 @@ Informations that is worth to be looked in.
 Fatal and unexpected error for a request.
 > Example:
 > *500 Error when adding notes.*
-> Note: There is no any known issue that cause to fail request
+> Note: There is no known issue that causes the request to fail
 
 ### Fatal  
 Fatal for application. App has to be stopped for the error.
 > Example:
 > *Unable to connect contract using web3 or unable to connect*
-> Note: App does not have to stopped but is not usable completely.
+> Note: The app does not need to be stopped but is not completely usable.
 
 [More](https://github.com/trentm/node-bunyan#levels)
 
 ## Usage
 * **Debugging**  
-Debugging of application is easy if more and useful debugging information is provided to logging system.
+Debugging of application is easy if more useful debugging information is provided to the logging system.
+
 
 * **Monitoring Tools that sends alerts**  
 Depending on severity or every log can be pushed to monitoring and alerting system. Bunyan supports custom streams.
 
 * **Analysis**  
-Logs can be pushed to third party service to get detail analysis. Bunyan logs are JSON string which can be bulk pushed to NoSQL database (mongodb) to manual analysis.
-
+Logs can be pushed to third party service to get detail analysis. Bunyan logs are JSON string which can be bulk pushed to NoSQL database (mongodb) for manual analysis.
 
 ## Multiple streams
-Bunyan logging support multiple streams meaning that different logs can be handles in different way.
+Bunyan logging support multiple streams meaning that different logs can be handled in different ways.
 [More](https://github.com/trentm/node-bunyan#streams)
 
 Following example logs information depending on log level.
-Debug are printed on standard output (console). Information into a file and error and above into separate file.
+`DEBUG` is printed on standard output (console). `INFO` into a file, and the `ERROR` and above (i.e. `FATAL`) into a separate a file.
 
 Example:
 
@@ -82,7 +83,7 @@ var log = bunyan.createLogger({
 
 Bunyan supports custom streams too. A custom stream is a function, which can be written to push data into other services and cloud services like `Papertrail` and `Sentry`.
 
-Find more third party stream [here](https://github.com/trentm/node-bunyan/wiki/Awesome-Bunyan#streams).
+Find more third party streams [here](https://github.com/trentm/node-bunyan/wiki/Awesome-Bunyan#streams).
 
 Example to send error to Sentry.  
 Also [refer](https://stackoverflow.com/questions/53310580/sentry-node-integration-to-wrap-bunyan-log-calls-as-breadcrumbs)
