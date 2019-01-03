@@ -1,8 +1,7 @@
 const request = require('supertest')
 const setupAppForTest = require('../test/utils.js')
 const {
-  GIT_COMMIT_SHA_DEFAULT,
-  GIT_TAG_DEFAULT
+  statuses
 } = require('./healthcheck')
 
 const contracts = require('../contracts')
@@ -30,10 +29,7 @@ describe(`GET ${URL}`, () => {
       .expect('Content-Type', /json/)
 
     expect(status).toEqual(200)
-    expect(body.parityStatus).toEqual('Running')
-    expect(body.storeContractAddress).toEqual(contractAddresses)
-    expect(body.commit).toEqual(GIT_COMMIT_SHA_DEFAULT)
-    expect(body.tag).toEqual(GIT_TAG_DEFAULT)
-    expect(body.latestBlockNumber).toBeGreaterThan(0)
+    expect(body.services.parity).toEqual(statuses.OK)
+    expect(body.gitCommitHash).toEqual(expect.any(String))
   })
 })

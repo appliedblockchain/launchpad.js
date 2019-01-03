@@ -49,7 +49,6 @@
     "@appliedblockchain/consul": "^1.0.2",
     "@appliedblockchain/contract-artefacts-deployer": "0.0.4",
     "@appliedblockchain/koa-docs": "^2.1.0",
-    "@appliedblockchain/koa-healthcheck": "^1.2.0",
     "@appliedblockchain/mantle-api": "^1.1.0",
     "@appliedblockchain/mantle-core": "^1.11.0",
     "@appliedblockchain/store-contract-artefacts": "^0.3.0",

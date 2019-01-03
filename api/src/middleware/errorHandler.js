@@ -1,6 +1,7 @@
 const logger = require('../logger')
 const Sentry = require('@sentry/node')
 const dsn = process.env.SENTRY_DSN || ''
+const BaseError = require('../helpers/Errors/BaseError')
 
 if (dsn) {
   Sentry.init({ dsn: dsn })
@@ -15,14 +16,15 @@ module.exports = async (ctx, next) => {
         console.log(`Reported error ${eventId}`)
       })
     }
-    ctx.status = err.statusCode || 500
-    const error = {
-      error: {
-        name: err.constructor.name,
-        message: err.message
-      }
-    }
-    ctx.body = err.toJSON ? err.toJSON() : error
+    BaseError.handleErrorResponse(ctx, err)
+    // ctx.status = err.statusCode || 500
+    // const error = {
+    //   error: {
+    //     name: err.constructor.name,
+    //     message: err.message
+    //   }
+    // }
+    // ctx.body = err.toJSON ? err.toJSON() : error
     logger.error('Error in request', err)
   }
 }
