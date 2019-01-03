@@ -1,7 +1,7 @@
 const { readFileSync } = require('fs')
 
 const GIT_COMMIT_SHA_DEFAULT = 'No commit was passed into this build'
-const constants = {
+const statuses = {
   OK: 'OK',
   DOWN: 'DOWN'
 }
@@ -10,11 +10,11 @@ const getVersion = async (web3) => {
   try {
     const version = await web3.eth.getProtocolVersion()
     if (!version) {
-      return { status: constants.DOWN }
+      return { status: statuses.DOWN }
     }
-    return { status: constants.OK }
+    return { status: statuses.OK }
   } catch (err) {
-    return { status: constants.DOWN }
+    return { status: statuses.DOWN }
   }
 }
 
@@ -27,10 +27,10 @@ const getCommitHash = () => {
 }
 
 
-const healthcheck = (contractAddress, web3) => {
+const healthcheck = (web3) => {
   return async (ctx) => {
     const { status } = await getVersion(web3)
-    if (status === constants.DOWN) {
+    if (status === statuses.DOWN) {
       ctx.status = 503
     }
     ctx.body = {
@@ -45,5 +45,5 @@ const healthcheck = (contractAddress, web3) => {
 
 module.exports = {
   healthcheck,
-  constants
+  statuses
 }

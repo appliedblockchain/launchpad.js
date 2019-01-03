@@ -1,7 +1,7 @@
 const request = require('supertest')
 const setupAppForTest = require('../test/utils.js')
 const {
-  constants
+  statuses
 } = require('./healthcheck')
 
 let app
@@ -23,7 +23,7 @@ describe(`GET ${URL}`, () => {
       .expect('Content-Type', /json/)
 
     expect(status).toEqual(200)
-    expect(body.services.parity).toEqual(constants.OK)
+    expect(body.services.parity).toEqual(statuses.OK)
     expect(body.gitCommitHash).toEqual(expect.any(String))
   })
 })
