@@ -28,16 +28,20 @@ const getCommitHash = () => {
 
 
 const healthcheck = (web3) => {
-  return async (ctx) => {
+  return async function healthcheck(ctx, next) {
+    if (ctx.path !== '/health') {
+      return next()
+    }
+
     const { status } = await getVersion(web3)
     if (status === statuses.DOWN) {
       ctx.status = 503
     }
     ctx.body = {
       services: {
-        parity: status,
+        parity: status
       },
-      gitCommitHash: getCommitHash() || GIT_COMMIT_SHA_DEFAULT,
+      gitCommitHash: getCommitHash() || GIT_COMMIT_SHA_DEFAULT
     }
   }
 }
