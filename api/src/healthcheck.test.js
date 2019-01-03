@@ -4,19 +4,13 @@ const {
   statuses
 } = require('./healthcheck')
 
-const contracts = require('../contracts')
-
 let app
-let contractAddresses
 
 const URL = '/health'
 
 describe(`GET ${URL}`, () => {
   beforeAll(async () => {
     app = await setupAppForTest()
-    contractAddresses = Object.keys(contracts).map(
-      contractName => contracts[contractName].address)
-
   })
 
   afterAll(async () => {
