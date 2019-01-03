@@ -36,7 +36,7 @@ const createServer = async contractAddresses => {
   const app = new Koa()
   app
     .use(errorHandler)
-    .use(healthcheck(contractAddresses, web3))
+    .use(healthcheck(web3))
     .use(docs.get('/docs', configureDocs(
       { groupName: 'default', routes: routes.default, prefix: '/api' }
     )))

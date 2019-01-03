@@ -17,8 +17,8 @@ const contracts = Object.keys(contractsJSON).reduce((_contracts, contractName) =
 }, {})
 
 const checkDeployment = async () => {
-  Object.entries(contractsJSON).forEach(async (contract) => {
-    const { address } = contract
+  Object.keys(contractsJSON).forEach(async (contractName) => {
+    const { address } = contractsJSON[contractName]
     const code = await web3.eth.getCode(address)
     if (code === '0x0' || code === '0x') {
       throw new Error(`No code at the specified contract address: ${address}`)
