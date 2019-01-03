@@ -1,7 +1,14 @@
 const createServer = require('../src/server')
+const contracts = require('../contracts')
 
 const setupAppForTest = async () => {
-  return createServer(process.env.CONTRACT_ADDRESS)
+  const contractAddresses = Object.keys(contracts).map(
+    contractName => contracts[contractName].address)
+
+  return createServer(contractAddresses)
 }
+
+
+
 
 module.exports = setupAppForTest
