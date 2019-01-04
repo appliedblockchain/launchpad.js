@@ -1,52 +1,44 @@
+const { register, Counter, Summary } = require('prom-client')
 
-// const Register = require('prom-client').register
-// var Counter = require('prom-client').Counter
-// var Histogram = require('prom-client').Histogram
-// var Summary = require('prom-client').Summary
-const { register, Counter, Histogram, Summary } = require('prom-client')
-
-const responseTime = require('response-time')
-
-/**
- * A Prometheus counter that counts the invocations of the different HTTP verbs
- * e.g. a GET and a POST call will be counted as 2 different calls
- */
 const numOfRequests = new Counter({
-  name: 'numOfRequests',
+  name: 'mantle_num_of_requests',
   help: 'Number of requests made',
   labelNames: [ 'method' ]
 })
 
 const pathsTaken = new Counter({
-  name: 'pathsTaken',
+  name: 'mantle_path_taken',
   help: 'Paths taken in the app',
   labelNames: [ 'path' ]
 })
 
 const responses = new Summary({
-  name: 'responses',
+  name: 'mantle_responses',
   help: 'Response time in millis',
   labelNames: [ 'method', 'path', 'status' ]
 })
 
 const startCollection = () => {
-  // Logger.log(Logger.LOG_INFO, `Starting the collection of metrics, the metrics are available on /metrics`);
   require('prom-client').collectDefaultMetrics()
 }
 
 const requestCounters = async (ctx, next) => {
-  if (ctx.req.path !== '/metrics') {
-    numOfRequests.inc({ method: ctx.req.method })
-    pathsTaken.inc({ path: ctx.req.path })
+  if (ctx.path !== '/metrics') {
+    numOfRequests.inc({ method: ctx.method })
+    pathsTaken.inc({ path: ctx.path })
   }
   await next()
 }
 
-const responseCounters = responseTime((ctx, time) => {
-  if (ctx.path.url !== '/metrics') {
-    responses.labels(ctx.req.method, ctx.req.url, ctx.res.statusCode).observe(time)
+const responseCounters = async (ctx, next) => {
+  const started = Date.now()
+  next()
+  if (ctx.path !== '/metrics') {
+    const ellapsed = (Date.now() - started)
+    responses.labels(ctx.method, ctx.url, ctx.status).observe(ellapsed)
   }
-})
+
+}
 
 const injectMetricsRouter = async (ctx, next) => {
   if (ctx.path === '/metrics') {
@@ -57,12 +49,6 @@ const injectMetricsRouter = async (ctx, next) => {
   }
 }
 
-const mantleCounter = new Counter({
-  name: 'mantle_custom_metrics',
-  help: 'Total number of checkouts',
-  labelNames: [ 'mantle_custom_metrics_label' ]
-})
-
 module.exports.numOfRequests = numOfRequests
 module.exports.pathsTaken = pathsTaken
 module.exports.responses = responses
@@ -70,4 +56,3 @@ module.exports.startCollection = startCollection
 module.exports.requestCounters = requestCounters
 module.exports.responseCounters = responseCounters
 module.exports.injectMetricsRouter = injectMetricsRouter
-module.exports.mantleCounter = mantleCounter

@@ -51,15 +51,11 @@ const createServer = async contractAddresses => {
     .use(compress())
     .use(respond())
     .use(Prometheus.requestCounters)
-  // .use(Prometheus.responseCounters)
+    .use(Prometheus.responseCounters)
     .use(middleware)
     .use(notFoundHandler)
 
   const server = http.createServer(app.callback())
-
-  Prometheus.mantleCounter.inc({
-    mantle_custom_metrics_label: 2000
-  })
 
   server.on('close', async () => {
     logger.debug('Server closing')
