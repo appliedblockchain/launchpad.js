@@ -2,8 +2,11 @@
 
 ## Prometheus 
 
-**TODO:** Add more details
+Metrics source 
 
+## Grafana
+
+Dashboard service
 
 ## Docker Engine Setup
 Docker engine should be running with metrics address `0.0.0.0:9323`
@@ -25,5 +28,17 @@ ExecStart=/usr/bin/dockerd -H fd:// \
 ## Docker Compose with Prometheus
 
 ```shell
-docker-compose -f docker-compose.yml -f add-prometheus.yml up prometheus
+docker-compose -f docker-compose.yml -f add-prometheus.yml up
 ```
+
+
+## Possible Usage
+* Multiple datasource from different metrics datasources (e.g. Postgres, Azure, AWS)
+* Use of Prometheus Alert to sent alerts
+* Basic app metrics should be determined in launch pad
+* Prometheus Dashbaord can be added by default which can be imported Prometheus Datasource tab
+* Grafana Cloud can be use instead of Grafana container
+
+## Known Issues
+* Settting prometheus datasource to be browser
+  Prometheus datasource is not accessible via grafana and should be changed to `Browser` instead of `Server`
