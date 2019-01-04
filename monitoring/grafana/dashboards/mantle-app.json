@@ -103,13 +103,13 @@
           "expr": "numOfRequests",
           "format": "time_series",
           "instant": true,
-          "interval": "",
+          "interval": "1s",
           "intervalFactor": 1,
           "legendFormat": "",
           "refId": "A"
         }
       ],
-      "thresholds": "",
+      "thresholds": "10000,  50000, 100000",
       "title": "Total Request",
       "transparent": false,
       "type": "singlestat",

@@ -9,6 +9,8 @@ services:
       - prometheus-data:/prometheus
     ports:
       - '9090:9090'
+    networks:
+      - main
   grafana:
     image: appliedblockchain/mantle-grafana:latest
     build:
@@ -20,5 +22,14 @@ services:
       - main
     ports:
       - '9080:3000'
+    networks:
+      - main
+  node-exporter:
+    image: prom/node-exporter:latest
+    restart: unless-stopped
+    networks:
+      - main
+    expose:
+      - 9100
 volumes:
   prometheus-data:
