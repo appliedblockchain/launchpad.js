@@ -34,12 +34,12 @@ const startCollection = () => {
   require('prom-client').collectDefaultMetrics()
 }
 
-const requestCounters = (ctx, next) => {
+const requestCounters = async (ctx, next) => {
   if (ctx.req.path !== '/metrics') {
     numOfRequests.inc({ method: ctx.req.method })
     pathsTaken.inc({ path: ctx.req.path })
   }
-  next()
+  await next()
 }
 
 const responseCounters = responseTime((ctx, time) => {
@@ -49,17 +49,11 @@ const responseCounters = responseTime((ctx, time) => {
 })
 
 const injectMetricsRouter = async (ctx, next) => {
-
-  // const { method, url } = ctx.request
-  // ignore the url using pattern
-  // const ignore = shouldIgnoreRequest(url);
-
   if (ctx.path === '/metrics') {
     ctx.set('Content-Type', register.contentType)
     ctx.body = register.metrics()
   } else {
-    console.log('path', ctx.path)
-    next()
+    await next()
   }
 }
 

@@ -51,7 +51,7 @@ const createServer = async contractAddresses => {
     .use(compress())
     .use(respond())
     .use(Prometheus.requestCounters)
-    .use(Prometheus.responseCounters)
+  // .use(Prometheus.responseCounters)
     .use(middleware)
     .use(notFoundHandler)
 
