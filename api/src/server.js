@@ -13,8 +13,10 @@ const {
   notFoundHandler,
   errorHandler
 } = require('./middleware')
+
 const { web3, contracts, checkDeployment } = require('./util/web3')
 var Prometheus = require('./middleware/monitor')
+
 const { healthcheck } = require('./healthcheck')
 
 const createServer = async contractAddresses => {
@@ -38,12 +40,8 @@ const createServer = async contractAddresses => {
   const app = new Koa()
   app
     .use(errorHandler)
-<<<<<<< HEAD
     .use(healthcheck(web3))
-=======
     .use(cors())
-    .use(healthcheck(contractAddress, web3))
->>>>>>> app and docker metrics with prometheus
     .use(docs.get('/docs', configureDocs(
       { groupName: 'default', routes: routes.default, prefix: '/api' }
     )))
@@ -56,6 +54,10 @@ const createServer = async contractAddresses => {
     .use(notFoundHandler)
 
   const server = http.createServer(app.callback())
+
+  Prometheus.mantleCounter.inc({
+    mantle_custom_metrics_label: 2000
+  })
 
   server.on('close', async () => {
     logger.debug('Server closing')

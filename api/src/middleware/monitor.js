@@ -32,10 +32,10 @@ const requestCounters = async (ctx, next) => {
 
 const responseCounters = async (ctx, next) => {
   const started = Date.now()
-  next()
+  await next()
   if (ctx.path !== '/metrics') {
-    const ellapsed = (Date.now() - started)
-    responses.labels(ctx.method, ctx.url, ctx.status).observe(ellapsed)
+    const elapsed = (Date.now() - started)
+    responses.labels(ctx.method, ctx.url, ctx.status).observe(elapsed)
   }
 
 }
@@ -49,10 +49,12 @@ const injectMetricsRouter = async (ctx, next) => {
   }
 }
 
-module.exports.numOfRequests = numOfRequests
-module.exports.pathsTaken = pathsTaken
-module.exports.responses = responses
-module.exports.startCollection = startCollection
-module.exports.requestCounters = requestCounters
-module.exports.responseCounters = responseCounters
-module.exports.injectMetricsRouter = injectMetricsRouter
+module.exports = {
+  numOfRequests,
+  pathsTaken,
+  responses,
+  startCollection,
+  requestCounters,
+  responseCounters,
+  injectMetricsRouter
+}
