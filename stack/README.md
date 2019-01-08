@@ -1,4 +1,6 @@
-# Monitoring Using Prometheus and Grafana
+# Stack 
+
+Stack information for deployment with parity nodes, prometheus, grafana and others.
 
 ## Prometheus 
 

@@ -4,7 +4,7 @@ services:
     image: appliedblockchain/mantle-prometheus:latest
     build:
       context: .
-      dockerfile: ./monitoring/prometheus/Dockerfile
+      dockerfile: ./stack/prometheus/Dockerfile
     volumes:
       - prometheus-data:/prometheus
     ports:
@@ -15,7 +15,7 @@ services:
     image: appliedblockchain/mantle-grafana:latest
     build:
       context: .
-      dockerfile: ./monitoring/grafana/Dockerfile
+      dockerfile: ./stack/grafana/Dockerfile
     depends_on:
       - prometheus
     networks:
