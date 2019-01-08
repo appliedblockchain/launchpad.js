@@ -1,8 +1,8 @@
 FROM grafana/grafana:latest
 
-ADD ./monitoring/grafana/datasources /etc/grafana/provisioning/datasources/
-ADD ./monitoring/grafana/dashboards /etc/grafana/dashboards/
-ADD ./monitoring/grafana/conf/default_dashboard.yml /etc/grafana/provisioning/dashboards/
+ADD ./stack/grafana/datasources /etc/grafana/provisioning/datasources/
+ADD ./stack/grafana/dashboards /etc/grafana/dashboards/
+ADD ./stack/grafana/conf/default_dashboard.yml /etc/grafana/provisioning/dashboards/
 
 # WARNING: Do not expose username/password in PROD environment
 ENV GF_SECURITY_ADMIN_PASSWORD=password\
