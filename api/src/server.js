@@ -55,10 +55,6 @@ const createServer = async contractAddresses => {
 
   const server = http.createServer(app.callback())
 
-  Prometheus.mantleCounter.inc({
-    mantle_custom_metrics_label: 2000
-  })
-
   server.on('close', async () => {
     logger.debug('Server closing')
   })
