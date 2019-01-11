@@ -23,6 +23,8 @@ services:
       - 3000:3000
     depends_on:
       - parity1
+      - parity2
+      - parity3
     deploy: &deploy_defaults
       mode: global
       update_config:
@@ -59,6 +61,8 @@ services:
         - NPM_TOKEN
     environment:
       - PARITY_ID=1
+    depends_on:
+      - discovery
     networks:
     - main
     ports:
@@ -101,15 +105,32 @@ services:
     image: appliedblockchain/mantle-parity3:latest
     volumes:
     - parity3_data:/parity/data
-  logspout:
-    image: gliderlabs/logspout
+  discovery:
+    image: redis
+    ports:
+      - 6379:6379
+    expose:
+      - 6379
+    networks:
+    - main
     deploy:
-      mode: global
-    command: syslog+tls://logs7.papertrailapp.com:43764
-    volumes:
-      - type: bind
-        target: /var/run/docker.sock
-        source: /var/run/docker.sock
+      update_config:
+        parallelism: 1
+        delay: 1s
+      restart_policy:
+        condition: on-failure
+
+
+  # uncomment to enable papertrail, select the right environment
+  # logspout:
+  #   image: gliderlabs/logspout
+  #   deploy:
+  #     mode: global
+  #   command: syslog+tls://logs7.papertrailapp.com:43764
+  #   volumes:
+  #     - type: bind
+  #       target: /var/run/docker.sock
+  #       source: /var/run/docker.sock
 
 volumes:
   parity1_data:

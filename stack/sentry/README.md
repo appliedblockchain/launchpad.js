@@ -6,8 +6,11 @@ By default sentry won't be including when doing `docker-compose up`.
 Sentry services required to be kicked off separately.
 
 Sentry OnPremise:
+
 https://github.com/getsentry/onpremise/blob/master/README.md
+
 ## Volumes
+
 Create volume for sentry to persit data
 
 ```shell
@@ -26,6 +29,7 @@ docker-compose -f docker-compose.yml -f docker-compose.with-sentry.yml build --b
 ## Sentry Setup
 
 ### Generate secret key for sentry web
+
 This will generate a key that is used by sentry-web container
 > Note: Sentry specific configuration
 
@@ -41,6 +45,7 @@ The generated key has to be put in `.env` file which is used in `docker-compose.
 
 
 ### Upgrade sentry database
+
 This will migrate sentry database schema to `postgres` instance
 > Note: Sentry specific
 
