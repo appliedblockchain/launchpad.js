@@ -45,8 +45,6 @@ services:
         - TEST_MODE # if set, the react app will be built to use localhost as a backend
     ports:
       - 80:80
-    depends_on:
-      - api
     networks:
       - main
     deploy:
