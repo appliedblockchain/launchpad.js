@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 function disco() {
   redis-cli -h discovery --raw $*

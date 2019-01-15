@@ -39,4 +39,4 @@ COPY ./contracts /contracts
 
 EXPOSE 3000
 
-CMD [ "sh", "bin/docker/entrypoint.sh" ]
+CMD [ "bash", "bin/docker/entrypoint.sh" ]
