@@ -8,7 +8,7 @@ const contractsDirectory = join(__dirname, '../build/contracts')
 const contractsFilenames = fs.readdirSync(contractsDirectory).filter(f => /\.json$/.test(f))
 
 const config = require('config')
-const PROVIDER = config.get('provider')
+const PROVIDER = config.provider || process.env.PROVIDER
 
 if (contractsFilenames.length === 0) {
   throw new Error('Contracts not found, you should run \'npm run compile\'')

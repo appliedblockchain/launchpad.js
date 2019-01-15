@@ -8,11 +8,15 @@ const respond = require('koa-respond')
 const docs = require('@appliedblockchain/koa-docs')
 const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
+
 const {
   notFoundHandler,
   errorHandler
 } = require('./middleware')
+
 const { web3, contracts, checkDeployment } = require('./util/web3')
+var Prometheus = require('./middleware/monitor')
+
 const { healthcheck } = require('./healthcheck')
 
 const createServer = async contractAddresses => {
@@ -37,12 +41,15 @@ const createServer = async contractAddresses => {
   app
     .use(errorHandler)
     .use(healthcheck(web3))
+    .use(cors())
     .use(docs.get('/docs', configureDocs(
       { groupName: 'default', routes: routes.default, prefix: '/api' }
     )))
+    .use(Prometheus.injectMetricsRouter)
     .use(compress())
     .use(respond())
-    .use(cors())
+    .use(Prometheus.requestCounters)
+    .use(Prometheus.responseCounters)
     .use(middleware)
     .use(notFoundHandler)
 

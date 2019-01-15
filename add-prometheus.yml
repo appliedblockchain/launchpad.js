@@ -1,0 +1,28 @@
+version: "3.6"
+services:
+  prometheus:
+    image: appliedblockchain/mantle-prometheus:latest
+    build:
+      context: ./stack/prometheus
+      dockerfile: Dockerfile
+    volumes:
+      - prometheus-data:/prometheus
+    ports:
+      - '9090:9090'
+    networks:
+      - main
+  grafana:
+    image: appliedblockchain/mantle-grafana:latest
+    build:
+      context: ./stack/grafana
+      dockerfile: Dockerfile
+    depends_on:
+      - prometheus
+    networks:
+      - main
+    ports:
+      - '9080:3000'
+    networks:
+      - main
+volumes:
+  prometheus-data:

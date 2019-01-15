@@ -2,14 +2,13 @@
 
 set -ex
 
-
 if [ "$1" = "restore" ]
 then
   node /parity/download.js "$2"
 
   tar -xzvf "$2" -C /
 
-  exit 5000
+  exit
 fi
 
 sleep 5
