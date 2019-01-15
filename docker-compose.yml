@@ -7,7 +7,7 @@ networks:
 services:
   api:
     hostname: launchpad-api
-    image: appliedblockchain/mantle-api:latest
+    image: appliedblockchain/launchpad-api:latest
     build:
       context: .
       dockerfile: ./api/Dockerfile
@@ -36,7 +36,7 @@ services:
 
   react:
     hostname: launchpad-react
-    image: appliedblockchain/mantle-react:latest
+    image: appliedblockchain/launchpad-react:latest
     build:
       context: ./react
       args:
@@ -73,7 +73,7 @@ services:
     - 8545:8545
     - 8546:8546
     - 30303:30303
-    image: appliedblockchain/mantle-parity1:latest
+    image: appliedblockchain/launchpad-parity1:latest
     volumes:
     - parity1_data:/parity/data
   parity2:
@@ -90,7 +90,7 @@ services:
       - PARITY_ID=2
     networks:
     - main
-    image: appliedblockchain/mantle-parity2:latest
+    image: appliedblockchain/launchpad-parity2:latest
     volumes:
     - parity2_data:/parity/data
   parity3:
@@ -107,7 +107,7 @@ services:
       - PARITY_ID=3
     networks:
     - main
-    image: appliedblockchain/mantle-parity3:latest
+    image: appliedblockchain/launchpad-parity3:latest
     volumes:
     - parity3_data:/parity/data
   discovery:
