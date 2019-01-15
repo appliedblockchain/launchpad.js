@@ -6,6 +6,7 @@ networks:
 
 services:
   api:
+    hostname: launchpad-api
     image: appliedblockchain/mantle-api:latest
     build:
       context: .
@@ -34,6 +35,7 @@ services:
         condition: on-failure
 
   react:
+    hostname: launchpad-react
     image: appliedblockchain/mantle-react:latest
     build:
       context: ./react
@@ -51,6 +53,7 @@ services:
       <<: *deploy_defaults
     restart: unless-stopped
   parity1:
+    hostname: launchpad-parity1
     build:
       context: ./stack
       dockerfile: Dockerfile-parity
@@ -74,6 +77,7 @@ services:
     volumes:
     - parity1_data:/parity/data
   parity2:
+    hostname: launchpad-parity2
     build:
       context: ./stack
       dockerfile: Dockerfile-parity
@@ -90,6 +94,7 @@ services:
     volumes:
     - parity2_data:/parity/data
   parity3:
+    hostname: launchpad-parity3
     build:
       context: ./stack
       dockerfile: Dockerfile-parity
@@ -106,6 +111,7 @@ services:
     volumes:
     - parity3_data:/parity/data
   discovery:
+    hostname: launchpad-discovery
     image: redis
     ports:
       - 6379:6379
@@ -120,17 +126,16 @@ services:
       restart_policy:
         condition: on-failure
 
-
-  # uncomment to enable papertrail, select the right environment
-  # logspout:
-  #   image: gliderlabs/logspout
-  #   deploy:
-  #     mode: global
-  #   command: syslog+tls://logs7.papertrailapp.com:43764
-  #   volumes:
-  #     - type: bind
-  #       target: /var/run/docker.sock
-  #       source: /var/run/docker.sock
+  logspout:
+    image: gliderlabs/logspout
+    deploy:
+      mode: global
+    # NOTE: change the papertrail url/port before deploying your project
+    command: syslog+tls://logs7.papertrailapp.com:32046
+    volumes:
+      - type: bind
+        target: /var/run/docker.sock
+        source: /var/run/docker.sock
 
 volumes:
   parity1_data:
