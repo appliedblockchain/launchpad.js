@@ -25,17 +25,17 @@ COPY ./parity/${PARITY_ID}/network.key    ./data/network/key
 RUN mkdir ~/.aws
 RUN echo "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID\naws_secret_access_key = $AWS_SECRET_ACCESS_KEY" > ~/.aws/credentials
 
-RUN apt-get update
-RUN apt-get install curl bash
+RUN apt-get update -y
+RUN apt-get install -y curl bash redis-tools
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install nodejs -y && \
   rm -rf /tmp/*
 
 COPY ./package* /parity/
-COPY ./docker/entrypoint.sh entrypoint.sh
+COPY ./docker/entrypoint-parity.sh entrypoint-parity.sh
 COPY ./docker/cron-job.js /parity/
 COPY ./docker/cron-job.sh /parity/
 COPY ./docker/download.js /parity/
 RUN npm install
 
-ENTRYPOINT [ "sh", "./entrypoint.sh" ]
+ENTRYPOINT [ "bash", "./entrypoint-parity.sh" ]
