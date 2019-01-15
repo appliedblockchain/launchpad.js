@@ -49,7 +49,6 @@ services:
       - main
     deploy:
       <<: *deploy_defaults
-    restart: unless-stopped
   parity1:
     hostname: launchpad-parity1
     build:
