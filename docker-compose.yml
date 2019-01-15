@@ -130,6 +130,7 @@ services:
     image: gliderlabs/logspout
     deploy:
       mode: global
+    # NOTE: change the papertrail url/port before deploying your project
     command: syslog+tls://logs7.papertrailapp.com:32046
     volumes:
       - type: bind
