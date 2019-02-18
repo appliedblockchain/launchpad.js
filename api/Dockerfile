@@ -8,9 +8,6 @@ WORKDIR /api
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 
-ENV GIT_COMMIT_SHA ${GIT_COMMIT_SHA}
-ENV GIT_TAG ${GIT_TAG}
-
 COPY ./api/package* /api/
 RUN npm install --only=production
 
