@@ -32,9 +32,10 @@ const createServer = async contractAddresses => {
   logger.debug('Creating server...')
 
   const [ from ] = await web3.eth.getAccounts()
+
   Object.keys(contracts).forEach(key => {
     const contract = contracts[key]
-    contract.options = { ...contract.options, from, gas: 50000000 }
+    contract.options = { ...contract.options, from, gas: 50000000, gasPrice: '0' }
   })
 
   const app = new Koa()
@@ -42,7 +43,7 @@ const createServer = async contractAddresses => {
     .use(errorHandler)
     .use(healthcheck(web3))
     .use(cors())
-    .use(docs.get('/docs', configureDocs(
+    .use(docs.get('/api/docs', configureDocs(
       { groupName: 'default', routes: routes.default, prefix: '/api' }
     )))
     .use(Prometheus.injectMetricsRouter)

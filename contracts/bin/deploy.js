@@ -41,41 +41,24 @@ contractsFilenames.forEach(file => {
 
     const contractNames = Object.keys(contracts)
 
-    const deployedContracts = await Promise.all(
-      contractNames.map(async (contractName) => {
+    const deployedContracts = {}
+    for (let i = 0; i < contractNames.length; i++) {
+      const contractName = contractNames[i]
+      console.log(`Deploying contract: ${contractName}....\n`)
+      const { abi, bytecode } = contracts[contractName]
 
-        console.log(`Deploying contract: ${contractName}....\n\n\n`)
 
-        const { abi, bytecode } = contracts[contractName]
-        const contract = new web3.eth.Contract(abi, { from, data: bytecode })
-        const deployedContract = await contract.deploy({ arguments: [] }).send(sendParams)
+      let contract = new web3.eth.Contract(abi, { from, data: bytecode })
+      contract = await contract.deploy().send(sendParams)
 
-        console.log(`>>> Contract: ${contractName} deployed.\n\n\n`)
+      deployedContracts[contractName] = { abi, address: contract.options.address }
+    }
 
-        return {
-          contractName,
-          ...deployedContract
-        }
-      })
-    )
+    const contractsJSON = JSON.stringify(deployedContracts, null, 2)
 
-    const deployedContractObject = deployedContracts.reduce((output, contract) => {
-      const { contractName, options, _jsonInterface } = contract
+    console.log('Writing contract contract information....\n')
 
-      console.log(`Preparing JSON for contract: ${contractName}...\n\n\n`)
-
-      output[contractName] = {
-        address: options.address,
-        abi: _jsonInterface
-      }
-      return output
-    }, {})
-
-    const contractsJSON = `module.exports = ${JSON.stringify(deployedContractObject, {}, 2).replace(/"/g, '\'')}\n`
-
-    console.log('Writing contract contract information....\n\n\n')
-
-    const path = join(__dirname, '../../api/contracts/index.js')
+    const path = join(__dirname, '../build/combined.json')
     fs.writeFileSync(path, contractsJSON)
     console.log(`Contract information saved at ${path}`)
 

@@ -25,6 +25,9 @@ module.exports = async (ctx, next) => {
     //   }
     // }
     // ctx.body = err.toJSON ? err.toJSON() : error
+
+    console.error(err)
+
     logger.error('Error in request', err)
   }
 }

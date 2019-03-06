@@ -1,0 +1,134 @@
+{
+  "HelloWorld": {
+    "abi": [
+      {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor",
+        "signature": "constructor"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "value",
+            "type": "string"
+          }
+        ],
+        "name": "helloWorldUpdated",
+        "type": "event",
+        "signature": "0x4581b52b3292415799d12a4b62308c3ded759cb3996c5ff7f8b1661c010b9898"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "_helloWorldText",
+            "type": "string"
+          }
+        ],
+        "name": "updateHelloWorld",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x000e5c80"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "getHelloWorld",
+        "outputs": [
+          {
+            "name": "",
+            "type": "string"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function",
+        "signature": "0xa7ef4329"
+      }
+    ],
+    "address": "0xb8293a5FE2400D25b84b8f3fDff30C495e59A935"
+  },
+  "Migrations": {
+    "abi": [
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "last_completed_migration",
+        "outputs": [
+          {
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function",
+        "signature": "0x445df0ac"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function",
+        "signature": "0x8da5cb5b"
+      },
+      {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor",
+        "signature": "constructor"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "completed",
+            "type": "uint256"
+          }
+        ],
+        "name": "setCompleted",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0xfdacd576"
+      },
+      {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "new_address",
+            "type": "address"
+          }
+        ],
+        "name": "upgrade",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function",
+        "signature": "0x0900f010"
+      }
+    ],
+    "address": "0xe73E8eeaC517F2F0c76E5aFd8bc228eb6b723e76"
+  }
+}

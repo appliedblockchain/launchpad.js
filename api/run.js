@@ -7,7 +7,7 @@ const config = require('config')
 const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
 
-const contracts = require('./contracts')
+const contracts = require('./contracts/combined.json')
 
 ;(async () => {
   try {

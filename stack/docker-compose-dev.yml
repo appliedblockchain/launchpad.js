@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  react:
+    build:
+      context: ../react
+      dockerfile: Dockerfile-dev
+      args:
+        - NPM_TOKEN
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ../react/src/:/home/node/react/src
+    ports:
+      - 3001:3000
+  api:
+    build:
+      context: ../api
+      dockerfile: Dockerfile-dev
+      args:
+        - NPM_TOKEN
+    volumes:
+      - ../api/src/:/home/node/api/src
+      - ../api/config/:/home/node/api/config
+      - ../api/contracts/:/home/node/api/contracts
+    environment:
+      NODE_ENV: development
+      ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545
+      CONTRACT_ADDRESS: "$CONTRACT_ADDRESS"
+    networks:
+      - main
+    ports:
+      - 3000:3000
+    depends_on:
+      - parity
+  parity:
+    image: appliedblockchain/parity-solo-instant:latest
+    restart: always
+    volumes:
+      - parity:/solo/chains
+    ports:
+      - 8545:8545
+      - 8546:8546
+    networks:
+      - main
+volumes:
+  parity:
+  elasticsearch:
+networks:
+  main:

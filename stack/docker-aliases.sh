@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # alias to docker-compose with the development compose file hard wired, you can start build the stack by running  "compose build" for instance.
-alias mantle-compose="mantle_compose_dev $@"
+alias launchpad-compose="launchpad_compose_dev $@"
 
 # alias compose-integration="docker_compose_integration $@"
 
@@ -20,14 +20,14 @@ alias cssh="docker_ssh $1"
 alias dssh="image_ssh $1"
 
 if [ -n "$ZSH_VERSION" ]; then
-  MANTLE_APP_DIR=`dirname $0:A`
+  LAUNCHPAD_APP_DIR=`dirname $0:A`
 else
-  MANTLE_APP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+  LAUNCHPAD_APP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 fi
 
 # Function used for the aliases
-mantle_compose_dev () {
-  $MANTLE_APP_DIR/compose.sh $@
+launchpad_compose_dev () {
+  $LAUNCHPAD_APP_DIR/compose.sh $@
 }
 
 docker_ssh () { docker exec -it $1 bash || docker exec -it $1 sh; }

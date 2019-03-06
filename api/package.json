@@ -56,7 +56,6 @@
     "abi-decoder": "^1.2.0",
     "bunyan": "^1.8.12",
     "config": "^1.30.0",
-    "elasticsearch": "^15.2.0",
     "koa": "^2.5.1",
     "koa-compress": "^3.0.0",
     "koa-joi-router": "^5.1.0",

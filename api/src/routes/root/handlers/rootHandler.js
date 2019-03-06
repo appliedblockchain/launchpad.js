@@ -12,8 +12,10 @@ const getHelloWorld = async ctx => {
 const setHelloWorld = async ctx => {
   const { message } = ctx.request.body
   const { HelloWorld } = contracts
-  await HelloWorld.methods.updateHelloWorld(message).send()
-  ctx.ok(message)
+
+  const receipt = await HelloWorld.methods.updateHelloWorld(message).send()
+
+  ctx.ok({ success: receipt.status === '0x1' })
 }
 
 module.exports = {

@@ -56,4 +56,4 @@ npm --prefix ../contracts run install-contracts
 echo 'Loading contracts addresses in env'
 source ../api/contracts/exportAddresses.sh
 
-env COMPOSE_PROJECT_NAME="base-app-mantle" NPM_TOKEN="$npmToken" docker-compose $configArgs $@
+env COMPOSE_PROJECT_NAME="lauchpad" NPM_TOKEN="$npmToken" docker-compose $configArgs $@

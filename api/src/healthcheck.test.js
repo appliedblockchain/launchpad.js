@@ -6,7 +6,7 @@ const {
 
 let app
 
-const URL = '/health'
+const URL = '/api/health'
 
 describe(`GET ${URL}`, () => {
   beforeAll(async () => {
