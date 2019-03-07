@@ -3,8 +3,6 @@
 const runApp = require('./src/app')
 const logger = require('./src/logger')
 const config = require('config')
-const { join } = require('path')
-const { existsSync } = require('fs')
 
 const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
@@ -15,12 +13,7 @@ const loadCtrAddresses = () => {
   let contractAddresses = process.env.CONTRACT_ADDRESSES
 
   if (!contractAddresses) {
-    const contractAddressesPath = join(__dirname, './contracts/contractAddresses.json')
-    if (existsSync(contractAddressesPath)) {
-      contractAddresses = require(contractAddressesPath)
-    } else {
-      throw new Error('API: could not recover addresses from the environment or from files')
-    }
+    throw new Error('API: could not recover addresses from the environment variable $CONTRACT_ADDRESSES')
   } else {
     contractAddresses = JSON.parse(contractAddresses)
   }
@@ -30,7 +23,6 @@ const loadCtrAddresses = () => {
 
 ;(() => {
   try {
-    // TODO: Validate contarct setup
     const contractAddresses = loadCtrAddresses()
 
     runApp(contractAddresses)
