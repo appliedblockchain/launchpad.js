@@ -7,7 +7,7 @@ const config = require('config')
 const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
 
-const contracts = require('./contracts/contractABIs.json')
+const contracts = require('../contracts/build/contractABIs.json')
 
 const loadCtrAddresses = () => (
   Object.keys(contracts).map(

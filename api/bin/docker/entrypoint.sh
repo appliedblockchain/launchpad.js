@@ -9,6 +9,8 @@ function run() {
   node run.js
 }
 
+CTR_ADDR_PATH=/contracts/build/contractAddresses.json
+
 [ "$(disco ping)" == "PONG" ] || { echo "discovery redis not up, exiting..." && exit; }
 
 set -ex
@@ -44,13 +46,12 @@ if [ -z "$CONTRACT_ADDRESSES" ]; then
 
   # Only re-deploy if no contract address exists, otherwise the address will already be available in consul
   if [ -z "$CONTRACT_ADDRESSES_EXIST" ]; then
-    CTR_ADDRESSES=/contracts/config/contractAddresses.json
 
     if [ "$HOSTNAME" = $LEADER ]; then
       echo "PROVIDER: $PROVIDER"
       mkdir -p /contracts/build/contracts
       PROVIDER="$PROVIDER" node /contracts/bin/deploy.js
-      CONTRACT_ADDRESSES=$(cat $CTR_ADDRESSES)
+      CONTRACT_ADDRESSES=$(cat $CTR_ADDR_PATH)
 
       sleep 1
       disco set "contract-addresses" "$CONTRACT_ADDRESSES"
@@ -62,9 +63,8 @@ if [ -z "$CONTRACT_ADDRESSES" ]; then
     fi
   fi
 
-
-  disco get "contract-addresses" > $CTR_ADDRESSES
-  echo "Contract Addresses: $(cat $CTR_ADDRESSES)"
+  disco get "contract-addresses" > $CTR_ADDR_PATH
+  echo "Contract Addresses: $(cat $CTR_ADDR_PATH)"
 
   run
 else

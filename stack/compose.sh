@@ -50,8 +50,9 @@ if [[ -z $npmToken ]]; then
 fi
 
 
+# TODO: remove this, not needed anymore
 # echo 'installing contracts in app folders(shared_modules)'
-npm --prefix ../contracts run install-contracts
+# npm --prefix ../contracts run install-contracts
 
 echo 'Loading contracts addresses in env'
 source ../api/contracts/exportAddresses.sh

@@ -85,7 +85,7 @@ const deploy = () => {
       const contractsAbiJSON = JSON.stringify(contractABIs, null, 2)
       const path = join(__dirname, '../build/contractABIs.json')
       writeFileSync(path, contractsAbiJSON)
-      console.log(`Contract info saved: ${path}`)
+      console.log(`Contract ABIs saved: ${path}`)
 
       const contractAddresses = ctrNames.reduce((infos, contract) => {
         const info = contractABIs[contract]
@@ -95,7 +95,7 @@ const deploy = () => {
       const ctrAddrsJSON = JSON.stringify(contractAddresses)
       const pathSh = join(__dirname, '../build/config/contractAddresses.json')
       writeFileSync(pathSh, ctrAddrsJSON)
-      console.log(`Contract addresses sh saved: ${pathSh}`)
+      console.log(`Contract addresses saved: ${pathSh}`)
     } catch (err) {
       if (err.message === 'Invalid JSON RPC response: ""') {
         console.error('Error: Unable to connect to network, is parity running?')
