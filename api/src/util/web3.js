@@ -2,8 +2,12 @@ const Web3 = require('web3')
 const abiDecoder = require('abi-decoder')
 const config = require('config')
 const ETHEREUM_JSONRPC_ENDPOINT = config.get('ETHEREUM_JSONRPC_ENDPOINT')
+const { join } = require('path')
 
-const contractsJSON = require('../../../contracts/build/contractABIs.json')
+console.log('DIRNAME', __dirname)
+const contractAbisPath = join(__dirname, './contracts/build/contractABIs.json')
+const contractsJSON = require(contractAbisPath)
+console.log(`Contracts loaded: ${JSON.stringify(Object.keys(contractsJSON))}`)
 
 const web3 = new Web3(ETHEREUM_JSONRPC_ENDPOINT)
 

@@ -4,6 +4,7 @@
 const { readdirSync, readFileSync, writeFileSync } = require('fs')
 const { join } = require('path')
 const Web3 = require('web3')
+const { remove } = require('lodash')
 
 const contractsDirectory = join(__dirname, '../build/contracts')
 const contractsFilenames = readdirSync(contractsDirectory).filter(f => /\.json$/.test(f))
@@ -43,10 +44,6 @@ const deployContracts = async ({ ctrNames, contracts, defaultAddress, eth }) => 
     const contractName = ctrNames[i]
     console.log(`Deploying contract: ${contractName}....\n`)
 
-    if (contractName === 'Migrations') {
-      continue
-    }
-
     const { abi, bytecode } = contracts[contractName]
     const sendParams = buildSendParams(defaultAddress)
 
@@ -76,7 +73,8 @@ const deploy = () => {
       //    const address = await web3.eth.getAccounts()[0]
       //    console.log(`current 'from' address: ${address}`)
 
-      const ctrNames = Object.keys(contracts)
+      let ctrNames = Object.keys(contracts)
+      ctrNames = remove('Migrations', ctrNames)
       console.log(`Contracts deployment - contracts: ${ctrNames.join(', ')}`)
 
       const contractABIs = await deployContracts({ ctrNames, contracts, defaultAddress, eth })

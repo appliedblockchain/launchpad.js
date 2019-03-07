@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 cd "$(dirname "$0")" || exit 1
 
+set -xe
+
 configArgs=""
 configPathList=(docker-compose-dev.yml)
 npmrcPath="$HOME/.npmrc"
@@ -49,12 +51,9 @@ if [[ -z $npmToken ]]; then
   fi
 fi
 
-
-# TODO: remove this, not needed anymore
-# echo 'installing contracts in app folders(shared_modules)'
-# npm --prefix ../contracts run install-contracts
+CTR_ADDR_PATH=../contracts/build/contractAddresses.json
 
 echo 'Loading contracts addresses in env'
-source ../api/contracts/exportAddresses.sh
+CONTRACT_ADDRESSES=$(cat $CTR_ADDR_PATH)
 
 env COMPOSE_PROJECT_NAME="lauchpad" NPM_TOKEN="$npmToken" docker-compose $configArgs $@

@@ -26,7 +26,7 @@ services:
     environment:
       NODE_ENV: development
       ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545
-      CONTRACT_ADDRESS: "$CONTRACT_ADDRESS"
+      CONTRACT_ADDRESSES: "$CONTRACT_ADDRESSES"
     networks:
       - main
     ports:

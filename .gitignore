@@ -3,10 +3,6 @@
 # misc
 .DS_Store
 
-contracts/exportAddresses\.sh
-
-**/exportAddresses\.sh
-
 !*.gitkeep
 
 node_modules

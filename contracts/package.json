@@ -6,7 +6,6 @@
         "compile": "rm -rf ./build/* && truffle compile",
         "version": "truffle version",
         "deploy": "mkdir -p build/contracts && node ./bin/deploy",
-        "export-addresses": "source ./exportAddresses.sh",
         "install-contracts": "cp -f ./build/contractABIs.json ../api/contracts/contractABIs.json"
     },
     "dependencies": {

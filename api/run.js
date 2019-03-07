@@ -3,11 +3,14 @@
 const runApp = require('./src/app')
 const logger = require('./src/logger')
 const config = require('config')
+const { join } = require('path')
 
 const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
 
-const contracts = require('../contracts/build/contractABIs.json')
+const contractAbisPath = join(__dirname, './contracts/build/contractABIs.json')
+const contracts = require(contractAbisPath)
+console.log(`Contracts loaded: ${JSON.stringify(Object.keys(contracts))}`)
 
 const getCtrAddress = (contractName) => (
   contracts[contractName].address

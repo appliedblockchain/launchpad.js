@@ -70,9 +70,9 @@ Please follow detail instruction [here](https://github.com/appliedblockchain/lau
 
 ### Run this app with Docker Dev
 
-1. Install docker and docker compose
-2. In a terminal, run `source docker-aliases.sh`
-3. You might need to run `npm i && npm run compile` in the contracts folder if you haven't already.
+1. Cd into `stack`
+2. Run `source docker-aliases.sh`
+3. You might need to run `npm i && npm run compile` in the contracts directory if you haven't already.
 4. Start parity only: `launchpad-compose up parity`
 5. While parity is running, deploy the contracts(run `npm run deploy` from the contracts folder).
 6. Run `launchpad-compose build` to build the api and react images
