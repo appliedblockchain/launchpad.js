@@ -15,7 +15,7 @@ if [ "$1" = "restore" ]; then
   exit
 fi
 
-sleep 1
+sleep 3
 
 for i in 1 2 3; do
   ENODE=$(disco get "enodes:parity$i")

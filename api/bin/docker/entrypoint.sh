@@ -9,7 +9,7 @@ function run() {
   node run.js
 }
 
-TIME=3
+TIME=2
 CTR_ADDR_PATH=/contracts/build/contractAddresses.json
 
 [ "$(disco ping)" == "PONG" ] || { echo "discovery redis not up, exiting..." && exit; }
@@ -40,7 +40,7 @@ done
 disco set "cluster-leader" "$HOSTNAME"
 
 if [ -z "$CONTRACT_ADDRESSES" ]; then
-  sleep $TIME # TODO: tune or remove
+  sleep 1 # TODO: tune or remove
 
   LEADER=$(disco get cluster-leader)
   CONTRACT_ADDRESSES_EXIST=$(disco get contract-addresses)
