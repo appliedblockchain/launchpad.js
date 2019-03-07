@@ -2,7 +2,7 @@
   "name": "base-app",
   "version": "1.0.0",
   "private": true,
-  "description": "Mono-repo with Base App Example",
+  "description": "Mono-repo with a base NodeJS Koa application set up to be deployed in a docker swarm or kubernetes environment",
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/appliedblockchain/base-app-mantle.git"
+    "url": "git+https://github.com/appliedblockchain/launchpad.git"
   },
   "eslintConfig": {
     "extends": "@appliedblockchain/eslint-config"
@@ -22,8 +22,8 @@
   "author": "",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/appliedblockchain/base-app-mantle/issues"
+    "url": "https://github.com/appliedblockchain/launchpad/issues"
   },
-  "homepage": "https://github.com/appliedblockchain/base-app-mantle#readme",
+  "homepage": "https://github.com/appliedblockchain/launchpad#readme",
   "dependencies": {}
 }

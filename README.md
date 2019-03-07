@@ -32,7 +32,7 @@ CI/CD (CircleCI) & deployment.
 Other than the Dev and Swarm stacks we have:
 
 - [parity](./stack/parity) - Parity Ethereum - configurations for the Ethereum nodes deployed in the swarm - Remember to regenerate the private keys and to make sure volumes are backed up (private-chain deployments - TODO need a documentation section )
-- [backup](./stack/backup) - Parity S3 Backup cronjob 
+- [backup](./stack/backup) - Parity S3 Backup cronjob
 - [explorer](./stack/explorer) - AB block explorer settings
 - [sentry](./stack/sentry) - Sentry - exception notification (see readme)
 - [logging](./stack/logging) - Elasticsearch, Logstash, Kibana enterprise logging stack
@@ -45,13 +45,13 @@ Other than the Dev and Swarm stacks we have:
 ### Local Setup with Docker (recommended)
 To run the project locally you will require `docker` and `docker-compose`.
 
-Please follow detail instruction [here](https://github.com/appliedblockchain/base-app-mantle/tree/master/docker-dev#how-to-use)
+Please follow detail instruction [here](https://github.com/appliedblockchain/launchpad/tree/master/docker-dev#how-to-use)
 
 > Note: It is recommended to use docker base local setup.
 
 ### Local setup without docker
 
-1. [Running **Ethereum Blockchain** node locally](https://github.com/appliedblockchain/base-app-mantle/tree/master/api#run-blockchain-network-and-contract-deployment)
+1. [Running **Ethereum Blockchain** node locally](https://github.com/appliedblockchain/launchpad/tree/master/api#run-blockchain-network-and-contract-deployment)
 
   **Options**  
   * [Ganache](https://truffleframework.com/ganache)
@@ -59,13 +59,13 @@ Please follow detail instruction [here](https://github.com/appliedblockchain/bas
   * [Geth](https://ethereum.gitbooks.io/frontier-guide/content/getting_a_client.html)
 
 
-2. [Compile and deploy Contracts](https://github.com/appliedblockchain/base-app-mantle/tree/master/api#run-blockchain-network-and-contract-deployment)
+2. [Compile and deploy Contracts](https://github.com/appliedblockchain/launchpad/tree/master/api#run-blockchain-network-and-contract-deployment)
 
   Solidity Contract required to be compiled and deployed onto blockchain.
 
-3. [Running API](https://github.com/appliedblockchain/base-app-mantle/tree/master/api#run-blockchain-network-and-contract-deployment)
+3. [Running API](https://github.com/appliedblockchain/launchpad/tree/master/api#run-blockchain-network-and-contract-deployment)
 
-4. [Running react application (WebApp)](https://github.com/appliedblockchain/base-app-mantle/tree/master/react#getting-started)
+4. [Running react application (WebApp)](https://github.com/appliedblockchain/launchpad/tree/master/react#getting-started)
 
 
 ### Run this app with Docker Dev

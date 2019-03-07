@@ -1,5 +1,5 @@
 {
-    "name": "base-app-mantle-contracts",
+    "name": "launchpad-contracts",
     "scripts": {
         "test": "truffle test",
         "lint": "eslint .",

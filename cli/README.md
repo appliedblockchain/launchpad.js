@@ -1,12 +1,12 @@
-# base-app-cli
+# launchpad-cli
 
-CLI tool to clone base-app into your current working directory with the specified project name.
+CLI tool to clone launchpad into your current working directory with the specified project name.
 
 # Usage
 
-`npm install base-app-cli`
+`npm install launchpad-cli`
 
-`base-app-cli <command> <flags>`
+`launchpad-cli <command> <flags>`
 
 ### `Valid commands:`
 
@@ -31,7 +31,7 @@ create
 # Examples
 
 ```sh
-base-app-cli create # Creates a bare-bones 
-base-app-cli create --bootstrap # Clones the entire base-app project
-base-app-cli create --protocol https # Clones the repo using the https protocol
+launchpad-cli create # Creates a bare-bones
+launchpad-cli create --bootstrap # Clones the entire launchpad project
+launchpad-cli create --protocol https # Clones the repo using the https protocol
 ```
