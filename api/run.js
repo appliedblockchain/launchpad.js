@@ -4,20 +4,29 @@ const runApp = require('./src/app')
 const logger = require('./src/logger')
 const config = require('config')
 const { join } = require('path')
+const { fileExistsSync, fileReadSync } = require('fs')
 
 const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
 
+let contractsAddresses = process.env.CONTRACT_ADDRESSES
+const contractAddressesPath = join(__dirname, './contracts/build/contractAddresses.json')
+if (fileExistsSync(contractAddressesPath)) {
+  contractsAddresses = fileReadSync(contractAddresses)
+}
+contractsAddresses = JSON.stringify(contractsAddresses)
+
+let contractABIs = {}
 const contractAbisPath = join(__dirname, './contracts/build/contractABIs.json')
-const contracts = require(contractAbisPath)
-console.log(`Contracts loaded: ${JSON.stringify(Object.keys(contracts))}`)
+const contractABIs = require(contractAbisPath)
+console.log(`Contracts loaded: ${JSON.stringify(Object.keys(contractABIs))}`)
 
 const getCtrAddress = (contractName) => (
-  contracts[contractName].address
+  contractsAddresses[contractName].address
 )
 
 const loadCtrAddresses = () => (
-  Object.keys(contracts).map(
+  Object.keys(contractAddresses).map(
     contractName => getCtrAddress(contractName)
   )
 )
