@@ -93,7 +93,7 @@ const deploy = () => {
         return infos
       }, {})
       const ctrAddrsJSON = JSON.stringify(contractAddresses)
-      const pathSh = join(__dirname, '../build/config/contractAddresses.json')
+      const pathSh = join(__dirname, '../build/contractAddresses.json')
       writeFileSync(pathSh, ctrAddrsJSON)
       console.log(`Contract addresses saved: ${pathSh}`)
     } catch (err) {
