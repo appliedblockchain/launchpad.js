@@ -1,5 +1,5 @@
 # production
 build/*.json
-build/contracts/*.json
+!build/contracts/*.json
 build/config/*.json
 node_modules

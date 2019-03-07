@@ -18,7 +18,7 @@ set -ex
 
 PARITY_INSTANCES="parity1 parity2 parity3"
 
-sleep $TIME
+sleep 5
 
 for PARITY in $PARITY_INSTANCES; do
   ENODE_REQ=$(curl --data '{"method":"parity_enode","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST "$PARITY:8545")
