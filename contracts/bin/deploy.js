@@ -72,7 +72,7 @@ const deploy = () => {
     try {
       // load default address (ethereum account)
       const defaultAddress = await web3.eth.getCoinbase()
-      console.log(`oaded address: ${defaultAddress} (coinbase)`)
+      console.log(`loaded address: ${defaultAddress} (coinbase)`)
       // load a specific address:
       //    const address = await web3.eth.getAccounts()[0]
       //    console.log(`loaded address: ${address}`)
