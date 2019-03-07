@@ -23,6 +23,6 @@ for i in 1 2 3; do
 done
 
 # NOTE: uncomment to activate backups
-# node /parity/cron-job.js
+# node /parity/parity-backup-cron-setup.js
 
 /parity/parity --chain /parity/spec.json --config /parity/authority.toml -d /parity/data

@@ -1,7 +1,3 @@
-# Stack
-
-Stack information for deployment with parity nodes, prometheus, grafana and others.
-
 ## Prometheus
 
 Metrics source
@@ -33,7 +29,6 @@ ExecStart=/usr/bin/dockerd -H fd:// \
 docker-compose -f docker-compose.yml -f add-prometheus.yml up
 ```
 
-
 ## Possible Usage
 * Multiple datasource from different metrics datasources (e.g. Postgres, Azure, AWS)
 * Use of Prometheus Alert to sent alerts
@@ -44,14 +39,3 @@ docker-compose -f docker-compose.yml -f add-prometheus.yml up
 ## Known Issues
 * Settting prometheus datasource to be browser
   Prometheus datasource is not accessible via grafana and should be changed to `Browser` instead of `Server`
-
-# Docker Dev
-## How to Use
-
-1. Install docker and docker compose
-2. In a terminal, run `source docker-aliases.sh`
-3. You might need to run `npm i && npm run compile` in the contracts folder if you haven't already.
-4. Start parity only: `mantle-compose up parity`
-5. While parity is running, deploy the contracts(run `npm run deploy` from the contracts folder).
-6. Run `mantle-compose build` to build the api and react images
-7. Stop parity and run `mantle-compose up` to start all the services

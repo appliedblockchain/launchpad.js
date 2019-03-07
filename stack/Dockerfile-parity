@@ -11,9 +11,9 @@ COPY ./parity/chain/spec.json      spec.json
 COPY ./parity/chain/reserved_peers reserved_peers
 
 ARG PARITY_ID
-ARG AWS_ACCESS_KEY_ID
-ARG AWS_SECRET_ACCESS_KEY
-ARG RESTORE_FILE
+ARG S3_ACCESS_KEY_ID
+ARG S3_SECRET_ACCESS_KEY
+ARG S3_BUCKET_NAME
 
 RUN echo "Building parity${PARITY_ID}..."
 
@@ -23,7 +23,7 @@ COPY ./parity/${PARITY_ID}/parity         ./data/keys/parity
 COPY ./parity/${PARITY_ID}/network.key    ./data/network/key
 
 RUN mkdir ~/.aws
-RUN echo "[default]\naws_access_key_id = $AWS_ACCESS_KEY_ID\naws_secret_access_key = $AWS_SECRET_ACCESS_KEY" > ~/.aws/credentials
+RUN echo "[default]\naws_access_key_id = $S3_ACCESS_KEY_ID\naws_secret_access_key = $S3_SECRET_ACCESS_KEY" > ~/.aws/credentials
 
 RUN apt-get update -y
 RUN apt-get install -y curl bash redis-tools
@@ -32,10 +32,7 @@ RUN apt-get install nodejs -y && \
   rm -rf /tmp/*
 
 COPY ./package* /parity/
-COPY ./docker/entrypoint-parity.sh entrypoint-parity.sh
-COPY ./docker/cron-job.js /parity/
-COPY ./docker/cron-job.sh /parity/
-COPY ./docker/download.js /parity/
+COPY ./backup /parity/
 RUN npm install
 
 ENTRYPOINT [ "bash", "./entrypoint-parity.sh" ]

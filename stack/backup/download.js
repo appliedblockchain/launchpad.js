@@ -11,7 +11,7 @@ const downloadFile = async () => {
 
   const params = {
     Bucket: 'ab-parity-backups',
-    Key: `base-app-mantle/parity${parityID}/${fileName}`
+    Key: `launchpad-dev/parity${parityID}/${fileName}`
   }
   const backupStream = s3.getObject(params).createReadStream()
   const writeStream = fs.createWriteStream(fileName);
