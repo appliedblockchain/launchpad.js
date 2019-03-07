@@ -9,14 +9,14 @@ const PORT = config.get('PORT')
 
 const contracts = require('../contracts/build/contractABIs.json')
 
+const getCtrAddress = (contractName) => (
+  contracts[contractName].address
+)
+
 const loadCtrAddresses = () => (
   Object.keys(contracts).map(
     contractName => getCtrAddress(contractName)
   )
-)
-
-const getCtrAddress = (contractName) => (
-  contracts[contractName].address
 )
 
 ;(async () => {
