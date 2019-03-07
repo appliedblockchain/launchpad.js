@@ -1,4 +1,4 @@
-# Launchpad 
+# Launchpad
 
 What is Launchpad?  
 Base app to start new project. The repository is monorepo with api, contract and placeholder for react (frontend) application.
@@ -6,6 +6,7 @@ We are required to use this app as starter for any projects as it provides a goo
 CI/CD (CircleCI) & deployment.
 
 ## Features:
+
 - Contracts and contract deployment
 - Basic api structure to start from
 - A place holder for react app to be added on
@@ -15,7 +16,7 @@ CI/CD (CircleCI) & deployment.
 - Elasticsearch integration (Optional)
 - CLI to create project
 - Docker for development
-- Docker swarm deployment 
+- Docker swarm deployment
 
 ## Directories
 
@@ -23,9 +24,21 @@ CI/CD (CircleCI) & deployment.
 - [API](./api) - Node.js API
 - [Contracts](./contracts) - Ethereum Solidity contracts
 - [Docs](./docs) - Documentation, guides, notes, etc
-- [docker-dev](./docker-dev) - Docker development environment with hot reload for the api and react
-- [sentry](./sentry) - Readme on how to integrate sentry
+- [stack](./stack) - Docker environments - Dev and Swarm --- Dev - Development environment with hot reload for the api and react -- Swarm - Local Staging (no code reloading) and Swarm environment (environment for swarm and kubernetes deployments)
 - [CLI](./cli) - Launchpad CLI to create base app quickly
+
+#### Stack:
+
+Other than the Dev and Swarm stacks we have:
+
+- [parity](./stack/parity) - Parity Ethereum - configurations for the Ethereum nodes deployed in the swarm - Remember to regenerate the private keys and to make sure volumes are backed up (private-chain deployments - TODO need a documentation section )
+- [backup](./stack/backup) - Parity S3 Backup cronjob 
+- [explorer](./stack/explorer) - AB block explorer settings
+- [sentry](./stack/sentry) - Sentry - exception notification (see readme)
+- [logging](./stack/logging) - Elasticsearch, Logstash, Kibana enterprise logging stack
+- [monitoring](./stack/monitoring) - Prometheus / Grafana enterprise monitoring stack
+
+
 
 ## How to develop
 
@@ -55,13 +68,31 @@ Please follow detail instruction [here](https://github.com/appliedblockchain/bas
 4. [Running react application (WebApp)](https://github.com/appliedblockchain/base-app-mantle/tree/master/react#getting-started)
 
 
-## Running the staging docker-compose locally
+### Run this app with Docker Dev
 
-1. Build the images: `docker-compose build --build-arg TEST_MODE=true --build-arg NPM_TOKEN=$NPM_TOKEN`
-2. Start the stack: `docker-compose up`
-3. Wait for the parity cluster is UP (the logs will show a similar output: `parity2_1        | 2018-11-12 18:11:32 UTC Imported #500 0x4a7f…b06e (0 txs, 0.00 Mgas, 0 ms, 0.57 KiB)`)
-4. deploy the contracts: `node contracts/bin/deploy.js`
-5. Stop the stack(CTRL+C)
-6. Load the contract addresses in your shell: `source api/contracts/exportAddresses.sh`
-7. Start the stack again `docker-compose up`
-8. If you need to push the images to docker hub, make sure to rebuild the react container with test mode disabled fist: `docker-compose build --build-arg --build-arg NPM_TOKEN=$NPM_TOKEN react`
+1. Install docker and docker compose
+2. In a terminal, run `source docker-aliases.sh`
+3. You might need to run `npm i && npm run compile` in the contracts folder if you haven't already.
+4. Start parity only: `launchpad-compose up parity`
+5. While parity is running, deploy the contracts(run `npm run deploy` from the contracts folder).
+6. Run `launchpad-compose build` to build the api and react images
+7. Stop parity and run `launchpad-compose up` to start all the services
+
+
+### Run this app with Docker Staging
+
+####  `docker-compose up --build`
+
+### Restart API:
+
+`docker-compose up --build api` (in a separate SH)
+
+
+#### Restart API redeploying contracts:
+
+    docker-compose down -v api && docker-compose up --build api
+
+
+---
+
+For any issue or change request notify @makevoid @SeekTheError in the `#launchpad` AB slack channel.
