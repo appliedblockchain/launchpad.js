@@ -1,14 +1,16 @@
+// TODO: we need to improve this, I think we cannot use objects for errors we need to be able to define classes so we can pass custom messages/infos (class ContracErrort extends BaseError { ... }; // (e.g.); new ContractError("message", { contractName: "bla" }) )
+
 module.exports = {
-  internal: {
+  error: {
     status: 500,
     message: 'Internal server error',
-    description: 'There was an internal error, please contact us if this persists'
+    description: 'The system experienced an error, we\'ve been notified about this and we will investigate soon, please contact us if this error persists.'
   },
-  contract_fail: {
+  contract_error: {
     public: 'internal',
     status: 500,
-    message: 'Contract method failure',
-    description: 'Contract method failed.'
+    message: 'Contract Error',
+    description: 'An Ethereum contract method was called, but the method returned an error.'
   },
   unauthorized: {
     status: 401,

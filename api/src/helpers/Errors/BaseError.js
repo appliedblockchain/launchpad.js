@@ -26,9 +26,8 @@ class BaseError extends Error {
 
     // if instanceof error is not Base Error
     if (!(err instanceof this)) {
-      err = new BaseError('internal')
+      err = new BaseError('error')
     }
-
     ctx.status = err.status
 
     // if error does not have toJSON function
