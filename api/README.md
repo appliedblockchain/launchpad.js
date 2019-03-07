@@ -1,4 +1,57 @@
-## Node starter app
+# Launchpad
+
+We need to "fix" this readme. :D ( cards: https://zube.io/applied-blockchain/products/c/378 )
+
+### New Readme Proposed structure
+
+### Run this app with Docker Dev
+
+1. Install docker and docker compose
+2. In a terminal, run `source docker-aliases.sh`
+3. You might need to run `npm i && npm run compile` in the contracts folder if you haven't already.
+4. Start parity only: `launchpad-compose up parity`
+5. While parity is running, deploy the contracts(run `npm run deploy` from the contracts folder).
+6. Run `launchpad-compose build` to build the api and react images
+7. Stop parity and run `launchpad-compose up` to start all the services
+
+### Run this app with Docker Staging
+
+
+
+### Contract Deployment
+
+TODO guide on contract deployment
+
+### Run the apps separately
+
+TODO
+
+#### Parity
+
+TODO npm run parity (explain how to docker run parity-solo)
+
+#### API
+
+TODO npm
+
+#### React
+
+Use npm start to start React
+
+    npm start
+
+The react dev server will start on port 3001.
+
+### Explain how to install dependencies for each app
+
+npm install in api, react, contracts
+
+
+TODO: add postgres database setup
+
+---
+
+### Description
 
 This is a simple node application which includes api [documentation](https://github.com/koajs/koa/tree/master/docs),
 [healthcheck](https://github.com/appliedblockchain/koa-healthcheck), basic [error handling](lib/middleware), a
