@@ -84,6 +84,8 @@ services:
         - NPM_TOKEN
     environment:
       - PARITY_ID=2
+    depends_on:
+      - discovery
     networks:
     - main
     image: appliedblockchain/launchpad-parity2:latest
@@ -99,13 +101,15 @@ services:
         - NPM_TOKEN
     environment:
       - PARITY_ID=3
+    depends_on:
+      - discovery
     networks:
     - main
     image: appliedblockchain/launchpad-parity3:latest
     volumes:
     - parity3_data:/parity/data
   discovery:
-    hostname: launchpad-discovery
+    hostname: discovery
     image: redis
     ports:
       - 6379:6379
