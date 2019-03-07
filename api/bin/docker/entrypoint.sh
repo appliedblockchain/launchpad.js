@@ -9,6 +9,7 @@ function run() {
   node run.js
 }
 
+TIME=3
 CTR_ADDR_PATH=/contracts/build/contractAddresses.json
 
 [ "$(disco ping)" == "PONG" ] || { echo "discovery redis not up, exiting..." && exit; }
@@ -17,7 +18,7 @@ set -ex
 
 PARITY_INSTANCES="parity1 parity2 parity3"
 
-sleep 1
+sleep $TIME
 
 for PARITY in $PARITY_INSTANCES; do
   ENODE_REQ=$(curl --data '{"method":"parity_enode","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST "$PARITY:8545")
@@ -25,7 +26,7 @@ for PARITY in $PARITY_INSTANCES; do
   disco set "enodes:$PARITY" "$ENODE"
 done
 
-sleep 1
+sleep $TIME
 
 for i in 1 2 3; do
   for j in 1 2 3; do
@@ -39,7 +40,7 @@ done
 disco set "cluster-leader" "$HOSTNAME"
 
 if [ -z "$CONTRACT_ADDRESSES" ]; then
-  sleep 1 # TODO: tune or remove
+  sleep $TIME # TODO: tune or remove
 
   LEADER=$(disco get cluster-leader)
   CONTRACT_ADDRESSES_EXIST=$(disco get contract-addresses)
@@ -53,12 +54,12 @@ if [ -z "$CONTRACT_ADDRESSES" ]; then
       PROVIDER="$PROVIDER" node /contracts/bin/deploy.js
       CONTRACT_ADDRESSES=$(cat $CTR_ADDR_PATH)
 
-      sleep 1
+      sleep $TIME
       disco set "contract-addresses" "$CONTRACT_ADDRESSES"
     else
       ADDR_EXISTS=$(disco get "contract-addresses")
       while [ -z "$ADDR_EXISTS" ]; do
-          sleep 1
+          sleep $TIME
       done
     fi
   fi
