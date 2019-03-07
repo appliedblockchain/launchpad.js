@@ -14,7 +14,6 @@ const PROVIDER = config.provider || process.env.PROVIDER
 class ContractNotFoundError extends Error {}
 
 const addContract = (contracts, contractFilePath) => {
-  console.log(contracts, contractFilePath)
   const fileString = readFileSync(join(contractsDirectory, contractFilePath))
   try {
     const contract = JSON.parse(fileString)
@@ -39,7 +38,7 @@ const buildSendParams = (defaultAddress) => {
 }
 
 const deployContracts = async ({ ctrNames, contracts, defaultAddress, eth }) => {
-  const contractsABI = {}
+  const contractABIs = {}
   for (let i = 0; i < ctrNames.length; i++) {
     const contractName = ctrNames[i]
     console.log(`Deploying contract: ${contractName}....\n`)
@@ -54,9 +53,9 @@ const deployContracts = async ({ ctrNames, contracts, defaultAddress, eth }) => 
     let contract = new eth.Contract(abi, { from: sendParams.from, data: bytecode })
     contract = await contract.deploy().send(sendParams)
 
-    contractsABI[contractName] = { abi, address: contract.options.address }
+    contractABIs[contractName] = { abi, address: contract.options.address, name: contractName }
   }
-  return contractsABI
+  return contractABIs
 }
 
 const deploy = () => {
@@ -72,25 +71,30 @@ const deploy = () => {
     try {
       // load default address (ethereum account)
       const defaultAddress = await web3.eth.getCoinbase()
-      console.log(`loaded address: ${defaultAddress} (coinbase)`)
+      console.log(`current 'from' address: ${defaultAddress} (coinbase)`)
       // load a specific address:
       //    const address = await web3.eth.getAccounts()[0]
-      //    console.log(`loaded address: ${address}`)
+      //    console.log(`current 'from' address: ${address}`)
 
       const ctrNames = Object.keys(contracts)
       console.log(`Contracts deployment - contracts: ${ctrNames.join(', ')}`)
 
-      const contractsABI = await deployContracts({ ctrNames, contracts, defaultAddress, eth })
+      const contractABIs = await deployContracts({ ctrNames, contracts, defaultAddress, eth })
       console.log('Contracts deployed!\n')
 
-      const contractsAbiJSON = JSON.stringify(contractsABI, null, 2)
-      const path = join(__dirname, '../build/contractsABI.json')
+      const contractsAbiJSON = JSON.stringify(contractABIs, null, 2)
+      const path = join(__dirname, '../build/contractABIs.json')
       writeFileSync(path, contractsAbiJSON)
       console.log(`Contract info saved: ${path}`)
 
-      const contractAddresses = contractsAbiJSON.map(ctrInfo => (ctrInfo.address))
-      const pathSh = join(__dirname, '../config/contractAddresses.json')
-      writeFileSync(pathSh, contractAddresses)
+      const contractAddresses = ctrNames.reduce((infos, contract) => {
+        const info = contractABIs[contract]
+        infos[info.name] = info.address
+        return infos
+      }, {})
+      const ctrAddrsJSON = JSON.stringify(contractAddresses)
+      const pathSh = join(__dirname, '../build/config/contractAddresses.json')
+      writeFileSync(pathSh, ctrAddrsJSON)
       console.log(`Contract addresses sh saved: ${pathSh}`)
     } catch (err) {
       if (err.message === 'Invalid JSON RPC response: ""') {
