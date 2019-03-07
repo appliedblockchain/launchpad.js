@@ -1,11 +1,11 @@
 'use strict'
 const Joi = require('koa-joi-router').Joi
-const { getHelloWorld, setHelloWorld } = require('./handlers/rootHandler')
+const { getHelloWorld, setHelloWorld } = require('./handlers/helloWorldHandler')
 
 module.exports = [
   {
     method: 'get',
-    path: '/',
+    path: '/hello',
     validate: {
       output: {
         200: {
@@ -19,7 +19,7 @@ module.exports = [
   },
   {
     method: 'post',
-    path: '/',
+    path: '/hello',
     validate: {
       type: 'json',
       body: {
