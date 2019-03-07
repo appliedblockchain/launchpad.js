@@ -43,10 +43,12 @@ if [ -z "$CONTRACT_ADDRESSES" ]; then
   sleep 1 # TODO: tune or remove
 
   LEADER=$(disco get cluster-leader)
-  CONTRACT_ADDRESSES_EXIST=$(disco get contract-addresses)
+  export CONTRACT_ADDRESSES=$(disco get contract-addresses)
+
+  echo "CONTRACT_ADDRESSES_EXIST: $CONTRACT_ADDRESSES"
 
   # Only re-deploy if no contract address exists, otherwise the address will already be available in consul
-  if [ -z "$CONTRACT_ADDRESSES_EXIST" ]; then
+  if [ -z "$CONTRACT_ADDRESSES" ]; then
 
     if [ "$HOSTNAME" = $LEADER ]; then
       echo "PROVIDER: $PROVIDER"
@@ -57,16 +59,15 @@ if [ -z "$CONTRACT_ADDRESSES" ]; then
       sleep $TIME
       disco set "contract-addresses" "$CONTRACT_ADDRESSES"
     else
-      ADDR_EXISTS=$(disco get "contract-addresses")
       while [ -z "$ADDR_EXISTS" ]; do
+          ADDR_EXISTS=$(disco get "contract-addresses")
           sleep $TIME
       done
     fi
   fi
 
-  disco get "contract-addresses" > $CTR_ADDR_PATH
-  echo "Contract Addresses: $(cat $CTR_ADDR_PATH)"
-
+  export CONTRACT_ADDRESSES=`disco get "contract-addresses"`
+  echo "Contract Addresses: ($CONTRACT_ADDRESSES)"
   run
 else
   run

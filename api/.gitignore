@@ -1,9 +1,2 @@
 build
 node_modules
-
-/contracts/*
-!contracts/.gitkeep
-
-
-
-

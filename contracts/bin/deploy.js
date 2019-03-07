@@ -4,7 +4,6 @@
 const { readdirSync, readFileSync, writeFileSync } = require('fs')
 const { join } = require('path')
 const Web3 = require('web3')
-const { remove } = require('lodash')
 
 const contractsDirectory = join(__dirname, '../build/contracts')
 const contractsFilenames = readdirSync(contractsDirectory).filter(f => /\.json$/.test(f))
@@ -74,22 +73,24 @@ const deploy = () => {
       //    console.log(`current 'from' address: ${address}`)
 
       let ctrNames = Object.keys(contracts)
-      ctrNames = remove('Migrations', ctrNames)
+      ctrNames = ctrNames.filter(n => n !== 'Migrations')
       console.log(`Contracts deployment - contracts: ${ctrNames.join(', ')}`)
 
       const contractABIs = await deployContracts({ ctrNames, contracts, defaultAddress, eth })
       console.log('Contracts deployed!\n')
+
+      const contractAddresses = ctrNames.reduce((infos, contract) => {
+        const info = contractABIs[contract]
+        infos[info.name] = info.address
+        delete contractABIs[contract].address
+        return infos
+      }, {})
 
       const contractsAbiJSON = JSON.stringify(contractABIs, null, 2)
       const path = join(__dirname, '../build/contractABIs.json')
       writeFileSync(path, contractsAbiJSON)
       console.log(`Contract ABIs saved: ${path}`)
 
-      const contractAddresses = ctrNames.reduce((infos, contract) => {
-        const info = contractABIs[contract]
-        infos[info.name] = info.address
-        return infos
-      }, {})
       const ctrAddrsJSON = JSON.stringify(contractAddresses)
       const pathSh = join(__dirname, '../build/contractAddresses.json')
       writeFileSync(pathSh, ctrAddrsJSON)
@@ -113,7 +114,7 @@ const checkContracts = () => {
 const main = () => {
   checkContracts()
 
-  console.log('deployment started...')
+  console.log('deployment starting...')
   deploy()
 }
 

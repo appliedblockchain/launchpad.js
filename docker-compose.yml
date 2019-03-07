@@ -49,6 +49,8 @@ services:
       - main
     deploy:
       <<: *deploy_defaults
+    depends_on:
+      - api
   parity1:
     hostname: launchpad-parity1
     build:
@@ -67,13 +69,15 @@ services:
     networks:
     - main
     ports:
-    - 8180:8180
-    - 8545:8545
-    - 8546:8546
-    - 30303:30303
+      - 8180:8180
+      - 8545:8545
+      - 8546:8546
+      - 30303:30303
     image: appliedblockchain/launchpad-parity1:latest
     volumes:
-    - parity1_data:/parity/data
+      - parity1_data:/parity/data
+    depends_on:
+      - discovery
   parity2:
     hostname: launchpad-parity2
     build:
@@ -85,10 +89,12 @@ services:
     environment:
       - PARITY_ID=2
     networks:
-    - main
+      - main
     image: appliedblockchain/launchpad-parity2:latest
     volumes:
-    - parity2_data:/parity/data
+      - parity2_data:/parity/data
+    depends_on:
+      - discovery
   parity3:
     hostname: launchpad-parity3
     build:
@@ -100,10 +106,12 @@ services:
     environment:
       - PARITY_ID=3
     networks:
-    - main
+       - main
     image: appliedblockchain/launchpad-parity3:latest
     volumes:
-    - parity3_data:/parity/data
+      - parity3_data:/parity/data
+    depends_on:
+      - discovery
   discovery:
     hostname: launchpad-discovery
     image: redis
@@ -111,6 +119,8 @@ services:
       - 6379:6379
     networks:
     - main
+    volumes:
+      - discovery:/data
     deploy:
       update_config:
         parallelism: 1
@@ -130,6 +140,7 @@ services:
         source: /var/run/docker.sock
 
 volumes:
+  discovery:
   parity1_data:
   parity2_data:
   parity3_data:

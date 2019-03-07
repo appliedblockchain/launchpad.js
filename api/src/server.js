@@ -28,16 +28,16 @@ const createServer = async contractAddresses => {
     )
   }
 
-  await checkDeployment()
-
   logger.debug('Creating server...')
 
   const [ from ] = await web3.eth.getAccounts()
 
   Object.keys(contracts).forEach(key => {
     const contract = contracts[key]
-    contract.options = { ...contract.options, from, gas: 50000000, gasPrice: '0' }
+    contract.options = { ...contract.options, from, gas: 50000000, gasPrice: '0', address: contractAddresses[key] }
   })
+
+  await checkDeployment()
 
   const app = new Koa()
   app
