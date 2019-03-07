@@ -3,11 +3,6 @@ const abiDecoder = require('abi-decoder')
 const config = require('config')
 const ETHEREUM_JSONRPC_ENDPOINT = config.get('ETHEREUM_JSONRPC_ENDPOINT')
 
-// const contractsJSON = require('../../contracts/contractABIs.json')
-
-const { execSync } = require('child_process')
-console.log('PWD --- ', execSync('pwd').toString())
-
 const contractsJSON = require('../../../contracts/build/contractABIs.json')
 
 const web3 = new Web3(ETHEREUM_JSONRPC_ENDPOINT)

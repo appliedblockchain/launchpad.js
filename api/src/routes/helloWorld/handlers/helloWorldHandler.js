@@ -11,6 +11,7 @@ const getHelloWorld = async ctx => {
 
 const setHelloWorld = async ctx => {
   const { message } = ctx.request.body
+  console.log(`set hello-world - message: ${message}`)
   const { HelloWorld } = contracts
 
   const receipt = await HelloWorld.methods.updateHelloWorld(message).send()
