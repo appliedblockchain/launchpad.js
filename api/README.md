@@ -91,7 +91,7 @@ For details of how the contract is auto-deployed, please check the npm scripts i
 Or, to manually deploy the contracts and start in production mode:
 
 ```
-export CONTRACT_ADDRESS=$(node ./bin/deployContract.js store-contract)
+export CONTRACT_ADDRESSES=$(node ./bin/deployContract.js store-contract)
 npm run start
 ```
 

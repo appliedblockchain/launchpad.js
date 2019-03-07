@@ -3,7 +3,7 @@ const abiDecoder = require('abi-decoder')
 const config = require('config')
 const ETHEREUM_JSONRPC_ENDPOINT = config.get('ETHEREUM_JSONRPC_ENDPOINT')
 
-const contractsJSON = require('../../contracts/combined.json')
+const contractsJSON = require('../../contracts/config/contractABIs.json')
 
 const web3 = new Web3(ETHEREUM_JSONRPC_ENDPOINT)
 

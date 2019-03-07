@@ -36,7 +36,7 @@ done
 # the lock is elected as leader
 disco set "cluster-leader" "$HOSTNAME"
 
-if [ -z "$CONTRACT_ADDRESS" ]; then
+if [ -z "$CONTRACT_ADDRESSES" ]; then
   sleep 1 # TODO: tune or remove
 
   LEADER=$(disco get cluster-leader)
@@ -44,13 +44,13 @@ if [ -z "$CONTRACT_ADDRESS" ]; then
 
   # Only re-deploy if no contract address exists, otherwise the address will already be available in consul
   if [ -z "$CONTRACT_ADDRESSES_EXIST" ]; then
-    EXPORT_SH=/api/contracts/exportAddresses.sh
+    CTR_ADDRESSES=/contracts/config/contractAddresses.json
 
     if [ "$HOSTNAME" = $LEADER ]; then
       echo "PROVIDER: $PROVIDER"
       mkdir -p /contracts/build/contracts
       PROVIDER="$PROVIDER" node /contracts/bin/deploy.js
-      CONTRACT_ADDRESSES=$(cat $EXPORT_SH)
+      CONTRACT_ADDRESSES=$(cat $CTR_ADDRESSES)
 
       sleep 1
       disco set "contract-addresses" "$CONTRACT_ADDRESSES"
@@ -63,9 +63,8 @@ if [ -z "$CONTRACT_ADDRESS" ]; then
   fi
 
 
-  disco get "contract-addresses" > $EXPORT_SH
-  cat     $EXPORT_SH
-  source  $EXPORT_SH
+  disco get "contract-addresses" > $CTR_ADDRESSES
+  echo "Contract Addresses: $(cat $CTR_ADDRESSES)"
 
   run
 else

@@ -7,13 +7,22 @@ const config = require('config')
 const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
 
-const contracts = require('./contracts/combined.json')
+const contracts = require('./contracts/contractABIs.json')
+
+const loadCtrAddresses = () => (
+  Object.keys(contracts).map(
+    contractName => getCtrAddress(contractName)
+  )
+)
+
+const getCtrAddress = (contractName) => (
+  contracts[contractName].address
+)
 
 ;(async () => {
   try {
     // TODO: Validate contarct setup
-    const contractAddresses = Object.keys(contracts).map(
-      contractName => contracts[contractName].address)
+    const contractAddresses = loadCtrAddresses()
 
     await runApp(contractAddresses)
 
