@@ -149,9 +149,7 @@ jobs:
       - run:
           name: compile & deploy contracts
           command: |-
-            cd contracts
-            if [ ! -e solc-static-linux ]
-            npm run compile && npm run deploy
+            cd contracts && npm run compile && npm run deploy
       - run:
           name: unit test api
           command: |-
