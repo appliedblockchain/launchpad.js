@@ -8,6 +8,7 @@ const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
 
 const contracts = require('./contracts')
+const { API_PREFIX } = require('./src/constants')
 
 ;(async () => {
   try {
@@ -19,7 +20,7 @@ const contracts = require('./contracts')
 
     logger.debug(`Server listening on ${PORT} in '${NODE_ENV}' mode`)
     logger.debug(`Contract deployed at ${JSON.stringify(contractAddresses, null, 2)}`)
-    logger.debug(`Docs available at http://localhost:${PORT}/docs`)
+    logger.debug(`Docs available at http://localhost:${PORT}/${API_PREFIX}/docs`)
   } catch (err) {
     logger.error('Error while starting up server')
     logger.error(err)

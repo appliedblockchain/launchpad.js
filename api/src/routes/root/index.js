@@ -1,8 +1,10 @@
 'use strict'
 const Joi = require('koa-joi-router').Joi
+const koaRouter = require('koa-joi-router')
 const { getHelloWorld, setHelloWorld } = require('./handlers/rootHandler')
+const router = koaRouter()
 
-module.exports = [
+const routes = [
   {
     method: 'get',
     path: '/',
@@ -29,3 +31,7 @@ module.exports = [
     handler: setHelloWorld
   }
 ]
+
+router.route(routes)
+
+module.exports = router

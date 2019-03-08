@@ -2,19 +2,17 @@
 
 const koaRouter = require('koa-joi-router')
 
-const configureDocs = require('./routes/docs-config')
-const rootRoute = require('./routes/root')
 const { API_PREFIX } = require('./constants')
+const routes = require('./routes')
+const { withDocs } = require('@appliedblockchain/docs')
+const { baseSpec, specOptions } = require('./swagger-docs-config')
 
 const router = koaRouter()
 
-router.route(rootRoute)
 router.prefix(API_PREFIX)
 
+withDocs(router, routes, baseSpec, specOptions)
+
 module.exports = {
-  configureDocs,
-  middleware: router.middleware(),
-  routes: {
-    default: rootRoute
-  }
+  middleware: router.middleware()
 }

@@ -5,8 +5,7 @@ const Koa = require('koa')
 const cors = require('@koa/cors')
 const compress = require('koa-compress')
 const respond = require('koa-respond')
-const docs = require('@appliedblockchain/koa-docs')
-const { middleware, routes, configureDocs } = require('./router')
+const { middleware } = require('./router')
 const logger = require('./logger')
 
 const {
@@ -42,9 +41,6 @@ const createServer = async contractAddresses => {
     .use(errorHandler)
     .use(healthcheck(web3))
     .use(cors())
-    .use(docs.get('/docs', configureDocs(
-      { groupName: 'default', routes: routes.default, prefix: '/api' }
-    )))
     .use(Prometheus.injectMetricsRouter)
     .use(compress())
     .use(respond())
