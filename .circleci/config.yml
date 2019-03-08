@@ -54,12 +54,19 @@ jobs:
       - restore_cache:
           keys:
             - v1-contracts-{{ checksum "contracts/package.json" }}
+            - solc-v2-0.5.0
       - run:
           name: Install solc
           command: |-
-            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            if [ ! -e solc-static-linux ]; then
+              wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            fi
             chmod +x solc-static-linux
             sudo mv solc-static-linux /usr/bin/solc
+      - save_cache:
+          key: solc-v2-0.5.0
+          paths:
+            - solc-static-linux
       - run:
           name: install dependencies
           command: |-
@@ -115,9 +122,16 @@ jobs:
       - restore_cache:
           keys:
             - v1-api-{{ checksum "api/package.json" }}
-      - restore_cache:
-          keys:
             - v1-contracts-{{ checksum "contracts/package.json" }}
+            - solc-v2-0.5.0
+      - run:
+          name: Install solc
+          command: |-
+            if [ ! -e solc-static-linux ]; then
+              wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            fi
+            chmod +x solc-static-linux
+            sudo mv solc-static-linux /usr/bin/solc
       - run:
           name: install dependencies
           command: |-
@@ -128,13 +142,7 @@ jobs:
             cd api
             npm run lint
       - run:
-          name: Install solc
-          command: |-
-            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
-            chmod +x solc-static-linux
-            sudo mv solc-static-linux /usr/bin/solc
-      - run:
-          name: npm install again (WTF?)
+          name: npm install
           command: |-
             cd contracts
             npm i
@@ -142,12 +150,18 @@ jobs:
           name: compile & deploy contracts
           command: |-
             cd contracts
+            if [ ! -e solc-static-linux ]
             npm run compile && npm run deploy
       - run:
-          name: test api
+          name: unit test api
           command: |-
             cd api
             npm run test:ci
+      - run:
+          name: integration test api
+          command: |-
+            cd api
+            npm run test:integration:ci
       - save_cache:
           key: v1-api-{{ checksum "api/package.json" }}
           paths:
