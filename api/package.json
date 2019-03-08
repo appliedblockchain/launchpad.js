@@ -15,7 +15,7 @@
     "test:integration": "CONTRACT_ADDRESSES=$(cat ../contracts/build/contractAddresses.json) jest -c ./test/config/integration.js --runInBand",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci --forceExit",
-    "test:integration": "CONTRACT_ADDRESSES=$(cat ../contracts/build/contractAddresses.json) jest -c ./test/config/integration.js --runInBand --ci --forceExit",
+    "test:integration:ci": "CONTRACT_ADDRESSES=$(cat ../contracts/build/contractAddresses.json) jest -c ./test/config/integration.js --runInBand --ci --forceExit",
     "lint": "eslint . --ignore-path .gitignore",
     "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo",
     "contract-compile": "npm run --prefix ../contracts compile",
