@@ -37,7 +37,9 @@ const createServer = async contractAddresses => {
     contract.options = { ...contract.options, from, gas: 50000000, gasPrice: '0', address: contractAddresses[key] }
   })
 
-  await checkDeployment()
+  if (process.env.NODE_ENV !== 'test') {
+    await checkDeployment()
+  }
 
   const app = new Koa()
   app

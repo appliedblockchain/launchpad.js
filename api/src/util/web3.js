@@ -6,11 +6,8 @@ const { join } = require('path')
 
 const contractAbisPath = join(__dirname, '../../contracts/contractABIs.json')
 const contractABIs = require(contractAbisPath)
-console.log(`Contracts loaded: ${JSON.stringify(Object.keys(contractABIs))}`)
 
 const web3 = new Web3(ETHEREUM_JSONRPC_ENDPOINT)
-
-console.log({ contractABIs })
 
 const contracts = Object.keys(contractABIs).reduce((acc, contractName) => {
   const { abi } = contractABIs[contractName]

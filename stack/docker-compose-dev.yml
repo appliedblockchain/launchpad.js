@@ -11,6 +11,8 @@ services:
       NODE_ENV: development
     volumes:
       - ../react/src/:/home/node/react/src
+    networks:
+      - main
     ports:
       - 3001:3000
   api:
@@ -43,8 +45,22 @@ services:
       - 8546:8546
     networks:
       - main
+  # database:
+  #   image: postgres:10.6
+  #   environment:
+  #     POSTGRES_DB: lauchpad_test
+  #     POSTGRES_USER: testuser
+  #     POSTGRES_PASSWORD: testpass
+  #   ports:
+  #     - 5432:5432
+  #   command: postgres -c log_statement=all
+  #   networks:
+  #    - main
+  #   volumes:
+  #     - database:/var/lib/postgresql/data
 volumes:
   parity:
   elasticsearch:
+  # database:
 networks:
   main:

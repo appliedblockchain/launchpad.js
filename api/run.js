@@ -7,23 +7,11 @@ const config = require('config')
 const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
 
-
-
-const loadCtrAddresses = () => {
-  let contractAddresses = process.env.CONTRACT_ADDRESSES
-
-  if (!contractAddresses) {
-    throw new Error('API: could not recover addresses from the environment variable $CONTRACT_ADDRESSES')
-  } else {
-    contractAddresses = JSON.parse(contractAddresses)
-  }
-
-  return contractAddresses
-}
+const loadContractAddresses = require('./src/util/loadContractAddresses')
 
 ;(() => {
   try {
-    const contractAddresses = loadCtrAddresses()
+    const contractAddresses = loadContractAddresses()
 
     runApp(contractAddresses)
 
