@@ -29,7 +29,7 @@ services:
     deploy: &deploy_defaults
       mode: global
       update_config:
-        parallelism: 3
+        parallelism: 2
         delay: 1s
       restart_policy:
         condition: on-failure
