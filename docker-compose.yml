@@ -51,6 +51,20 @@ services:
       <<: *deploy_defaults
     depends_on:
       - api
+  # blockexplorer:
+  #   build:
+  #     context: ./block-explorer
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     CONFIG_URL: http://api:3000/api/block-explorer-config
+  #     ETHEREUM_JSONRPC_ENDPOINT: http://parity1:8545/
+  #   networks:
+  #     - main
+  #   ports:
+  #     - 3002:3000
+  #   depends_on:
+  #     - api
+  #     - parity1
   parity1:
     hostname: launchpad-parity1
     build:

@@ -27,8 +27,9 @@ services:
       - ../api/contracts/:/home/node/api/contracts
     environment:
       NODE_ENV: development
-      ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545
       CONTRACT_ADDRESSES: "$CONTRACT_ADDRESSES"
+      ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545/
+      ADDRESS_BOOK: '{"0x1f2e5282481c07bc8b7b07e53bc3ef6a8012d6b7": "Account 1"}'
     networks:
       - main
     ports:
@@ -45,6 +46,20 @@ services:
       - 8546:8546
     networks:
       - main
+  # blockexplorer:
+  #   build:
+  #     context: ../block-explorer
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     CONFIG_URL: http://api:3000/api/block-explorer-config
+  #     ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545/
+  #   networks:
+  #     - main
+  #   ports:
+  #     - 3002:3000
+  #   depends_on:
+  #     - api
+  #     - parity
   # database:
   #   image: postgres:10.6
   #   environment:
