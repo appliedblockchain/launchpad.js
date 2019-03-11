@@ -45,7 +45,7 @@ const createServer = async contractAddresses => {
   const app = new Koa()
   app
     .use(errorHandler)
-    .use(koaLogger())
+    .use(koaLogger(logger))
     .use(healthcheck(web3))
     .use(cors())
     .use(docs.get('/api/docs', configureDocs(

@@ -1,9 +1,24 @@
 const { APP_NAME } = require('./constants')
-const { createLogger, WARN } = require('bunyan')
+const winston = require('winston')
 const config = require('config')
 const LOG_LEVEL = config.get('LOG_LEVEL')
 
-module.exports = createLogger({
+const logger = winston.createLogger({
   name: APP_NAME,
-  level: LOG_LEVEL || WARN
+  format: winston.format.simple(),
+  transports: [
+    new winston.transports.Console({
+      level: LOG_LEVEL,
+      format: winston.format.simple()
+    })
+  ]
 })
+
+// logger.error('ERROR')
+// logger.warn('WARN')
+// logger.info('INFO')
+// logger.verbose('VERBOSE')
+// logger.debug('DEBUG')
+// logger.silly('SILLY')
+
+module.exports = logger

@@ -46,6 +46,14 @@ services:
       - 8546:8546
     networks:
       - main
+  # logspout:
+  #   image: gliderlabs/logspout
+  #   deploy:
+  #     mode: global
+  #   # NOTE: change the papertrail url/port before deploying your project
+  #   command: syslog+tls://logs6.papertrailapp.com:37328
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
   # explorer:
   #   build:
   #     context: ../explorer
@@ -73,6 +81,7 @@ services:
   #    - main
   #   volumes:
   #     - database:/var/lib/postgresql/data
+
 volumes:
   parity:
   elasticsearch:

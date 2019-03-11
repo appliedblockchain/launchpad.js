@@ -1,5 +1,5 @@
 {
-  "name": "base-node-app",
+  "name": "launchpad-api",
   "private": true,
   "version": "0.1.0",
   "description": "A basic starter Node application",
@@ -56,18 +56,19 @@
     "@koa/cors": "^2.2.1",
     "@sentry/node": "^4.3.4",
     "abi-decoder": "^1.2.0",
-    "bunyan": "^1.8.12",
     "config": "^1.30.0",
     "knex": "^0.16.3",
     "koa": "^2.5.1",
     "koa-compress": "^3.0.0",
     "koa-joi-router": "^5.1.0",
+    "koa-logger": "^3.2.0",
     "koa-respond": "^1.0.1",
     "lodash": "^4.17.11",
     "pg": "^7.8.2",
     "prom-client": "^11.2.1",
     "prometheus-api-metrics": "^2.1.8",
     "response-time": "^2.3.2",
-    "web3": "1.0.0-beta.33"
+    "web3": "1.0.0-beta.33",
+    "winston": "^3.2.1"
   }
 }

@@ -17,17 +17,7 @@ module.exports = async (ctx, next) => {
       })
     }
     BaseError.handleErrorResponse(ctx, err)
-    // ctx.status = err.statusCode || 500
-    // const error = {
-    //   error: {
-    //     name: err.constructor.name,
-    //     message: err.message
-    //   }
-    // }
-    // ctx.body = err.toJSON ? err.toJSON() : error
 
-    console.error(err)
-
-    logger.error('Error in request', err)
+    logger.error(err.stack)
   }
 }
