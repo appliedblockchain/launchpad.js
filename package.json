@@ -25,5 +25,7 @@
     "url": "https://github.com/appliedblockchain/launchpad/issues"
   },
   "homepage": "https://github.com/appliedblockchain/launchpad#readme",
-  "dependencies": {}
+  "dependencies": {
+    "koa-logger": "^3.2.0"
+  }
 }

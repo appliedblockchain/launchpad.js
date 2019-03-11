@@ -2,6 +2,7 @@
 
 const http = require('http')
 const Koa = require('koa')
+const koaLogger = require('koa-logger')
 const cors = require('@koa/cors')
 const compress = require('koa-compress')
 const respond = require('koa-respond')
@@ -44,6 +45,7 @@ const createServer = async contractAddresses => {
   const app = new Koa()
   app
     .use(errorHandler)
+    .use(koaLogger())
     .use(healthcheck(web3))
     .use(cors())
     .use(docs.get('/api/docs', configureDocs(
