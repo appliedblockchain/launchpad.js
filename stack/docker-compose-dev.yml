@@ -46,9 +46,9 @@ services:
       - 8546:8546
     networks:
       - main
-  # blockexplorer:
+  # explorer:
   #   build:
-  #     context: ../block-explorer
+  #     context: ../explorer
   #     dockerfile: Dockerfile
   #   environment:
   #     CONFIG_URL: http://api:3000/api/block-explorer-config

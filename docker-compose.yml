@@ -51,9 +51,9 @@ services:
       <<: *deploy_defaults
     depends_on:
       - api
-  # blockexplorer:
+  # explorer:
   #   build:
-  #     context: ./block-explorer
+  #     context: ./explorer
   #     dockerfile: Dockerfile
   #   environment:
   #     CONFIG_URL: http://api:3000/api/block-explorer-config
