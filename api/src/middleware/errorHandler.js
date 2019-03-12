@@ -2,7 +2,6 @@
 
 const Sentry = require('@sentry/node')
 const dsn = process.env.SENTRY_DSN || ''
-const BaseError = require('../helpers/Errors/BaseError')
 
 if (dsn) {
   Sentry.init({ dsn: dsn })
@@ -18,7 +17,13 @@ module.exports = async (ctx, next) => {
       })
     }
 
-    BaseError.handleErrorResponse(ctx, err)
+    ctx.status = err.status || 500
+    ctx.body = {
+      status: ctx.status,
+      name: err.name,
+      message: err.message,
+      requestId: ctx.logger.defaultMeta.requestId
+    }
 
     ctx.logger.error(err.stack)
   }
