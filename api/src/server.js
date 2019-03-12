@@ -2,13 +2,13 @@
 
 const http = require('http')
 const Koa = require('koa')
-const koaLogger = require('koa-logger')
 const cors = require('@koa/cors')
 const compress = require('koa-compress')
 const respond = require('koa-respond')
 const docs = require('@appliedblockchain/koa-docs')
 const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
+const middlewareLogger = require('./middleware/logger')
 const rootRoute = require('./routes/root')
 
 const {
@@ -42,10 +42,12 @@ const createServer = async contractAddresses => {
     await checkDeployment()
   }
 
+
+
   const app = new Koa()
   app
     .use(errorHandler)
-    .use(koaLogger(logger))
+    .use(middlewareLogger())
     .use(healthcheck(web3))
     .use(cors())
     .use(docs.get('/api/docs', configureDocs(

@@ -45,6 +45,7 @@ module.exports = [
       }
     },
     handler: (ctx) => {
+      throw new Error('BOOOOM')
       ctx.ok(blockExplorerConfig || makeBlockExplorerConfig())
     }
   }

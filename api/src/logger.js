@@ -6,6 +6,7 @@ const LOG_LEVEL = config.get('LOG_LEVEL')
 const logger = winston.createLogger({
   name: APP_NAME,
   format: winston.format.simple(),
+  exitOnError: false,
   transports: [
     new winston.transports.Console({
       level: LOG_LEVEL,

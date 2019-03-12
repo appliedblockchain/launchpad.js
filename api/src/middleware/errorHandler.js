@@ -1,4 +1,5 @@
-const logger = require('../logger')
+'use strict'
+
 const Sentry = require('@sentry/node')
 const dsn = process.env.SENTRY_DSN || ''
 const BaseError = require('../helpers/Errors/BaseError')
@@ -16,8 +17,9 @@ module.exports = async (ctx, next) => {
         console.log(`Reported error ${eventId}`)
       })
     }
+
     BaseError.handleErrorResponse(ctx, err)
 
-    logger.error(err.stack)
+    ctx.logger.error(err.stack)
   }
 }

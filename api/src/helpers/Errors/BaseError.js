@@ -31,10 +31,11 @@ class BaseError extends Error {
     ctx.status = err.status
 
     // if error does not have toJSON function
-    ctx.body = err.toJson ? err.toJson() : {
+    ctx.body = err.toJson ? err.toJson(ctx) : {
       error: {
         name: err.constructor.name,
-        message: err.message
+        message: err.message,
+        requestId: ctx.logger.defaultMeta.requestId
       }
     }
   }
@@ -42,15 +43,22 @@ class BaseError extends Error {
   /* @name toJson
    * @desc return error as json object
    * @return JSON */
-  toJson() {
+  toJson(ctx) {
     const { code, status, message, description, extra } = this
-    return {
+    const result = {
       code,
       status,
       message,
       description,
       extra
     }
+
+    if (ctx && ctx.logger && ctx.logger.defaultMeta) {
+      result.requestId = ctx.logger.defaultMeta.requestId
+    }
+
+
+    return result
   }
 }
 

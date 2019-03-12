@@ -30,6 +30,7 @@ services:
       CONTRACT_ADDRESSES: "$CONTRACT_ADDRESSES"
       ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545/
       ADDRESS_BOOK: '{"0x1f2e5282481c07bc8b7b07e53bc3ef6a8012d6b7": "Account 1"}'
+      FORCE_COLOR: 1
     networks:
       - main
     ports:
