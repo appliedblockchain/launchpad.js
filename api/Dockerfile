@@ -31,8 +31,8 @@ WORKDIR /api
 RUN cd /api && npm install --only=production
 RUN cd /contracts && npm install --only=production
 
-COPY ./.git/refs/heads/* ./
-COPY ./.git/HEAD .
+COPY ./.git/refs/heads/* ./.git/refs/heads/
+COPY ./.git/HEAD ./.git/HEAD
 
 COPY ./api .
 COPY ./contracts /contracts
