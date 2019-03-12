@@ -3,5 +3,5 @@
   "NODE_ENV": "production",
   "ETHEREUM_JSONRPC_ENDPOINT": "http://parity1:8545",
   "ELASTICSEARCH": "elasticsearch",
-  "LOG_LEVEL": "info",
+  "LOG_LEVEL": "info"
 }
