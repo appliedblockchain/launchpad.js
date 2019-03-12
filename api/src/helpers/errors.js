@@ -13,7 +13,6 @@ exports.ForbiddenError = class ForbiddenError extends Error {
   }
 }
 
-
 exports.BadRequestError = class BadRequestError extends Error {
   constructor(...args) {
     super(...args)

@@ -7,8 +7,6 @@ const { contracts, web3 } = require('../../util/web3')
 const { clone } = require('lodash')
 const Joi = require('koa-joi-router').Joi
 
-const { InternalServerError } = require('../../helpers/errors')
-
 let blockExplorerConfig
 function makeBlockExplorerConfig() {
   blockExplorerConfig = {
@@ -47,7 +45,6 @@ module.exports = [
       }
     },
     handler: (ctx) => {
-      throw new InternalServerError('BOOOOM')
       ctx.ok(blockExplorerConfig || makeBlockExplorerConfig())
     }
   }
