@@ -12,7 +12,10 @@ function run() {
 TIME=2
 CTR_ADDR_PATH=/contracts/build/contractAddresses.json
 
-[ "$(disco ping)" == "PONG" ] || { echo "discovery redis not up, exiting..." && exit; }
+while [ "$(disco ping)" != "PONG" ]
+do
+  echo "discovery redis not up, waiting..." && sleep 1;
+done
 
 set -ex
 
