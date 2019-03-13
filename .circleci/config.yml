@@ -115,6 +115,24 @@ jobs:
           paths:
             - react/node_modules
 
+  e2e:
+    <<: *job
+    steps:
+      - *attach_workspace
+      - setup_remote_docker
+      - *docker_login
+      - run:
+          name: build
+          command: |-
+            docker-compose -f docker-compose.yml -f react/e2e/compose-integration.yml build api react e2e parity1 parity2 parity3
+      - run:
+          name: start the test stack
+          command: |-
+            docker-compose up -d api react e2e parity1 parity2 parity3
+      - run:
+          name: Run the puppeteer tests
+          command: docker-compose -f docker-compose.yml -f react/e2e/compose-integration.yml up e2e
+
   api:
     <<: *job-with-parity
     steps:
@@ -183,3 +201,9 @@ workflows:
           <<: *workflow
           requires:
             - pre-build
+      - e2e:
+          <<: *workflow
+          requires:
+            - pre-build
+
+

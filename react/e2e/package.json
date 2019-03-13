@@ -1,0 +1,27 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest test/",
+    "test:docker": "jest -c jest.dockerconfig.js",
+    "test:ci": "bash bin/wait.sh && npm run test:docker"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^24.5.0",
+    "jest-puppeteer": "^4.0.0",
+    "puppeteer": "1.9.0"
+  },
+  "jest": {
+    "verbose": true,
+    "preset": "jest-puppeteer"
+  },
+  "eslintConfig": {
+    "globals": {
+      "page": true
+    }
+  }
+}
