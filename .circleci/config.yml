@@ -124,7 +124,7 @@ jobs:
       - run:
           name: build
           command: |-
-            docker-compose -f docker-compose.yml -f react/e2e/compose-integration.yml build api react e2e parity1 parity2 parity3
+            docker-compose -f docker-compose.yml -f react/e2e/compose-integration.yml build --build-arg NPM_TOKEN=$PRIVATE_NPM_TOKEN api react e2e parity1 parity2 parity3
       - run:
           name: start the test stack
           command: |-
