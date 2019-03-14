@@ -17,12 +17,13 @@ services:
       - NODE_ENV=staging
       - PROVIDER=http://parity1:8545
       - SENTRY_DSN=http://6f20a6d7d8154e1f93593c634f943f7d@sentry-web:9000/3
-      - CONTRACT_ADDRESS=$CONTRACT_ADDRESS
+      - FORCE_COLOR=1
     networks:
       - main
     ports:
       - 3000:3000
     depends_on:
+      - discovery
       - parity1
       - parity2
       - parity3
@@ -49,6 +50,22 @@ services:
       - main
     deploy:
       <<: *deploy_defaults
+    depends_on:
+      - api
+  # explorer:
+  #   build:
+  #     context: ./explorer
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     CONFIG_URL: http://api:3000/api/block-explorer-config
+  #     ETHEREUM_JSONRPC_ENDPOINT: http://parity1:8545/
+  #   networks:
+  #     - main
+  #   ports:
+  #     - 3002:3000
+  #   depends_on:
+  #     - api
+  #     - parity1
   parity1:
     hostname: launchpad-parity1
     build:
@@ -56,9 +73,10 @@ services:
       dockerfile: Dockerfile-parity
       args:
         - PARITY_ID=1
-        - AWS_ACCESS_KEY_ID
-        - AWS_SECRET_ACCESS_KEY
         - NPM_TOKEN
+        - S3_ACCESS_KEY_ID
+        - S3_SECRET_ACCESS_KEY
+        - S3_BUCKET_NAME
     environment:
       - PARITY_ID=1
     depends_on:
@@ -66,13 +84,15 @@ services:
     networks:
     - main
     ports:
-    - 8180:8180
-    - 8545:8545
-    - 8546:8546
-    - 30303:30303
+      - 8180:8180
+      - 8545:8545
+      - 8546:8546
+      - 30303:30303
     image: appliedblockchain/launchpad-parity1:latest
     volumes:
-    - parity1_data:/parity/data
+      - parity1_data:/parity/data
+    depends_on:
+      - discovery
   parity2:
     hostname: launchpad-parity2
     build:
@@ -80,16 +100,18 @@ services:
       dockerfile: Dockerfile-parity
       args:
         - PARITY_ID=2
-        - AWS_ACCESS_KEY_ID
-        - AWS_SECRET_ACCESS_KEY
         - NPM_TOKEN
     environment:
       - PARITY_ID=2
+    depends_on:
+      - discovery
     networks:
-    - main
+      - main
     image: appliedblockchain/launchpad-parity2:latest
     volumes:
-    - parity2_data:/parity/data
+      - parity2_data:/parity/data
+    depends_on:
+      - discovery
   parity3:
     hostname: launchpad-parity3
     build:
@@ -97,23 +119,27 @@ services:
       dockerfile: Dockerfile-parity
       args:
         - PARITY_ID=3
-        - AWS_ACCESS_KEY_ID
-        - AWS_SECRET_ACCESS_KEY
         - NPM_TOKEN
     environment:
       - PARITY_ID=3
+    depends_on:
+      - discovery
     networks:
-    - main
+       - main
     image: appliedblockchain/launchpad-parity3:latest
     volumes:
-    - parity3_data:/parity/data
+      - parity3_data:/parity/data
+    depends_on:
+      - discovery
   discovery:
-    hostname: launchpad-discovery
+    hostname: discovery
     image: redis
     ports:
       - 6379:6379
     networks:
     - main
+    volumes:
+      - discovery:/data
     deploy:
       update_config:
         parallelism: 1
@@ -133,6 +159,7 @@ services:
         source: /var/run/docker.sock
 
 volumes:
+  discovery:
   parity1_data:
   parity2_data:
   parity3_data:

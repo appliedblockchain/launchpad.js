@@ -7,15 +7,13 @@ const config = require('config')
 const NODE_ENV = config.get('NODE_ENV')
 const PORT = config.get('PORT')
 
-const contracts = require('./contracts')
+const loadContractAddresses = require('./src/util/loadContractAddresses')
 
-;(async () => {
+;(() => {
   try {
-    // TODO: Validate contarct setup
-    const contractAddresses = Object.keys(contracts).map(
-      contractName => contracts[contractName].address)
+    const contractAddresses = loadContractAddresses()
 
-    await runApp(contractAddresses)
+    runApp(contractAddresses)
 
     logger.debug(`Server listening on ${PORT} in '${NODE_ENV}' mode`)
     logger.debug(`Contract deployed at ${JSON.stringify(contractAddresses, null, 2)}`)

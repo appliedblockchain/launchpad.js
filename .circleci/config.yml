@@ -54,12 +54,19 @@ jobs:
       - restore_cache:
           keys:
             - v1-contracts-{{ checksum "contracts/package.json" }}
+            - solc-v2-0.5.0
       - run:
           name: Install solc
           command: |-
-            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            if [ ! -e solc-static-linux ]; then
+              wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            fi
             chmod +x solc-static-linux
             sudo mv solc-static-linux /usr/bin/solc
+      - save_cache:
+          key: solc-v2-0.5.0
+          paths:
+            - solc-static-linux
       - run:
           name: install dependencies
           command: |-
@@ -108,6 +115,24 @@ jobs:
           paths:
             - react/node_modules
 
+  e2e:
+    <<: *job
+    steps:
+      - *attach_workspace
+      - setup_remote_docker
+      - *docker_login
+      - run:
+          name: build
+          command: |-
+            docker-compose -f docker-compose.yml -f react/e2e/compose-integration.yml build --build-arg NPM_TOKEN=$PRIVATE_NPM_TOKEN api react e2e parity1 parity2 parity3
+      - run:
+          name: start the test stack
+          command: |-
+            docker-compose up -d api react parity1 parity2 parity3 discovery
+      - run:
+          name: Run the puppeteer tests
+          command: docker-compose -f docker-compose.yml -f react/e2e/compose-integration.yml up e2e
+
   api:
     <<: *job-with-parity
     steps:
@@ -115,9 +140,16 @@ jobs:
       - restore_cache:
           keys:
             - v1-api-{{ checksum "api/package.json" }}
-      - restore_cache:
-          keys:
             - v1-contracts-{{ checksum "contracts/package.json" }}
+            - solc-v2-0.5.0
+      - run:
+          name: Install solc
+          command: |-
+            if [ ! -e solc-static-linux ]; then
+              wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
+            fi
+            chmod +x solc-static-linux
+            sudo mv solc-static-linux /usr/bin/solc
       - run:
           name: install dependencies
           command: |-
@@ -128,26 +160,24 @@ jobs:
             cd api
             npm run lint
       - run:
-          name: Install solc
-          command: |-
-            wget https://github.com/ethereum/solidity/releases/download/v0.5.0/solc-static-linux
-            chmod +x solc-static-linux
-            sudo mv solc-static-linux /usr/bin/solc
-      - run:
-          name: npm install again (WTF?)
+          name: npm install
           command: |-
             cd contracts
             npm i
       - run:
           name: compile & deploy contracts
           command: |-
-            cd contracts
-            npm run compile && npm run deploy
+            cd contracts && npm run compile && npm run deploy
       - run:
-          name: test api
+          name: unit test api
           command: |-
             cd api
             npm run test:ci
+      - run:
+          name: integration test api
+          command: |-
+            cd api
+            npm run test:integration:ci
       - save_cache:
           key: v1-api-{{ checksum "api/package.json" }}
           paths:
@@ -171,3 +201,9 @@ workflows:
           <<: *workflow
           requires:
             - pre-build
+      - e2e:
+          <<: *workflow
+          requires:
+            - pre-build
+
+

@@ -2,7 +2,7 @@
   "LOG_LEVEL": "debug",
   "NODE_ENV": "development",
   "ETHEREUM_JSONRPC_ENDPOINT": "http://localhost:8545",
-  "ELASTICSEARCH": "localhost",
   "API_MNEMONIC": "lemon cabbage sketch fringe box eagle arrow close belt damage response tornado",
-  "HEALTH_TOKEN": "71ef10b1b40bc496461d176c4d62379f83d4c32246d7e6a4889d166b831d32fa"
+  "HEALTH_TOKEN": "71ef10b1b40bc496461d176c4d62379f83d4c32246d7e6a4889d166b831d32fa",
+  "DB_CONNECTION": "postgres://testuser:testpass@database:5432/lauchpad_test"
 }

@@ -9,13 +9,19 @@ function run() {
   node run.js
 }
 
-[ "$(disco ping)" == "PONG" ] || { echo "discovery redis not up, exiting..." && exit; }
+TIME=2
+CTR_ADDR_PATH=/contracts/build/contractAddresses.json
+
+while [ "$(disco ping)" != "PONG" ]
+do
+  echo "discovery redis not up, waiting..." && sleep 1;
+done
 
 set -ex
 
 PARITY_INSTANCES="parity1 parity2 parity3"
 
-sleep 1
+sleep 5
 
 for PARITY in $PARITY_INSTANCES; do
   ENODE_REQ=$(curl --data '{"method":"parity_enode","params":[],"id":1,"jsonrpc":"2.0"}' -H "Content-Type: application/json" -X POST "$PARITY:8545")
@@ -23,7 +29,7 @@ for PARITY in $PARITY_INSTANCES; do
   disco set "enodes:$PARITY" "$ENODE"
 done
 
-sleep 1
+sleep $TIME
 
 for i in 1 2 3; do
   for j in 1 2 3; do
@@ -36,37 +42,35 @@ done
 # the lock is elected as leader
 disco set "cluster-leader" "$HOSTNAME"
 
-if [ -z "$CONTRACT_ADDRESS" ]; then
+if [ -z "$CONTRACT_ADDRESSES" ]; then
   sleep 1 # TODO: tune or remove
 
   LEADER=$(disco get cluster-leader)
-  CONTRACT_ADDRESSES_EXIST=$(disco get contract-addresses)
+  export CONTRACT_ADDRESSES=$(disco get contract-addresses)
+
+  echo "CONTRACT_ADDRESSES_EXIST: $CONTRACT_ADDRESSES"
 
   # Only re-deploy if no contract address exists, otherwise the address will already be available in consul
-  if [ -z "$CONTRACT_ADDRESSES_EXIST" ]; then
-    EXPORT_SH=/api/contracts/exportAddresses.sh
+  if [ -z "$CONTRACT_ADDRESSES" ]; then
 
     if [ "$HOSTNAME" = $LEADER ]; then
       echo "PROVIDER: $PROVIDER"
       mkdir -p /contracts/build/contracts
       PROVIDER="$PROVIDER" node /contracts/bin/deploy.js
-      CONTRACT_ADDRESSES=$(cat $EXPORT_SH)
+      CONTRACT_ADDRESSES=$(cat $CTR_ADDR_PATH)
 
-      sleep 1
+      sleep $TIME
       disco set "contract-addresses" "$CONTRACT_ADDRESSES"
     else
-      ADDR_EXISTS=$(disco get "contract-addresses")
       while [ -z "$ADDR_EXISTS" ]; do
-          sleep 1
+          ADDR_EXISTS=$(disco get "contract-addresses")
+          sleep $TIME
       done
     fi
   fi
 
-
-  disco get "contract-addresses" > $EXPORT_SH
-  cat     $EXPORT_SH
-  source  $EXPORT_SH
-
+  export CONTRACT_ADDRESSES=`disco get "contract-addresses"`
+  echo "Contract Addresses: ($CONTRACT_ADDRESSES)"
   run
 else
   run

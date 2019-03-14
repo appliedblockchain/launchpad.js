@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+  react:
+    build:
+      context: ../react
+      dockerfile: Dockerfile-dev
+      args:
+        - NPM_TOKEN
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ../react/src/:/home/node/react/src
+    networks:
+      - main
+    ports:
+      - 3001:3000
+  api:
+    build:
+      context: ../api
+      dockerfile: Dockerfile-dev
+      args:
+        - NPM_TOKEN
+    volumes:
+      - ../api/src/:/home/node/api/src
+      - ../api/config/:/home/node/api/config
+      - ../api/contracts/:/home/node/api/contracts
+    environment:
+      NODE_ENV: development
+      CONTRACT_ADDRESSES: "$CONTRACT_ADDRESSES"
+      ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545/
+      ADDRESS_BOOK: '{"0x1f2e5282481c07bc8b7b07e53bc3ef6a8012d6b7": "Account 1"}'
+      FORCE_COLOR: 1
+    networks:
+      - main
+    ports:
+      - 3000:3000
+    depends_on:
+      - parity
+  parity:
+    image: appliedblockchain/parity-solo-instant:latest
+    restart: always
+    volumes:
+      - parity:/solo/chains
+    ports:
+      - 8545:8545
+      - 8546:8546
+    networks:
+      - main
+  # logspout:
+  #   image: gliderlabs/logspout
+  #   deploy:
+  #     mode: global
+  #   # NOTE: change the papertrail url/port before deploying your project
+  #   command: syslog+tls://logs6.papertrailapp.com:37328
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  # explorer:
+  #   build:
+  #     context: ../explorer
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     CONFIG_URL: http://api:3000/api/block-explorer-config
+  #     ETHEREUM_JSONRPC_ENDPOINT: http://parity:8545/
+  #   networks:
+  #     - main
+  #   ports:
+  #     - 3002:3000
+  #   depends_on:
+  #     - api
+  #     - parity
+  # database:
+  #   image: postgres:10.6
+  #   environment:
+  #     POSTGRES_DB: lauchpad_test
+  #     POSTGRES_USER: testuser
+  #     POSTGRES_PASSWORD: testpass
+  #   ports:
+  #     - 5432:5432
+  #   command: postgres -c log_statement=all
+  #   networks:
+  #    - main
+  #   volumes:
+  #     - database:/var/lib/postgresql/data
+
+volumes:
+  parity:
+  elasticsearch:
+  # database:
+networks:
+  main:

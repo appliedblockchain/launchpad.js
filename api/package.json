@@ -1,5 +1,5 @@
 {
-  "name": "base-node-app",
+  "name": "launchpad-api",
   "private": true,
   "version": "0.1.0",
   "description": "A basic starter Node application",
@@ -11,9 +11,11 @@
     "start": "nodemon run.js",
     "start:prod": "npm run run:prod",
     "run:prod": "node run.js",
-    "test": "jest",
+    "test": "jest -c ./test/config/default.js",
+    "test:integration": "CONTRACT_ADDRESSES=$(cat ../contracts/build/contractAddresses.json) jest -c ./test/config/integration.js --runInBand",
     "test:watch": "jest --watch",
     "test:ci": "jest --ci --forceExit",
+    "test:integration:ci": "CONTRACT_ADDRESSES=$(cat ../contracts/build/contractAddresses.json) jest -c ./test/config/integration.js --runInBand --ci --forceExit",
     "lint": "eslint . --ignore-path .gitignore",
     "parity": "docker run -p 8545:8545 appliedblockchain/parity-solo",
     "contract-compile": "npm run --prefix ../contracts compile",
@@ -41,30 +43,30 @@
   "devDependencies": {
     "@appliedblockchain/eslint-config": "^2.2.0",
     "eslint": "^4.19.1",
-    "jest": "^23.1.0",
+    "jest": "^24.5.0",
     "nodemon": "^1.18.6",
     "supertest": "^3.1.0"
   },
   "dependencies": {
-    "@appliedblockchain/contract-artefacts-deployer": "0.0.4",
     "@appliedblockchain/koa-docs": "^2.1.0",
-    "@appliedblockchain/mantle-api": "^1.1.0",
-    "@appliedblockchain/mantle-core": "^1.11.0",
-    "@appliedblockchain/store-contract-artefacts": "^0.3.0",
     "@koa/cors": "^2.2.1",
     "@sentry/node": "^4.3.4",
     "abi-decoder": "^1.2.0",
-    "bunyan": "^1.8.12",
+    "bytes": "^3.1.0",
+    "chalk": "^2.4.2",
     "config": "^1.30.0",
-    "elasticsearch": "^15.2.0",
+    "humanize-number": "0.0.2",
     "koa": "^2.5.1",
     "koa-compress": "^3.0.0",
     "koa-joi-router": "^5.1.0",
     "koa-respond": "^1.0.1",
     "lodash": "^4.17.11",
+    "passthrough-counter": "^1.0.0",
     "prom-client": "^11.2.1",
     "prometheus-api-metrics": "^2.1.8",
     "response-time": "^2.3.2",
-    "web3": "1.0.0-beta.33"
+    "uuid": "^3.3.2",
+    "web3": "1.0.0-beta.33",
+    "winston": "^3.2.1"
   }
 }

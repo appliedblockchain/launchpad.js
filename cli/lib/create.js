@@ -9,8 +9,8 @@ const create = (args, options, logger) => {
 
   // Clone using ssh protocol as default
   const url = protocol === 'https'
-    ? 'https://github.com/appliedblockchain/base-app.git'
-    : 'git@github.com:appliedblockchain/base-app.git'
+    ? 'https://github.com/appliedblockchain/launchpad.git'
+    : 'git@github.com:appliedblockchain/launchpad.git'
 
   if (isDir(name)) {
     spawnSync('rm', [ '-rf', name ])
@@ -19,7 +19,7 @@ const create = (args, options, logger) => {
   const cwd = process.cwd()
   const installPath = `${cwd}/${name}`
 
-  logger.info(`Installing base-app into ${chalk.cyan(installPath)}`)
+  logger.info(`Installing launchpad into ${chalk.cyan(installPath)}`)
   spawnSync('git', [ 'clone', url, name ])
   spawnSync('rm', [ '-rf', `${name}/.git` ])
 

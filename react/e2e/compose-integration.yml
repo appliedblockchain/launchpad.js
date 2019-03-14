@@ -1,0 +1,22 @@
+version: "3.6"
+
+networks:
+  main:
+    attachable: true
+
+services:
+  e2e:
+    image: appliedblockchain/launchpad-e2e:latest
+    build:
+      context: ./react/e2e
+      args:
+        - NPM_TOKEN
+    environment:
+      - API_URL=http://api:3000/api/health # to ensure that the stack is started, even if we are not using it in launchpad
+      - TEST_URL=http://react
+      - FORCE_COLOR=1
+    networks:
+      - main
+    depends_on:
+      - react
+

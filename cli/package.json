@@ -1,5 +1,5 @@
 {
-  "name": "@appliedblockchain/base-app-cli",
+  "name": "@appliedblockchain/launchpad-cli",
   "version": "1.0.0",
   "bin": "./bin/cli",
   "description": "",

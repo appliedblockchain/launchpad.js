@@ -26,4 +26,4 @@ ARG BASIC_AUTH_HTPASSWD
 RUN echo $BASIC_AUTH_HTPASSWD > /etc/nginx/.htpasswd
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD sleep 10 && nginx -g "daemon off;"

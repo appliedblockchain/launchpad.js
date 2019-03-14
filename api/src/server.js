@@ -8,6 +8,8 @@ const respond = require('koa-respond')
 const docs = require('@appliedblockchain/koa-docs')
 const { middleware, routes, configureDocs } = require('./router')
 const logger = require('./logger')
+const middlewareLogger = require('./middleware/logger')
+const rootRoute = require('./routes/root')
 
 const {
   notFoundHandler,
@@ -15,7 +17,7 @@ const {
 } = require('./middleware')
 
 const { web3, contracts, checkDeployment } = require('./util/web3')
-var Prometheus = require('./middleware/monitor')
+// var Prometheus = require('./middleware/monitor')
 
 const { healthcheck } = require('./healthcheck')
 
@@ -27,31 +29,38 @@ const createServer = async contractAddresses => {
     )
   }
 
-  await checkDeployment()
-
   logger.debug('Creating server...')
 
   const [ from ] = await web3.eth.getAccounts()
+
   Object.keys(contracts).forEach(key => {
     const contract = contracts[key]
-    contract.options = { ...contract.options, from, gas: 50000000 }
+    contract.options = { ...contract.options, from, gas: 50000000, gasPrice: '0', address: contractAddresses[key] }
   })
+
+  if (process.env.NODE_ENV !== 'test') {
+    await checkDeployment()
+  }
+
+
 
   const app = new Koa()
   app
     .use(errorHandler)
+    .use(middlewareLogger())
     .use(healthcheck(web3))
     .use(cors())
-    .use(docs.get('/docs', configureDocs(
+    .use(docs.get('/api/docs', configureDocs(
       { groupName: 'default', routes: routes.default, prefix: '/api' }
     )))
-    .use(Prometheus.injectMetricsRouter)
+    // .use(Prometheus.injectMetricsRouter)
     .use(compress())
     .use(respond())
-    .use(Prometheus.requestCounters)
-    .use(Prometheus.responseCounters)
+    .use(rootRoute)
     .use(middleware)
     .use(notFoundHandler)
+    // .use(Prometheus.requestCounters)
+    // .use(Prometheus.responseCounters)
 
   const server = http.createServer(app.callback())
 

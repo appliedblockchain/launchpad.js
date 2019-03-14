@@ -1,20 +1,16 @@
 {
-    "name": "base-app-mantle-contracts",
+    "name": "launchpad-contracts",
     "scripts": {
         "test": "truffle test",
         "lint": "eslint .",
-        "compile": "truffle compile",
+        "compile": "rm -rf ./build/* && truffle compile",
         "version": "truffle version",
-        "deploy": "mkdir -p build/contracts && node ./bin/deploy && rm -fr ../api/contracts/*.json && cp -f ./build/contracts/*.json ../api/contracts",
-        "export-addresses": "source ./exportAddresses.sh",
-        "install-contracts": "cp -f ./build/contracts/*.json ../api/contracts"
+        "deploy": "mkdir -p build/contracts && node ./bin/deploy",
+        "install-contracts": "cp -f ./build/contractABIs.json ../api/contracts/contractABIs.json"
     },
     "dependencies": {
         "config": "^3.0.0",
-        "solc": "^0.5.2",
-        "typedarray-to-buffer": "^3.1.5",
-        "web3": "^1.0.0-beta.36",
-        "web3-utils": "^1.0.0-beta.36"
+        "web3": "^1.0.0-beta.36"
     },
     "devDependencies": {
         "@appliedblockchain/eslint-config": "^2.3.0",
