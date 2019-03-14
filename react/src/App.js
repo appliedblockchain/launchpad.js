@@ -9,16 +9,20 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Placeholder for React (frontend) app. Please click link below for mantle example. 
+            Placeholder for React (frontend) app. 
           </p>
-          <a
-            className="App-link"
-            href="https://github.com/appliedblockchain/mantle-demo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Mantle Demo
-          </a>
+          <p>
+            <a
+              className="App-link"
+              href="https://launchpad.appb.ch/api/health"
+            >Healthcheck endpoint</a>
+          </p>
+          <p>
+            <a
+              className="App-link"
+              href="https://github.com/appliedblockchain/launchpad"
+            >Repository</a>
+          </p>
         </header>
       </div>
     );
