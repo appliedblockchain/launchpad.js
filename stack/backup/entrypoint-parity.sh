@@ -25,4 +25,4 @@ done
 # NOTE: uncomment to activate backups
 # node /parity/parity-backup-cron-setup.js
 
-/parity/parity --chain /parity/spec.json --config /parity/authority.toml -d /parity/data
+parity --chain /parity/spec.json --config /parity/authority.toml -d /parity/data

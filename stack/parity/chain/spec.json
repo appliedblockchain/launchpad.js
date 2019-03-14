@@ -20,7 +20,6 @@
     "minGasLimit": "0x2faf080",
     "gasLimitBoundDivisor": "0x400",
     "networkID": "0x11",
-    "maximumUncleCount": 0,
     "eip140Transition": 0,
     "eip211Transition": 0,
     "eip214Transition": 0,

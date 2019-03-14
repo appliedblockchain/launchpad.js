@@ -1,5 +1,5 @@
-FROM parity/parity:v1.11.8
-
+FROM parity/parity:v2.4.0
+USER root
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 
@@ -26,10 +26,14 @@ RUN mkdir ~/.aws
 RUN echo "[default]\naws_access_key_id = $S3_ACCESS_KEY_ID\naws_secret_access_key = $S3_SECRET_ACCESS_KEY" > ~/.aws/credentials
 
 RUN apt-get update -y
-RUN apt-get install -y curl bash redis-tools
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install nodejs -y && \
-  rm -rf /tmp/*
+RUN apt-get install -y curl bash redis-tools software-properties-common
+
+# convoluted node 10 install
+RUN add-apt-repository -y -r ppa:chris-lea/node.js && rm -f /etc/apt/sources.list.d/chris-lea-node_js-*.list && rm -f /etc/apt/sources.list.d/chris-lea-node_js-*.list.save && \
+  export VERSION=node_10.x && export DISTRO="$(lsb_release -s -c)" && \
+  echo "deb http://deb.nodesource.com/$VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list \
+  echo "deb-src http://deb.nodesource.com/$VERSION $DISTRO main" | tee -a /etc/apt/sources.list.d/nodesource.list && \
+  apt-get update && apt-get install -y --allow-unauthenticated nodejs
 
 COPY ./package* /parity/
 COPY ./backup /parity/

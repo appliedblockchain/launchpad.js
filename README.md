@@ -1,7 +1,7 @@
 # Launchpad
 
-What is Launchpad?  
-Base app to start new project. The repository is monorepo with api, contract and placeholder for react (frontend) application.
+## What is Launchpad?
+Launchpad is the ideal scaffolding to start a new project. The repository is a monorepo with an api, contract and placeholder for react (frontend) application.
 We are required to use this app as starter for any projects as it provides a good default for API, writing Contracts,
 CI/CD (CircleCI) & deployment.
 
@@ -9,7 +9,7 @@ CI/CD (CircleCI) & deployment.
 
 - Contracts and contract deployment
 - Basic api structure to start from
-- A place holder for react app to be added on
+- A place holder for react app to be added on(with e2e test already setup)
 - Continuous Integration (Full CircleCI configuration to check contract, api and react)
 - Parity backup and restore *(uses Amazon S3)*
 - Sentry integration for Error Monitoring (Optional)
@@ -45,15 +45,18 @@ Other than the Dev and Swarm stacks we have:
 ### Local Setup with Docker (recommended)
 To run the project locally you will require `docker` and `docker-compose`.
 
-Please follow detail instruction [here](https://github.com/appliedblockchain/launchpad/tree/master/docker-dev#how-to-use)
-
-> Note: It is recommended to use docker base local setup.
+1. Cd into `stack`
+2. Run `source docker-aliases.sh`
+4. Start parity only: `launchpad-compose up parity`
+5. While parity is running, deploy the contracts(run `npm run compile && npm run deploy` from the contracts folder, You might need to run `npm i && npm run compile` if you haven't already).
+6. Run `launchpad-compose build` to build the images
+7. Stop parity and run `launchpad-compose up` to start all the services
 
 ### Local setup without docker
 
 1. [Running **Ethereum Blockchain** node locally](https://github.com/appliedblockchain/launchpad/tree/master/api#run-blockchain-network-and-contract-deployment)
 
-  **Options**  
+  **Options**
   * [Ganache](https://truffleframework.com/ganache)
   * [Parity](https://wiki.parity.io/Setup)
   * [Geth](https://ethereum.gitbooks.io/frontier-guide/content/getting_a_client.html)
@@ -68,20 +71,9 @@ Please follow detail instruction [here](https://github.com/appliedblockchain/lau
 4. [Running react application (WebApp)](https://github.com/appliedblockchain/launchpad/tree/master/react#getting-started)
 
 
-### Run this app with Docker Dev
-
-1. Cd into `stack`
-2. Run `source docker-aliases.sh`
-3. You might need to run `npm i && npm run compile` in the contracts directory if you haven't already.
-4. Start parity only: `launchpad-compose up parity`
-5. While parity is running, deploy the contracts(run `npm run deploy` from the contracts folder).
-6. Run `launchpad-compose build` to build the api and react images
-7. Stop parity and run `launchpad-compose up` to start all the services
-
-
 ### Run this app with Docker Staging
 
-####  `docker-compose up --build`
+`docker-compose up --build`
 
 ### Restart API:
 
@@ -95,4 +87,4 @@ Please follow detail instruction [here](https://github.com/appliedblockchain/lau
 
 ---
 
-For any issue or change request notify @makevoid @SeekTheError in the `#launchpad` AB slack channel.
+For any issue or change request notify @makevoid @remi in the `#launchpad` AB slack channel.
