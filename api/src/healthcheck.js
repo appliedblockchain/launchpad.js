@@ -39,7 +39,7 @@ const getCommitHash = async () => {
   return hash.toString().trim()
 }
 
-// NOTE: Uncomment to check the availabilitu of a postgres db
+// NOTE: Install knex and pg and uncomment to check the availabilitu of a postgres database
 //
 // const config = require('config')
 // const knex = require('knex')({

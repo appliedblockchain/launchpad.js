@@ -4,14 +4,14 @@ x-sentry-defaults: &sentry-defaults
   image: sentry:9.0-onbuild
   depends_on:
     - redis
-    - postgres
+    - sentry-postgres
     - memcached
     - smtp
   env_file: .env
   environment:
     SENTRY_MEMCACHED_HOST: memcached
     SENTRY_REDIS_HOST: redis
-    SENTRY_POSTGRES_HOST: postgres
+    SENTRY_POSTGRES_HOST: sentry-postgres
     SENTRY_EMAIL_HOST: smtp
   networks:
     - main
@@ -31,7 +31,7 @@ services:
     networks:
       - main
 
-  postgres:
+  sentry-postgres:
     restart: unless-stopped
     image: postgres:9.5
     volumes:

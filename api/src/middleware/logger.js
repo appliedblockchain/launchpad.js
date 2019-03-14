@@ -1,5 +1,8 @@
 /**
- * Mosty taken from koa-logger, but uses a winston console logger with a unique requestId
+ * Code mostly taken from koa-logger, but uses a winston console logger with a unique requestId
+ * If logspout and papertrail are set up properly, and if an error is thrown, then the client siede error will contain the requestId
+ * And you can look it up directly on papertrail to get the stacktrace(useful for staging/production)
+ * or in the docker output during development
  */
 'use strict'
 
@@ -15,19 +18,23 @@ const LOG_LEVEL = config.get('LOG_LEVEL')
 const uuid = require('uuid/v4')
 const chalk = require('chalk')
 
+const customFormat = winston.format.printf(({ level, message, requestId }) => {
+  return `${level}: ${message} - requestId: ${requestId}`
+})
+
 function getLogger(extraTransports) {
   return winston.createLogger({
     name: APP_NAME,
-    format: winston.format.simple(),
+    format: customFormat,
+    // format: winston.format.simple(),
     defaultMeta: {
-      requestId: uuid()
+      requestId: chalk.cyan(uuid())
     },
     exitOnError: false,
     transports: [
       new winston.transports.Console({
         level: LOG_LEVEL,
-        colorize: true,
-        format: winston.format.simple()
+        colorize: true
       }),
       ...extraTransports
     ]
@@ -172,4 +179,3 @@ function time (start) {
 }
 
 module.exports = middleware
-
