@@ -151,8 +151,10 @@ services:
     image: gliderlabs/logspout
     deploy:
       mode: global
+    environment:
+      - SYSLOG_HOST=logs7.papertrailapp.com:32046
     # NOTE: change the papertrail url/port before deploying your project
-    command: syslog+tls://logs7.papertrailapp.com:32046
+    command: syslog+tls://$$SYSLOG_HOST
     volumes:
       - type: bind
         target: /var/run/docker.sock
