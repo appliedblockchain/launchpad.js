@@ -2,7 +2,6 @@ version: "3.6"
 
 networks:
   main:
-    attachable: true
 
 services:
   api:
@@ -82,7 +81,7 @@ services:
     depends_on:
       - discovery
     networks:
-    - main
+      - main
     ports:
       - 8180:8180
       - 8545:8545
@@ -137,7 +136,7 @@ services:
     ports:
       - 6379:6379
     networks:
-    - main
+      - main
     volumes:
       - discovery:/data
     deploy:
@@ -155,6 +154,8 @@ services:
       - SYSLOG_HOST=logs7.papertrailapp.com:32046
     # NOTE: change the papertrail url/port before deploying your project
     command: syslog+tls://$$SYSLOG_HOST
+    networks:
+      - main
     volumes:
       - type: bind
         target: /var/run/docker.sock
