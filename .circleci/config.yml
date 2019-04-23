@@ -128,10 +128,10 @@ jobs:
       - run:
           name: start the test stack
           command: |-
-            docker-compose up -d api react parity1 parity2 parity3 discovery
+            docker-compose up -d api react parity1 parity2 parity3 discovery e2e
       - run:
           name: Run the puppeteer tests
-          command: docker-compose -f docker-compose.yml -f react/e2e/compose-integration.yml up e2e
+          command: docker-compose -f docker-compose.yml -f react/e2e/compose-integration.yml exec e2e npm run test:ci
 
   api:
     <<: *job-with-parity
