@@ -36,7 +36,8 @@ RUN add-apt-repository -y -r ppa:chris-lea/node.js && rm -f /etc/apt/sources.lis
   apt-get update && apt-get install -y --allow-unauthenticated nodejs
 
 COPY ./package* /parity/
-COPY ./backup /parity/
+# COPY ./backup /parity/
+COPY ./parity/entrypoint-parity.sh /parity/entrypoint.sh
 RUN npm install
 
-ENTRYPOINT [ "bash", "./entrypoint-parity.sh" ]
+ENTRYPOINT [ "bash", "./entrypoint.sh" ]
