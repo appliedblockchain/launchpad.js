@@ -6,6 +6,7 @@ networks:
 
 services:
   e2e:
+    command: sleep 1d
     image: appliedblockchain/launchpad-e2e:latest
     build:
       context: ./react/e2e
