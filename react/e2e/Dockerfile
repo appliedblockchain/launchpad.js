@@ -8,7 +8,7 @@ RUN apk update && apk upgrade && \
     echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
     echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories && \
     apk add --no-cache \
-      chromium@edge \
+      chromium=72.0.3626.121-r0 \
       harfbuzz@edge \
       nss@edge
 

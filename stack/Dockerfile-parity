@@ -1,4 +1,4 @@
-FROM parity/parity:v2.4.0
+FROM parity/parity:v2.5.0
 USER root
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
