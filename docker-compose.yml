@@ -90,8 +90,6 @@ services:
     image: appliedblockchain/launchpad-parity1:latest
     volumes:
       - parity1_data:/parity/data
-    depends_on:
-      - discovery
   parity2:
     hostname: launchpad-parity2
     build:
@@ -109,8 +107,6 @@ services:
     image: appliedblockchain/launchpad-parity2:latest
     volumes:
       - parity2_data:/parity/data
-    depends_on:
-      - discovery
   parity3:
     hostname: launchpad-parity3
     build:
@@ -128,8 +124,6 @@ services:
     image: appliedblockchain/launchpad-parity3:latest
     volumes:
       - parity3_data:/parity/data
-    depends_on:
-      - discovery
   discovery:
     hostname: discovery
     image: redis
