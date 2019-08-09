@@ -23,7 +23,6 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - discovery
       - parity1
       - parity2
       - parity3
@@ -98,6 +97,8 @@ services:
     image: appliedblockchain/launchpad-parity1:latest
     volumes:
       - parity1_data:/parity/data
+    depends_on:
+      - discovery
     deploy:
       <<: *deploy_defaults
       replicas: 1
@@ -120,6 +121,8 @@ services:
     image: appliedblockchain/launchpad-parity2:latest
     volumes:
       - parity2_data:/parity/data
+    depends_on:
+      - discovery
     deploy:
       <<: *deploy_defaults
       replicas: 1
@@ -142,6 +145,8 @@ services:
     image: appliedblockchain/launchpad-parity3:latest
     volumes:
       - parity3_data:/parity/data
+    depends_on:
+      - discovery
     deploy:
       <<: *deploy_defaults
       replicas: 1
@@ -159,8 +164,11 @@ services:
     volumes:
       - discovery:/data
     deploy:
-      replicas: 1
       <<: *deploy_defaults
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.node_id == 1
 
   # logspout:
   #   image: gliderlabs/logspout
