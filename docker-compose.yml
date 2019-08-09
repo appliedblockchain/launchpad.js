@@ -28,12 +28,15 @@ services:
       - parity2
       - parity3
     deploy: &deploy_defaults
-      mode: global
+      replicas: 3
       update_config:
         parallelism: 1
         delay: 1s
-      restart_policy:
-        condition: on-failure
+      restart_policy: &restart_policy
+        condition: always
+        delay: 5s
+        max_attempts: 10
+        window: 60s
 
   react:
     hostname: launchpad-react
@@ -50,6 +53,7 @@ services:
       - main
     deploy:
       <<: *deploy_defaults
+      mode: global
     depends_on:
       - api
 
@@ -68,9 +72,8 @@ services:
     depends_on:
       - parity1
     deploy:
+      <<: *deploy_defaults
       mode: global
-      restart_policy:
-        condition: on-failure
 
   parity1:
     hostname: launchpad-parity1
@@ -96,8 +99,8 @@ services:
     volumes:
       - parity1_data:/parity/data
     deploy:
-      restart_policy:
-        condition: on-failure
+      <<: *deploy_defaults
+      replicas: 1
       placement:
         constraints:
           - node.labels.node_id == 1
@@ -118,8 +121,8 @@ services:
     volumes:
       - parity2_data:/parity/data
     deploy:
-      restart_policy:
-        condition: on-failure
+      <<: *deploy_defaults
+      replicas: 1
       placement:
         constraints:
           - node.labels.node_id == 2
@@ -140,8 +143,8 @@ services:
     volumes:
       - parity3_data:/parity/data
     deploy:
-      restart_policy:
-        condition: on-failure
+      <<: *deploy_defaults
+      replicas: 1
       placement:
         constraints:
           - node.labels.node_id == 2
@@ -155,6 +158,9 @@ services:
     - main
     volumes:
       - discovery:/data
+    deploy:
+      replicas: 1
+      <<: *deploy_defaults
 
   # logspout:
   #   image: gliderlabs/logspout
