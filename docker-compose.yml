@@ -65,6 +65,25 @@ services:
   #   depends_on:
   #     - api
   #     - parity1
+
+  explorer:
+    hostname: launchpad-explorer
+    image: appliedblockchain/launchpad-explorer:latest
+    build:
+      context: ./explorer
+    environment:
+      ETHEREUM_JSONRPC_ENDPOINT: http://parity1:8545/
+    networks:
+      - main
+    ports:
+      - 3000:3000
+    depends_on:
+      - parity1
+    deploy:
+      mode: global
+      restart_policy:
+        condition: on-failure
+
   parity1:
     hostname: launchpad-parity1
     build:
@@ -78,10 +97,8 @@ services:
         - S3_BUCKET_NAME
     environment:
       - PARITY_ID=1
-    depends_on:
-      - discovery
     networks:
-      - main
+    - main
     ports:
       - 8180:8180
       - 8545:8545
@@ -90,6 +107,13 @@ services:
     image: appliedblockchain/launchpad-parity1:latest
     volumes:
       - parity1_data:/parity/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.labels.node_id == 1
+
   parity2:
     hostname: launchpad-parity2
     build:
@@ -100,13 +124,18 @@ services:
         - NPM_TOKEN
     environment:
       - PARITY_ID=2
-    depends_on:
-      - discovery
     networks:
       - main
     image: appliedblockchain/launchpad-parity2:latest
     volumes:
       - parity2_data:/parity/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.labels.node_id == 2
+
   parity3:
     hostname: launchpad-parity3
     build:
@@ -117,43 +146,42 @@ services:
         - NPM_TOKEN
     environment:
       - PARITY_ID=3
-    depends_on:
-      - discovery
     networks:
        - main
     image: appliedblockchain/launchpad-parity3:latest
     volumes:
       - parity3_data:/parity/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.labels.node_id == 2
+
   discovery:
     hostname: discovery
     image: redis
     ports:
       - 6379:6379
     networks:
-      - main
+    - main
     volumes:
       - discovery:/data
-    deploy:
-      update_config:
-        parallelism: 1
-        delay: 1s
-      restart_policy:
-        condition: on-failure
 
-  logspout:
-    image: gliderlabs/logspout
-    deploy:
-      mode: global
-    environment:
-      - SYSLOG_HOST=logs7.papertrailapp.com:32046
-    # NOTE: change the papertrail url/port before deploying your project
-    command: syslog+tls://$$SYSLOG_HOST
-    networks:
-      - main
-    volumes:
-      - type: bind
-        target: /var/run/docker.sock
-        source: /var/run/docker.sock
+  # logspout:
+  #   image: gliderlabs/logspout
+  #   deploy:
+  #     mode: global
+  #   environment:
+  #     - SYSLOG_HOST=logs.papertrailapp.com:12345
+  #     # NOTE: you have to change the papertrail url with the correct one
+  #   command: syslog+tls://$$SYSLOG_HOST
+  #   networks:
+  #     - main
+  #   volumes:
+  #     - type: bind
+  #       target: /var/run/docker.sock
+  #       source: /var/run/docker.sock
 
 volumes:
   discovery:

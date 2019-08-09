@@ -1,20 +1,19 @@
-FROM parity/parity:v2.5.0
+FROM parity/parity:v2.5.5-stable
 USER root
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 
 RUN mkdir -p /parity
 
 WORKDIR /parity
 
+RUN apt-get update -y
+RUN apt-get install -y curl bash redis-tools software-properties-common
+
 COPY ./parity/chain/spec.json      spec.json
 COPY ./parity/chain/reserved_peers reserved_peers
 
-ARG PARITY_ID
-ARG S3_ACCESS_KEY_ID
-ARG S3_SECRET_ACCESS_KEY
-ARG S3_BUCKET_NAME
+COPY ./entrypoint-parity.sh .
 
+ARG PARITY_ID
 RUN echo "Building parity${PARITY_ID}..."
 
 COPY ./parity/${PARITY_ID}/password       password
@@ -22,22 +21,4 @@ COPY ./parity/${PARITY_ID}/authority.toml authority.toml
 COPY ./parity/${PARITY_ID}/parity         ./data/keys/parity
 COPY ./parity/${PARITY_ID}/network.key    ./data/network/key
 
-RUN mkdir ~/.aws
-RUN echo "[default]\naws_access_key_id = $S3_ACCESS_KEY_ID\naws_secret_access_key = $S3_SECRET_ACCESS_KEY" > ~/.aws/credentials
-
-RUN apt-get update -y
-RUN apt-get install -y curl bash redis-tools software-properties-common
-
-# convoluted node 10 install
-RUN add-apt-repository -y -r ppa:chris-lea/node.js && rm -f /etc/apt/sources.list.d/chris-lea-node_js-*.list && rm -f /etc/apt/sources.list.d/chris-lea-node_js-*.list.save && \
-  export VERSION=node_10.x && export DISTRO="$(lsb_release -s -c)" && \
-  echo "deb http://deb.nodesource.com/$VERSION $DISTRO main" | tee /etc/apt/sources.list.d/nodesource.list \
-  echo "deb-src http://deb.nodesource.com/$VERSION $DISTRO main" | tee -a /etc/apt/sources.list.d/nodesource.list && \
-  apt-get update && apt-get install -y --allow-unauthenticated nodejs
-
-COPY ./package* /parity/
-# COPY ./backup /parity/
-COPY ./parity/entrypoint-parity.sh /parity/entrypoint.sh
-RUN npm install
-
-ENTRYPOINT [ "bash", "./entrypoint.sh" ]
+ENTRYPOINT [ "bash", "./entrypoint-parity.sh" ]
