@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/appliedblockchain/base-node-app#readme",
   "jest": {
-    "setupTestFrameworkScriptFile": "./test/jest-config.js"
+    "setupFilesAfterEnv": [ "./test/jest-config.js" ]
   },
   "devDependencies": {
     "@appliedblockchain/eslint-config": "^2.2.0",
