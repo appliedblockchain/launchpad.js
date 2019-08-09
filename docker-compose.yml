@@ -15,6 +15,7 @@ services:
     environment:
       - NODE_ENV=staging
       - PROVIDER=http://parity1:8545
+      # TODO: change Sentry DSN with the correct sentry DSN
       - SENTRY_DSN=http://6f20a6d7d8154e1f93593c634f943f7d@sentry-web:9000/3
       - FORCE_COLOR=1
     networks:
@@ -29,7 +30,7 @@ services:
     deploy: &deploy_defaults
       mode: global
       update_config:
-        parallelism: 2
+        parallelism: 1
         delay: 1s
       restart_policy:
         condition: on-failure
@@ -51,20 +52,6 @@ services:
       <<: *deploy_defaults
     depends_on:
       - api
-  # explorer:
-  #   build:
-  #     context: ./explorer
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     CONFIG_URL: http://api:3000/api/block-explorer-config
-  #     ETHEREUM_JSONRPC_ENDPOINT: http://parity1:8545/
-  #   networks:
-  #     - main
-  #   ports:
-  #     - 3002:3000
-  #   depends_on:
-  #     - api
-  #     - parity1
 
   explorer:
     hostname: launchpad-explorer
@@ -73,6 +60,7 @@ services:
       context: ./explorer
     environment:
       ETHEREUM_JSONRPC_ENDPOINT: http://parity1:8545/
+      # CONFIG_URL: http://api:3000/api/block-explorer-config
     networks:
       - main
     ports:

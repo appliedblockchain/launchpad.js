@@ -1,4 +1,4 @@
-FROM node:12.8.0-alpine as builder
+FROM node:10.16.2-alpine as builder
 
 RUN apk add --update --no-cache alpine-sdk git python && \
   rm -rf /tmp/* /var/cache/apk/*
@@ -17,7 +17,7 @@ COPY ./contracts/package* /contracts/
 RUN cd /contracts && npm install --only=production
 
 # stage 2
-FROM node:12.8.0-alpine
+FROM node:10.16.2-alpine
 
 RUN apk --update --no-cache add alpine-sdk git python openssl curl bash redis && \
   rm -rf /tmp/* /var/cache/apk/*
