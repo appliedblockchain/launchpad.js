@@ -1,4 +1,4 @@
-FROM node:10.12-alpine
+FROM node:12.8.0-alpine
 
 RUN apk --update --no-cache add alpine-sdk git python openssl curl bash && \
   rm -rf /tmp/* /var/cache/apk/*
@@ -21,6 +21,6 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc &&\
 
 COPY . /home/node/api
 
-EXPOSE 3000 
+EXPOSE 3000
 
 CMD pm2 start run.js --watch . && pm2 logs

@@ -1,4 +1,4 @@
-FROM node:10.15-alpine
+FROM node:12.8.0-alpine
 
 RUN apk --update --no-cache add alpine-sdk git python openssl curl bash vim && \
   rm -rf /tmp/* /var/cache/apk/*

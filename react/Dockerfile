@@ -1,4 +1,4 @@
-FROM node:10.13-alpine as builder
+FROM node:12.8.0-alpine as builder
 
 RUN apk add --update --no-cache alpine-sdk git python && \
   rm -rf /tmp/* /var/cache/apk/*
