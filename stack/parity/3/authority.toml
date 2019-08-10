@@ -3,7 +3,7 @@ chain = "/parity/chain.json"
 
 [account]
 password = ["/parity/password"]
-unlock = ["0xc035176bc6bbb48d88f291f7d3c02f31d7239d8f"]
+unlock = ["0x9004280dabd97b097a9af141d6adc28034996db9"]
 
 [network]
 reserved_peers = "/parity/reserved_peers"
@@ -22,7 +22,7 @@ apis = ["web3", "eth", "net", "parity", "traces", "rpc", "personal", "parity_acc
 
 [mining]
 reseal_on_txs = "none"
-engine_signer = "0xc035176bc6bbb48d88f291f7d3c02f31d7239d8f"
+engine_signer = "0x9004280dabd97b097a9af141d6adc28034996db9"
 reseal_min_period = 10
 reseal_max_period = 10000
 usd_per_tx = "0"
