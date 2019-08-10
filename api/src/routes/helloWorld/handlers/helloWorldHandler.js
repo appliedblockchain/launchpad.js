@@ -4,7 +4,9 @@ const { contracts } = require('../../../util/web3')
 
 const getHelloWorld = async ctx => {
   const { HelloWorld } = contracts
+  ctx.logger.info('HelloWorld.getHelloWorld()')
   const helloWorldString = await HelloWorld.methods.getHelloWorld().call()
+  ctx.logger.info(`HelloWorld.getHelloWorld() -> ${JSON.stringify(helloWorldString)}`)
 
   ctx.ok({ message: helloWorldString })
 }
