@@ -1,9 +1,5 @@
 # Launchpad
 
-We need to "fix" this readme. :D ( cards: https://zube.io/applied-blockchain/products/c/378 )
-
-### New Readme Proposed structure
-
 ### Run this app with Docker Dev
 
 1. Install docker and docker compose
@@ -14,54 +10,18 @@ We need to "fix" this readme. :D ( cards: https://zube.io/applied-blockchain/pro
 6. Run `launchpad-compose build` to build the api and react images
 7. Stop parity and run `launchpad-compose up` to start all the services
 
-### Run this app with Docker Staging
-
-
-
-### Contract Deployment
-
-TODO guide on contract deployment
-
-### Run the apps separately
-
-TODO
-
-#### Parity
-
-TODO npm run parity (explain how to docker run parity-solo)
-
-#### API
-
-TODO npm
-
-#### React
-
-Use npm start to start React
-
-    npm start
-
-The react dev server will start on port 3001.
-
-### Explain how to install dependencies for each app
-
-npm install in api, react, contracts
-
-
-TODO: add postgres database setup
-
----
 
 ### Description
 
-This is a simple node application which includes api [documentation](https://github.com/koajs/koa/tree/master/docs),
-[healthcheck](https://github.com/appliedblockchain/koa-healthcheck), basic [error handling](lib/middleware), a
-basic smart contract [setup](src/setupWeb3.js) and an [API implementation example](src/api).
+This is a simple node application which includes api documented via koa-docs,
+a healtcheck, basic [error handling](lib/middleware), a
+smart contract setup.
 
 For a detailed overview of setting up your smart contracts, [see here.](https://github.com/appliedblockchain/base-contracts)
 
 ### Getting started
 
-### Run blockchain network and contract deployment
+#### Run blockchain network and contract deployment
 
 You will need to run an instance of parity:
 
