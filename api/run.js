@@ -20,7 +20,7 @@ const loadContractAddresses = require('./src/util/loadContractAddresses')
     logger.debug(`Docs available at http://localhost:${PORT}/docs`)
   } catch (err) {
     logger.error('Error while starting up server')
-    logger.error(err)
+    logger.error(err.stack)      
     process.exit(1)
   }
 })()
