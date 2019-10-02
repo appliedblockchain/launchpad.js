@@ -14,7 +14,6 @@ function makeBlockExplorerConfig() {
     addressBook: process.env.ADDRESS_BOOK ? JSON.parse(process.env.ADDRESS_BOOK) : {}
   }
 
-
   Object.keys(blockExplorerConfig.contracts).forEach(key => {
     blockExplorerConfig.contracts[key].deployments = [ { address: web3.utils.toChecksumAddress(contracts[key].options.address) } ]
   })

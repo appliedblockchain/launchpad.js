@@ -17,6 +17,7 @@ describe(`GET ${URL}`, () => {
   it('responds with hello world', async () => {
     const { status, body } = await request(app)
       .get(URL)
+      .set('Content-Type', 'application/json')
       .expect('Content-Type', /json/)
 
     expect(status).toEqual(200)
@@ -26,6 +27,7 @@ describe(`GET ${URL}`, () => {
   it('can set the value', async () => {
     const { status, body } = await request(app)
       .post(URL)
+      .set('Content-Type', 'application/json')
       .send({ message: 'hello test' })
       .expect('Content-Type', /json/)
 
