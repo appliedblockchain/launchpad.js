@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "handlebars": "^4.5.3",
+    "https-proxy-agent": "^4.0.0",
     "jest": "^24.5.0",
     "jest-puppeteer": "^4.0.0",
     "puppeteer": "^1.19.0"
