@@ -14,12 +14,13 @@ const PROVIDER = config.provider || process.env.PROVIDER
 class ContractNotFoundError extends Error {}
 
 const addContract = (contracts, contractFilePath) => {
+  const ctrs = contracts
   const fileString = readFileSync(join(contractsDirectory, contractFilePath))
   try {
     const contract = JSON.parse(fileString)
     const name = contract.contractName
     console.log(`loaded contract: ${name}`)
-    contracts[name] = contract
+    ctrs[name] = contract
     return contracts
   } catch (err) {
     console.error(`Can not parse contract JSON info - path: ${contractFilePath}`)
@@ -55,8 +56,8 @@ const deployContracts = async ({ ctrNames, contracts, defaultAddress, eth }) => 
 }
 
 const deploy = () => {
-  const contracts = contractsFilenames.reduce((contracts, file) => {
-    return addContract(contracts, file)
+  const contracts = contractsFilenames.reduce((ctrs, file) => {
+    return addContract(ctrs, file)
   }, {})
 
   ;(async () => {
@@ -79,7 +80,8 @@ const deploy = () => {
       const contractABIs = await deployContracts({ ctrNames, contracts, defaultAddress, eth })
       console.log('Contracts deployed!\n')
 
-      const contractAddresses = ctrNames.reduce((infos, contract) => {
+      const contractAddresses = ctrNames.reduce((ctrInfos, contract) => {
+        const infos = ctrInfos
         const info = contractABIs[contract]
         infos[info.name] = info.address
         delete contractABIs[contract].address
