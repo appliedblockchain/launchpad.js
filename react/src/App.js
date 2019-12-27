@@ -9,11 +9,10 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Placeholder for React (frontend) app. 
+            Placeholder for React (frontend) app.
           </p>
           <p>
             <a
-              className="App-link"
               href="https://launchpad.appb.ch/api/health"
             >Healthcheck endpoint</a>
           </p>
