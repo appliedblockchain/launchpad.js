@@ -7,7 +7,9 @@ if (dsn) {
   Sentry.init({ dsn: dsn })
 }
 
-module.exports = async (ctx, next) => {
+module.exports = async (context, next) => {
+  const ctx = context
+
   try {
     await next()
   } catch (err) {

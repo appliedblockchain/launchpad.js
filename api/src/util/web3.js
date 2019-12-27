@@ -9,7 +9,8 @@ const contractABIs = require(contractAbisPath)
 
 const web3 = new Web3(ETHEREUM_JSONRPC_ENDPOINT)
 
-const contracts = Object.keys(contractABIs).reduce((acc, contractName) => {
+const contracts = Object.keys(contractABIs).reduce((accum, contractName) => {
+  const acc = accum
   const { abi } = contractABIs[contractName]
 
   const contract = new web3.eth.Contract(abi, '0x0000000000000000000000000000000000000000')

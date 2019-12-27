@@ -83,9 +83,9 @@ const defineDone = ({ ctx, start, counter, print, res }) =>
  * @return {function}  the middleware function
  */
 function middleware(extraTransports = []) {
-  return async (ctx, next) => {
+  return async (context, next) => {
     const logger = getLogger(extraTransports)
-
+    const ctx = context
     // For use in request handlers
     ctx.logger = logger
 

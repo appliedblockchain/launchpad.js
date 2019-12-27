@@ -67,7 +67,9 @@ const checkParity = async (web3) => {
 
 let commitHash
 const healthcheck = (web3) => {
-  return async function healthcheck(ctx, next) {
+  return async function healthCheck(context, next) {
+    const ctx = context
+
     if (ctx.path !== '/api/health') {
       return next()
     }
