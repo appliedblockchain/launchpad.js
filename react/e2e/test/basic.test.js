@@ -14,7 +14,7 @@ describe('Launchpad', () => {
 
   it ('should contain a link to the mantle-demo', async () => {
     const link = await page.click(".App-link")
-    expect(link).toMatch(/github\.com\/appliedblockchain\/mantle-demo/)
+    expect(link).toMatch(/github\.com\/appliedblockchain\/launchpad/)
   })
 
 })
