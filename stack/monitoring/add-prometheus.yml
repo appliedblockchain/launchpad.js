@@ -14,7 +14,7 @@ services:
   grafana:
     image: appliedblockchain/mantle-grafana:latest
     build:
-      context: ./stack/grafana
+      context: ./stack/monitoring/grafana
       dockerfile: Dockerfile
     depends_on:
       - prometheus
