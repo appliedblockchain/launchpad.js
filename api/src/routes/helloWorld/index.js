@@ -8,16 +8,16 @@ module.exports = [
     path: '/hello',
     meta: {
       swagger: {
-        summary: "/hello",
+        summary: '/hello',
         description: 'Retrieves the current hello world message',
         tags: [ 'Hello World' ]
-      },
+      }
     },
     validate: {
       output: {
         200: {
           body: {
-            message: t.string().required().example('abcd', "test").description('Hello world message')
+            message: t.string().required().example('abcd', 'test').description('Hello world message')
           }
         }
       }
@@ -29,10 +29,10 @@ module.exports = [
     path: '/hello',
     meta: {
       swagger: {
-        summary: "/hello",
+        summary: '/hello',
         description: 'Updates the current hello world message',
         tags: [ 'Hello World' ]
-      },
+      }
     },
     validate: {
       type: 'json',

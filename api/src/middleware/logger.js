@@ -1,8 +1,14 @@
+/* eslint no-undef: "error", no-use-before-define: 0 */ // TODO: remove
 /**
+ *
  * Code mostly taken from koa-logger, but uses a winston console logger with a unique requestId
- * If logspout and papertrail are set up properly, and if an error is thrown, then the client siede error will contain the requestId
+ *
+ * If logspout and papertrail are set up properly, and if an error is thrown, then the client siede error
+ * will contain the requestId
+ *
  * And you can look it up directly on papertrail to get the stacktrace(useful for staging/production)
  * or in the docker output during development
+ *
  */
 'use strict'
 
@@ -28,7 +34,7 @@ function getLogger(extraTransports) {
     format: customFormat,
     // format: winston.format.simple(),
     defaultMeta: {
-      requestId: chalk.cyan(uuid())
+      requestId: uuid()
     },
     exitOnError: false,
     transports: [
@@ -41,44 +47,61 @@ function getLogger(extraTransports) {
   })
 }
 
+const definePrint = ({ logger }) =>
+  (function () {
+    const transporter = logger
+    return function printFunc(...args) {
+      const str = util.format(...args)
+      transporter.info(str)
+    }
+  }())
+
+const definePrintError = ({ logger }) =>
+  (function () {
+    const transporter = logger
+
+    return function printFunc(...args) {
+      const str = util.format(...args)
+      transporter.error(str)
+    }
+  }())
+
+const defineDone = ({ ctx, start, counter, print, res }) =>
+  (function (event) {
+    res.removeListener('finish', this)
+    res.removeListener('close', this)
+    log(print, ctx, start, counter ? counter.length : 0, null, event)
+  })
+
 /**
- * Logging Middleware, creates a winston logger with a unique request id for each request, and log the lifecycle of the request
+ * Logging Middleware, creates a winston logger with a unique request id for each request
+ and log the lifecycle of the request
+ *
  * Also attach the logger to the koa ctx object for additional info
+ *
  * @param  {[type]} extraTransports Array of winston transport to use on top of the Console one
  * @return {function}  the middleware function
  */
 function middleware(extraTransports = []) {
-  return async function logger (ctx, next) {
+  return async (ctx, next) => {
     const logger = getLogger(extraTransports)
 
     // For use in request handlers
     ctx.logger = logger
 
-    const print = (function () {
-      const transporter = logger
-      return function printFunc (...args) {
-        const str = util.format(...args)
-        transporter.info(str)
-      }
-    }())
-
-    const printError = (function () {
-      const transporter = logger
-
-      return function printFunc (...args) {
-        const str = util.format(...args)
-        transporter.error(str)
-      }
-    }())
+    const print = definePrint({ logger })
+    const printError = definePrintError({ logger })
 
     // request
     const start = Date.now()
 
-    print('  ' + chalk.gray('<--') +
+    print(
+      '  ' + chalk.gray('<--') +
       ' ' + chalk.bold('%s') +
       ' ' + chalk.gray('%s'),
-    ctx.method,
-    ctx.originalUrl)
+      ctx.method,
+      ctx.originalUrl
+    )
 
     try {
       await next()
@@ -104,17 +127,13 @@ function middleware(extraTransports = []) {
     // whichever happens first.
     const res = ctx.res
 
-    const onfinish = done.bind(null, 'finish')
-    const onclose = done.bind(null, 'close')
+    const done = defineDone({ ctx, start, counter, print, res })
+
+    const onfinish = done.bind(done, 'finish')
+    const onclose = done.bind(done, 'close')
 
     res.once('finish', onfinish)
     res.once('close', onclose)
-
-    function done (event) {
-      res.removeListener('finish', onfinish)
-      res.removeListener('close', onclose)
-      log(print, ctx, start, counter ? counter.length : length, null, event)
-    }
   }
 }
 
@@ -132,7 +151,7 @@ const colorCodes = {
   0: 'yellow'
 }
 
-function log (print, ctx, start, len, err, event) {
+function log(print, ctx, start, len, err, event) {
   // get the status code of the response
   const status = err
     ? (err.isBoom ? err.output.statusCode : err.status || 500)
@@ -154,17 +173,19 @@ function log (print, ctx, start, len, err, event) {
   const s = status / 100 | 0
   const color = colorCodes.hasOwnProperty(s) ? colorCodes[s] : 0
 
-  print('  ' + upstream +
+  print(
+    '  ' + upstream +
     ' ' + chalk.bold('%s') +
     ' ' + chalk.gray('%s') +
     ' ' + chalk[color]('%s') +
     ' ' + chalk.gray('%s') +
     ' ' + chalk.gray('%s'),
-  ctx.method,
-  ctx.originalUrl,
-  status,
-  time(start),
-  length)
+    ctx.method,
+    ctx.originalUrl,
+    status,
+    time(start),
+    length
+  )
 }
 
 /**
@@ -173,7 +194,7 @@ function log (print, ctx, start, len, err, event) {
  * in seconds otherwise.
  */
 
-function time (start) {
+function time(start) {
   const delta = Date.now() - start
   return humanize(delta < 10000 ? delta + 'ms' : Math.round(delta / 1000) + 's')
 }
