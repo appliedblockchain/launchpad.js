@@ -32,7 +32,7 @@ services:
         parallelism: 1
         delay: 1s
       restart_policy: &restart_policy
-        condition: always
+        condition: any
         delay: 5s
         max_attempts: 10
         window: 60s
@@ -71,9 +71,9 @@ services:
     depends_on:
       - parity1
     deploy:
-      <<: *deploy_defaults
       mode: global
-
+      restart_policy:
+        <<: *restart_policy
   parity1:
     hostname: launchpad-parity1
     build:
