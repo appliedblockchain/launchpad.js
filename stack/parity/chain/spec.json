@@ -15,15 +15,28 @@
       }
     }
   },
+
   "params": {
     "maximumExtraDataSize": "0x20",
     "minGasLimit": "0x2faf080",
-    "gasLimitBoundDivisor": "0x400",
     "networkID": "0x11",
-    "eip140Transition": 0,
-    "eip211Transition": 0,
-    "eip214Transition": 0,
-    "eip658Transition": 0
+    "gasLimitBoundDivisor": "0x400",
+    "eip150Transition": "0x0",
+    "eip160Transition": "0x0",
+    "eip161abcTransition": "0x0",
+    "eip161dTransition": "0x0",
+    "eip155Transition": "0x0",
+    "eip98Transition": "0x7fffffffffffff",
+    "maxCodeSize": 24576,
+    "maxCodeSizeTransition": "0x0",
+    "eip140Transition": "0x0",
+    "eip211Transition": "0x0",
+    "eip214Transition": "0x0",
+    "eip658Transition": "0x0",
+    "eip145Transition": "0x0",
+    "eip1014Transition": "0x0",
+    "eip1052Transition": "0x0",
+    "wasmActivationTransition": "0x0"
   },
   "genesis": {
     "seal": {
