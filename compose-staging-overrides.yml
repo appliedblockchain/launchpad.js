@@ -1,0 +1,10 @@
+version: "3.6"
+
+services:
+  api:
+    hostname: launchpad-api
+    image: appliedblockchain/launchpad-api-staging:latest
+
+  react:
+    hostname: launchpad-react
+    image: appliedblockchain/launchpad-react-staging:latest
