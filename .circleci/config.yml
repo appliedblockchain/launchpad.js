@@ -37,6 +37,7 @@ jobs:
   pre-build:
     docker:
       - image: circleci/node:10
+    resource_class: medium+
     steps:
       - run: mkdir build_space
       - add_ssh_keys
