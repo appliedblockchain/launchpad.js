@@ -63,7 +63,7 @@
     "koa-compress": "^3.0.0",
     "koa-joi-router": "^5.1.0",
     "koa-respond": "^1.0.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "mithril": "^2.0.4",
     "passthrough-counter": "^1.0.0",
     "prom-client": "^11.2.1",
